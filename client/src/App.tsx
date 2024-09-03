@@ -1,15 +1,24 @@
-import { useState } from 'react'
+import { createRouter, RouterProvider } from '@tanstack/react-router'
 
-import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/useAuth.hook'
 
-function App() {
-  const [count, setCount] = useState(0)
+import { routeTree } from './routeTree.gen'
 
-  return (
-    <Button onClick={() => setCount((count) => count + 1)}>
-      count is {count}
-    </Button>
-  )
+const router = createRouter({
+  routeTree,
+  context: { auth: undefined! },
+})
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}
+
+const App = () => {
+  const auth = useAuth()
+
+  return <RouterProvider router={router} context={{ auth }} />
 }
 
 export default App
