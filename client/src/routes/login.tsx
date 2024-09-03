@@ -1,7 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
-import { Button } from '@/components/ui/button'
-import { useAuth } from '@/hooks/useAuth.hook'
+import LoginForm from '@/containers/Login/LoginForm'
 
 export const Route = createFileRoute('/login')({
   beforeLoad({ context }) {
@@ -16,6 +15,9 @@ export const Route = createFileRoute('/login')({
 })
 
 function Login() {
-  const { signIn } = useAuth()
-  return <Button onClick={signIn}>Login</Button>
+  return (
+    <div className="min-h-screen grid place-items-center">
+      <LoginForm />
+    </div>
+  )
 }
