@@ -1,45 +1,36 @@
-import { config } from 'dotenv'
-import { Sequelize } from 'sequelize'
+import { Pool, QueryResult } from 'pg'
 
-// To do, connect
-config()
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL as string,
+})
 
-class Database {
-  private static instance: Database | undefined
-  public sequelize: Sequelize | undefined
+export const query = async (
+  text: string,
+  params?: any[],
+  type: keyof QueryResult = 'rows',
+) => {
+  const client = await pool.connect()
+  try {
+    const res = await client.query(text, params)
 
-  private constructor() {
-    this.connect()
-  }
-
-  public static getInstance(): Database {
-    if (!Database.instance) {
-      Database.instance = new Database()
-    }
-    return Database.instance
-  }
-
-  private async connect() {
-    this.sequelize = new Sequelize({
-      database: process.env.PGDATABASE as string,
-      username: process.env.PGUSER as string,
-      password: process.env.PGPASSWORD as string,
-      host: process.env.PGHOST as string,
-      port: 5305,
-      dialect: 'postgres',
-    })
-
-    this.sequelize
-      .authenticate()
-      .then(() => {
-        console.log('Connected')
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    return res[type]
+  } finally {
+    client.release()
   }
 }
 
-const instanceConnect = Database.getInstance()
+export const initAdmin = async () => {
+  try {
+    const res = await query('SELECT COUNT(*) FROM users')
+    const [{ count }] = res as any[]
 
-export default instanceConnect
+    if (+count > 0) return
+
+    await query(
+      `INSERT INTO users (lastName, email, password, roles) VALUES ($1, $2, $3, $4)`,
+      ['Admin', process.env.ADMIN_EMAIL, 'admin', 'admin'],
+    )
+  } catch (error) {
+    console.log(error)
+  }
+}

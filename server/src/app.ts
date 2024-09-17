@@ -2,17 +2,29 @@ import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
 import { config } from 'dotenv'
-import instanceConnect from '@/configs/database.config'
-
+import routes from '@/routes'
 config()
+import { initAdmin, query } from '@/configs/database.config'
 
 const app = express()
 
 // middlewares
 app.use(morgan('dev'))
 app.use(helmet())
-// connect database
-instanceConnect.sequelize?.sync()
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// check database
+query('SELECT version()').then((res) => {
+  if (res) {
+    const [{ version }] = res as any[]
+    console.log(version)
+  }
+})
+
+initAdmin()
+
 // routes
+app.use('/api', routes)
 
 export default app
