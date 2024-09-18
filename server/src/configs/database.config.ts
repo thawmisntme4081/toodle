@@ -18,19 +18,3 @@ export const query = async (
     client.release()
   }
 }
-
-export const initAdmin = async () => {
-  try {
-    const res = await query('SELECT COUNT(*) FROM users')
-    const [{ count }] = res as any[]
-
-    if (+count > 0) return
-
-    await query(
-      `INSERT INTO users (lastName, email, password, roles) VALUES ($1, $2, $3, $4)`,
-      ['Admin', process.env.ADMIN_EMAIL, 'admin', 'admin'],
-    )
-  } catch (error) {
-    console.log(error)
-  }
-}

@@ -9,6 +9,7 @@
     "dev": "nodemon server.ts"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.5.0",
@@ -23,6 +24,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "pg": "^8.12.0"

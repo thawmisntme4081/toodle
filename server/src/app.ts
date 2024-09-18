@@ -4,7 +4,8 @@ import morgan from 'morgan'
 import { config } from 'dotenv'
 import routes from '@/routes'
 config()
-import { initAdmin, query } from '@/configs/database.config'
+import { query } from '@/configs/database.config'
+import { AuthService } from './services/auth.service'
 
 const app = express()
 
@@ -22,7 +23,7 @@ query('SELECT version()').then((res) => {
   }
 })
 
-initAdmin()
+AuthService.initAdmin()
 
 // routes
 app.use('/api', routes)
