@@ -1,6 +1,6 @@
 import { userRepository } from '@/repositories/users.repository'
 import { SignIn } from '@/types/auth.type'
-import bcrypt from 'bcrypt'
+import { Authentication } from '@/utils/Authentication.util'
 
 export class AuthService {
   static async initAdmin() {
@@ -8,9 +8,8 @@ export class AuthService {
       const count = await userRepository.countUser()
       if (count > 0) return
 
-      const hashPassword = await bcrypt.hash(
+      const hashPassword = await Authentication.hashPassword(
         process.env.ADMIN_PASSWORD as string,
-        10,
       )
 
       await userRepository.initAdmin(hashPassword)
@@ -20,14 +19,17 @@ export class AuthService {
     }
   }
 
-  static async signIn({ email, password }: SignIn) {
-    try {
-      // const user = userRepository.findUserByEmail(email)
-      // console.log(user)
-      return { message: 'Sign in successfully!' }
-    } catch (error) {
-      console.log(error)
-      return { message: '' }
-    }
+  async signIn({ email, password }: SignIn) {
+    const user = await userRepository.findUserByEmail(email)
+    if (!user) throw new Error('Bad credentials')
+
+    const compare = await Authentication.comparePassword(
+      password,
+      user.password,
+    )
+
+    if (!compare) throw new Error('Bad credentials')
+
+    return Authentication.generateToken({ id: user.id, role: user.role })
   }
 }

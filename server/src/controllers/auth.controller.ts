@@ -1,14 +1,16 @@
 import { AuthService } from '@/services/auth.service'
+import { SignIn } from '@/types/auth.type'
 import { Request, Response, NextFunction } from 'express'
 
 class AuthController {
-  signIn = async (req: Request, res: Response, next: NextFunction) => {
+  async signIn(req: Request, res: Response) {
     try {
-      const result = await AuthService.signIn(req.body)
-      res.send('Ahiih')
-      res.status(201).json(result)
+      const authService = new AuthService()
+      const result = await authService.signIn(req.body)
+
+      return res.status(200).json({ token: result })
     } catch (error) {
-      next(error)
+      return res.status(500).json({ message: 'Internal server error!' })
     }
   }
 }

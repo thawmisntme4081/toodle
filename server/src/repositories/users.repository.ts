@@ -1,5 +1,8 @@
-import { query } from '@/configs/database.config'
 import { CHECK_USER, COUNT_USERS, INSERT_USER } from '@/queries/users.query'
+import { config } from 'dotenv'
+config()
+import { query } from '@/configs/database.config'
+import { CheckUserRes } from '@/types/auth.type'
 
 class UserRepository {
   async countUser() {
@@ -19,9 +22,10 @@ class UserRepository {
     ])
   }
 
-  // async findUserByEmail(email: string) {
-  //   return await query(CHECK_USER, [email])
-  // }
+  async findUserByEmail(email: string) {
+    const res = (await query(CHECK_USER, [email])) as CheckUserRes[]
+    return res[0]
+  }
 }
 
 const userRepository = new UserRepository()
