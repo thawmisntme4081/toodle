@@ -49,9 +49,7 @@ const LoginForm = () => {
   return (
     <Card className="w-[500px]">
       <CardHeader>
-        <CardTitle suffix={<LucideSchool />}>
-          SchoolHub
-        </CardTitle>
+        <CardTitle suffix={<LucideSchool />}>SchoolHub</CardTitle>
         <CardDescription>
           Please sign-in to your account and start the adventure
         </CardDescription>
@@ -89,13 +87,18 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <FormItem>
-              <FormControl>
-                <Checkbox />
-              </FormControl>
-              <FormLabel>Remember me</FormLabel>
-            </FormItem>
-            <Button type="submit">Submit</Button>
+            <div className="flex justify-between">
+              <FormItem>
+                <FormControl>
+                  <Checkbox />
+                </FormControl>
+                <FormLabel>Remember me</FormLabel>
+              </FormItem>
+              <a href="" className="text-primary">
+                Forgot password?
+              </a>
+            </div>
+            <Button type="submit">Login</Button>
           </form>
         </Form>
       </CardContent>
