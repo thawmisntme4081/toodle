@@ -21,7 +21,9 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/ui/password-input'
 import { useAuth } from '@/hooks/useAuth.hook'
+import { LucideMail } from '@/icons/LucideMail'
 import { LucideSchool } from '@/icons/LucideSchool'
 
 import { loginSchema } from './login.validation'
@@ -47,11 +49,8 @@ const LoginForm = () => {
   return (
     <Card className="w-[500px]">
       <CardHeader>
-        <CardTitle>
-          <div className="text-xl font-bold flex flex-col items-center">
-            <LucideSchool />
-            SchoolHub
-          </div>
+        <CardTitle suffix={<LucideSchool />}>
+          SchoolHub
         </CardTitle>
         <CardDescription>
           Please sign-in to your account and start the adventure
@@ -67,7 +66,11 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="a@gmail.com" {...field} />
+                    <Input
+                      placeholder="a@gmail.com"
+                      {...field}
+                      suffix={<LucideMail />}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -80,7 +83,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <PasswordInput placeholder="********" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

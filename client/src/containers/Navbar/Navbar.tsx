@@ -8,20 +8,23 @@ import { navigation } from './navigation.tsx'
 const Navbar = () => {
   return (
     <div className="flex flex-col items-center w-64 text-[#d0cde4] bg-[#2f3349]">
-      <div className="text-xl font-bold flex">
+      <div className="text-2xl font-bold flex gap-2 items-center">
         <LucideSchool />
         SchoolHub
       </div>
       <Separator />
       <nav>
         {navigation.map((item, index) => (
-          <div
+          <Link
             key={index}
-            className="flex items-center justify-center mt-1 px-12 hover:bg-[#3d4056] rounded"
+            to={item.link}
+            className="flex gap-2 items-center mt-2 py-1 px-12
+            hover:bg-[#3d4056] rounded text-lg"
+            activeProps={{ className: 'bg-[#6b61db]' }}
           >
-            {item.icon({})}
-            <Link to={item.link}>{item.name}</Link>
-          </div>
+            <span>{item.icon({})}</span>
+            {item.name}
+          </Link>
         ))}
       </nav>
     </div>
