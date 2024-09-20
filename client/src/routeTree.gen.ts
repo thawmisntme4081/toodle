@@ -129,7 +129,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "index.ts"
     },
     "/_authenticated": {
-      "filePath": "_authenticated.ts",
+      "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/dashboard",
         "/_authenticated/mycourse"
