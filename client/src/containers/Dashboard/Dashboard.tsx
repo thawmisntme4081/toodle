@@ -3,7 +3,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth.hook'
 
-import HorizontalNavBar from '../Navbar/HorizontalNavBar'
+import HorizontalNavbar from '../Navbar/HorizontalNavBar'
 import Navbar from '../Navbar/Navbar'
 
 const Dashboard = () => {
@@ -19,7 +19,7 @@ const Dashboard = () => {
     <div className="flex">
       <Navbar />
       <div className='p-4 flex-1'>
-        <HorizontalNavBar />
+        <HorizontalNavbar />
         <div>Hello from Dashboard!</div>
         <Button onClick={handleSignOut}>Logout</Button>
       </div>

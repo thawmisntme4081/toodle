@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { LucideBell } from '@/icons/LucideBell'
 import { LucideSun } from '@/icons/LucideSun'
 
-const HorizontalNavBar = () => {
+const HorizontalNavbar = () => {
   return (
     <div className="p-2 bg-white rounded flex flex-row-reverse items-center gap-4">
       <Avatar>
@@ -15,4 +15,4 @@ const HorizontalNavBar = () => {
   )
 }
 
-export default HorizontalNavBar
+export default HorizontalNavbar
