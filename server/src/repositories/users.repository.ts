@@ -1,29 +1,34 @@
-import { CHECK_USER, COUNT_USERS, INSERT_USER } from '@/queries/users.query'
 import { config } from 'dotenv'
 config()
 import { query } from '@/configs/database.config'
 import { CheckUserRes } from '@/types/auth.type'
+import { USERS_ROLES } from '@/enums/userRoles.enum'
 
 class UserRepository {
   async countUser() {
-    const res = await query(COUNT_USERS)
+    const countUserQuery = 'SELECT COUNT(*) FROM users'
+    const res = await query(countUserQuery)
     const [{ count }] = res as any[]
 
     return count as number
   }
 
   async initAdmin(password: string) {
-    await query(INSERT_USER, [
+    const insertAdminQuery =
+      'INSERT INTO users (first_name, last_name, email, password, role) VALUES ($1, $2, $3, $4, $5)'
+    await query(insertAdminQuery, [
       null,
       'Admin',
       process.env.ADMIN_EMAIL,
       password,
-      'admin',
+      USERS_ROLES.ADMIN,
     ])
   }
 
   async findUserByEmail(email: string) {
-    const res = (await query(CHECK_USER, [email])) as CheckUserRes[]
+    const findUserByEmailQuery =
+      'SELECT id, password, role FROM users WHERE email = $1'
+    const res = (await query(findUserByEmailQuery, [email])) as CheckUserRes[]
     return res[0]
   }
 }
