@@ -3,6 +3,8 @@ import { useNavigate } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/useAuth.hook'
 
+import Navbar from '../Navbar/Navbar'
+
 const Dashboard = () => {
   const navigate = useNavigate()
   const { signOut } = useAuth()
@@ -13,8 +15,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      Dashboard
+    <div className='flex'>
+      <Navbar />
+      <div>Hello from Dashboard!</div>
       <Button onClick={handleSignOut}>Logout</Button>
     </div>
   )

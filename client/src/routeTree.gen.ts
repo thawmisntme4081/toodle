@@ -19,10 +19,12 @@ import { Route as IndexImport } from './routes/index'
 
 // Create Virtual Routes
 
+const AuthenticatedMycourseLazyImport = createFileRoute(
+  '/_authenticated/mycourse',
+)()
 const AuthenticatedDashboardLazyImport = createFileRoute(
   '/_authenticated/dashboard',
 )()
-const AuthenticatedAboutLazyImport = createFileRoute('/_authenticated/about')()
 
 // Create/Update Routes
 
@@ -41,6 +43,13 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedMycourseLazyRoute = AuthenticatedMycourseLazyImport.update({
+  path: '/mycourse',
+  getParentRoute: () => AuthenticatedRoute,
+} as any).lazy(() =>
+  import('./routes/_authenticated/mycourse.lazy').then((d) => d.Route),
+)
+
 const AuthenticatedDashboardLazyRoute = AuthenticatedDashboardLazyImport.update(
   {
     path: '/dashboard',
@@ -48,13 +57,6 @@ const AuthenticatedDashboardLazyRoute = AuthenticatedDashboardLazyImport.update(
   } as any,
 ).lazy(() =>
   import('./routes/_authenticated/dashboard.lazy').then((d) => d.Route),
-)
-
-const AuthenticatedAboutLazyRoute = AuthenticatedAboutLazyImport.update({
-  path: '/about',
-  getParentRoute: () => AuthenticatedRoute,
-} as any).lazy(() =>
-  import('./routes/_authenticated/about.lazy').then((d) => d.Route),
 )
 
 // Populate the FileRoutesByPath interface
@@ -82,18 +84,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/_authenticated/about': {
-      id: '/_authenticated/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AuthenticatedAboutLazyImport
-      parentRoute: typeof AuthenticatedImport
-    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardLazyImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/mycourse': {
+      id: '/_authenticated/mycourse'
+      path: '/mycourse'
+      fullPath: '/mycourse'
+      preLoaderRoute: typeof AuthenticatedMycourseLazyImport
       parentRoute: typeof AuthenticatedImport
     }
   }
@@ -104,8 +106,8 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
-    AuthenticatedAboutLazyRoute,
     AuthenticatedDashboardLazyRoute,
+    AuthenticatedMycourseLazyRoute,
   }),
   LoginRoute,
 })
@@ -129,19 +131,19 @@ export const routeTree = rootRoute.addChildren({
     "/_authenticated": {
       "filePath": "_authenticated.ts",
       "children": [
-        "/_authenticated/about",
-        "/_authenticated/dashboard"
+        "/_authenticated/dashboard",
+        "/_authenticated/mycourse"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/_authenticated/about": {
-      "filePath": "_authenticated/about.lazy.tsx",
-      "parent": "/_authenticated"
-    },
     "/_authenticated/dashboard": {
       "filePath": "_authenticated/dashboard.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/mycourse": {
+      "filePath": "_authenticated/mycourse.lazy.tsx",
       "parent": "/_authenticated"
     }
   }

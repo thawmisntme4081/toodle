@@ -4,7 +4,14 @@ import { useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -15,6 +22,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/useAuth.hook'
+import { LucideSchool } from '@/icons/LucideSchool'
 
 import { loginSchema } from './login.validation'
 
@@ -39,7 +47,15 @@ const LoginForm = () => {
   return (
     <Card className="w-[500px]">
       <CardHeader>
-        <CardTitle>Login</CardTitle>
+        <CardTitle>
+          <div className="text-xl font-bold flex flex-col items-center">
+            <LucideSchool />
+            SchoolHub
+          </div>
+        </CardTitle>
+        <CardDescription>
+          Please sign-in to your account and start the adventure
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -70,6 +86,12 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
+            <FormItem>
+              <FormControl>
+                <Checkbox />
+              </FormControl>
+              <FormLabel>Remember me</FormLabel>
+            </FormItem>
             <Button type="submit">Submit</Button>
           </form>
         </Form>
