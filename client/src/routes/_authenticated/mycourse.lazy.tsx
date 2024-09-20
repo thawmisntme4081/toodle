@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
+import HorizontalNavbar from '@/containers/Navbar/HorizontalNavBar'
 import Navbar from '@/containers/Navbar/Navbar'
 
 export const Route = createLazyFileRoute('/_authenticated/mycourse')({
@@ -8,9 +9,12 @@ export const Route = createLazyFileRoute('/_authenticated/mycourse')({
 
 function MyCourse() {
   return (
-    <div className='flex'>
+    <div className="flex">
       <Navbar />
-      <div>Hello from About!</div>
+      <div className="p-4 flex-1">
+        <HorizontalNavbar />
+        <div>Hello from About!</div>
+      </div>
     </div>
   )
 }

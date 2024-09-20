@@ -17,7 +17,9 @@ const Navbar = () => {
             to={item.link}
             className="flex gap-2 items-center mt-2 py-1 px-6
             hover:bg-[#3d4056] rounded text-lg"
-            activeProps={{ className: 'bg-[#6b61db] hover:bg-[#6b61db] text-[white]' }}
+            activeProps={{
+              className: 'bg-primary hover:bg-primary text-[white]',
+            }}
           >
             <span>{item.icon({})}</span>
             {item.name}
