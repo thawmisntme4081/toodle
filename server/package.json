@@ -4,9 +4,7 @@
   "main": "server.ts",
   "license": "MIT",
   "scripts": {
-    "build": "rimraf dist && tsc && tsc-alias",
-    "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add dist",
+    "build": "tsc && tsc-alias",
     "start": "node ./dist/server.js",
     "dev": "nodemon server.ts"
   },
@@ -40,10 +38,5 @@
       "path": "cz-conventional-changelog"
     }
   },
-  "packageManager": "yarn@4.5.0",
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-  ]
+  "packageManager": "yarn@4.5.0"
 }
