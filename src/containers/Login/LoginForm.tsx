@@ -4,14 +4,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -23,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { useAuth } from '@/hooks/useAuth.hook'
-import { LucideMail } from '@/icons/LucideMail'
 import { LucideSchool } from '@/icons/LucideSchool'
 
 import { loginSchema } from './login.validation'
@@ -48,11 +40,9 @@ const LoginForm = () => {
 
   return (
     <Card className="w-[500px]">
-      <CardHeader>
-        <CardTitle suffix={<LucideSchool />}>SchoolHub</CardTitle>
-        <CardDescription>
-          Please sign-in to your account and start the adventure
-        </CardDescription>
+      <CardHeader className="flex-row gap-2 items-center">
+        <LucideSchool width={24} height={24} />
+        <CardTitle>SchoolHub</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -64,11 +54,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="a@gmail.com"
-                      {...field}
-                      suffix={<LucideMail />}
-                    />
+                    <Input placeholder="a@gmail.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,19 +67,18 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder="********" {...field} />
+                    <PasswordInput
+                      placeholder="********"
+                      type="password"
+                      hasSuffix
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="flex justify-between">
-              <FormItem>
-                <FormControl>
-                  <Checkbox />
-                </FormControl>
-                <FormLabel>Remember me</FormLabel>
-              </FormItem>
+            <div className="flex justify-end">
               <a href="" className="text-primary">
                 Forgot password?
               </a>
