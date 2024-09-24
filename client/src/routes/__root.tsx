@@ -8,10 +8,12 @@ type RouteContext = {
 }
 
 export const Route = createRootRouteWithContext<RouteContext>()({
-  component: () => (
-    <div className="min-h-screen bg-slate-100">
-      <Outlet />
-      {process.env.NODE_ENV === 'development' && <TanStackRouterDevtools />}
-    </div>
-  ),
+  component: () => {
+    return (
+      <div className="min-h-screen bg-slate-100">
+        <Outlet />
+        {process.env.NODE_ENV === 'development' && <TanStackRouterDevtools />}
+      </div>
+    )
+  },
 })
