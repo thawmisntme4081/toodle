@@ -14,8 +14,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      Dashboard
-      <Button onClick={handleSignOut}>Logout</Button>
+        <div>Hello from Dashboard!</div>
+        <Button onClick={handleSignOut}>Logout</Button>
     </div>
   )
 }
