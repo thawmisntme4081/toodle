@@ -16,7 +16,7 @@ export const Route = createFileRoute('/login')({
 
 function Login() {
   return (
-    <div className="min-h-screen grid place-items-center ">
+    <div className="min-h-screen grid place-items-center bg-[#2f3349]">
       <LoginForm />
     </div>
   )
