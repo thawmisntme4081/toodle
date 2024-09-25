@@ -2,9 +2,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
-
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -15,9 +19,10 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
-import { useAuth } from '@/hooks/useAuth.hook'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Button } from '@/components/ui/button'
 import { LucideSchool } from '@/icons/LucideSchool'
-
+import { useAuth } from '@/hooks/useAuth.hook'
 import { loginSchema } from './login.validation'
 
 const LoginForm = () => {
@@ -40,9 +45,11 @@ const LoginForm = () => {
 
   return (
     <Card className="w-[500px]">
-      <CardHeader className="flex-row gap-2 items-center">
-        <LucideSchool width={24} height={24} />
-        <CardTitle>SchoolHub</CardTitle>
+      <CardHeader>
+        <CardTitle suffix={<LucideSchool />}>SchoolHub</CardTitle>
+        <CardDescription>
+          Please sign-in to your account and start the adventure
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -67,18 +74,17 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput
-                      placeholder="********"
-                      type="password"
-                      hasSuffix
-                      {...field}
-                    />
+                    <PasswordInput placeholder="********" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+              <div className="flex items-center space-x-1">
+                <Checkbox id="terms" />
+                <FormLabel htmlFor="terms">Remember me</FormLabel>
+              </div>
               <a href="" className="text-primary">
                 Forgot password?
               </a>
