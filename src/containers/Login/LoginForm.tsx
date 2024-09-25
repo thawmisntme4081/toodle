@@ -69,7 +69,6 @@ const LoginForm = () => {
                   <FormControl>
                     <PasswordInput
                       placeholder="********"
-                      type="password"
                       hasSuffix
                       {...field}
                     />

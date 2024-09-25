@@ -137,16 +137,101 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexRoute,
-  AuthenticatedRoute: AuthenticatedRoute.addChildren({
-    AuthenticatedDashboardLazyRoute,
-    AuthenticatedParentsLazyRoute,
-    AuthenticatedStudentsLazyRoute,
-    AuthenticatedTeachersLazyRoute,
-  }),
-  LoginRoute,
-})
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardLazyRoute: typeof AuthenticatedDashboardLazyRoute
+  AuthenticatedParentsLazyRoute: typeof AuthenticatedParentsLazyRoute
+  AuthenticatedStudentsLazyRoute: typeof AuthenticatedStudentsLazyRoute
+  AuthenticatedTeachersLazyRoute: typeof AuthenticatedTeachersLazyRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardLazyRoute: AuthenticatedDashboardLazyRoute,
+  AuthenticatedParentsLazyRoute: AuthenticatedParentsLazyRoute,
+  AuthenticatedStudentsLazyRoute: AuthenticatedStudentsLazyRoute,
+  AuthenticatedTeachersLazyRoute: AuthenticatedTeachersLazyRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '': typeof AuthenticatedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/dashboard': typeof AuthenticatedDashboardLazyRoute
+  '/parents': typeof AuthenticatedParentsLazyRoute
+  '/students': typeof AuthenticatedStudentsLazyRoute
+  '/teachers': typeof AuthenticatedTeachersLazyRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '': typeof AuthenticatedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/dashboard': typeof AuthenticatedDashboardLazyRoute
+  '/parents': typeof AuthenticatedParentsLazyRoute
+  '/students': typeof AuthenticatedStudentsLazyRoute
+  '/teachers': typeof AuthenticatedTeachersLazyRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardLazyRoute
+  '/_authenticated/parents': typeof AuthenticatedParentsLazyRoute
+  '/_authenticated/students': typeof AuthenticatedStudentsLazyRoute
+  '/_authenticated/teachers': typeof AuthenticatedTeachersLazyRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | ''
+    | '/login'
+    | '/dashboard'
+    | '/parents'
+    | '/students'
+    | '/teachers'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/dashboard'
+    | '/parents'
+    | '/students'
+    | '/teachers'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/login'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/parents'
+    | '/_authenticated/students'
+    | '/_authenticated/teachers'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  LoginRoute: typeof LoginRoute
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  LoginRoute: LoginRoute,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 
