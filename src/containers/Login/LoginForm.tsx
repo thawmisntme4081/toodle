@@ -4,14 +4,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -21,9 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PasswordInput } from '@/components/ui/password-input'
 import { useAuth } from '@/hooks/useAuth.hook'
-import { LucideSchool } from '@/icons/LucideSchool'
 
 import { loginSchema } from './login.validation'
 
@@ -48,10 +39,7 @@ const LoginForm = () => {
   return (
     <Card className="w-[500px]">
       <CardHeader>
-        <CardTitle suffix={<LucideSchool />}>SchoolHub</CardTitle>
-        <CardDescription>
-          Please sign-in to your account and start the adventure
-        </CardDescription>
+        <CardTitle>Login</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -76,22 +64,13 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder="********" {...field} />
+                    <Input type="password" placeholder="********" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="flex justify-between items-center">
-              <FormItem className="space-x-1">
-                <Checkbox />
-                <FormLabel>Remember me</FormLabel>
-              </FormItem>
-              <a href="" className="text-primary">
-                Forgot password?
-              </a>
-            </div>
-            <Button type="submit">Login</Button>
+            <Button type="submit">Submit</Button>
           </form>
         </Form>
       </CardContent>
