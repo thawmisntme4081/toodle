@@ -1,7 +1,5 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-
-import HorizontalNavbar from '@/containers/Navbar/HorizontalNavBar'
-import Navbar from '@/containers/Navbar/Navbar'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import Layout from '@/containers/Layout/Layout'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async ({ context }) => {
@@ -14,15 +12,3 @@ export const Route = createFileRoute('/_authenticated')({
   },
   component: Layout,
 })
-
-function Layout() {
-  return (
-    <div className="flex">
-      <Navbar />
-      <div className="p-4 flex-1">
-        <HorizontalNavbar />
-        <Outlet />
-      </div>
-    </div>
-  )
-}
