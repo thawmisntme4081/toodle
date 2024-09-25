@@ -23,7 +23,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { useAuth } from '@/hooks/useAuth.hook'
-import { LucideMail } from '@/icons/LucideMail'
 import { LucideSchool } from '@/icons/LucideSchool'
 
 import { loginSchema } from './login.validation'
@@ -64,11 +63,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="a@gmail.com"
-                      {...field}
-                      suffix={<LucideMail />}
-                    />
+                    <Input placeholder="a@gmail.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,11 +82,9 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <div className="flex justify-between">
-              <FormItem>
-                <FormControl>
-                  <Checkbox />
-                </FormControl>
+            <div className="flex justify-between items-center">
+              <FormItem className="space-x-1">
+                <Checkbox />
                 <FormLabel>Remember me</FormLabel>
               </FormItem>
               <a href="" className="text-primary">
