@@ -1,7 +1,6 @@
 import { forwardRef, useState } from 'react'
 
-import { LucideEye } from '@/icons/LucideEye'
-import { LucideEyeOff } from '@/icons/LucideEyeOff'
+import { LucideEye, LucideEyeOff } from '@/icons'
 import { cn } from '@/lib/utils'
 
 import { Input, InputProps } from './input'

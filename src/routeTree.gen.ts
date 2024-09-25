@@ -19,8 +19,14 @@ import { Route as IndexImport } from './routes/index'
 
 // Create Virtual Routes
 
-const AuthenticatedMycourseLazyImport = createFileRoute(
-  '/_authenticated/mycourse',
+const AuthenticatedTeachersLazyImport = createFileRoute(
+  '/_authenticated/teachers',
+)()
+const AuthenticatedStudentsLazyImport = createFileRoute(
+  '/_authenticated/students',
+)()
+const AuthenticatedParentsLazyImport = createFileRoute(
+  '/_authenticated/parents',
 )()
 const AuthenticatedDashboardLazyImport = createFileRoute(
   '/_authenticated/dashboard',
@@ -43,11 +49,25 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthenticatedMycourseLazyRoute = AuthenticatedMycourseLazyImport.update({
-  path: '/mycourse',
+const AuthenticatedTeachersLazyRoute = AuthenticatedTeachersLazyImport.update({
+  path: '/teachers',
   getParentRoute: () => AuthenticatedRoute,
 } as any).lazy(() =>
-  import('./routes/_authenticated/mycourse.lazy').then((d) => d.Route),
+  import('./routes/_authenticated/teachers.lazy').then((d) => d.Route),
+)
+
+const AuthenticatedStudentsLazyRoute = AuthenticatedStudentsLazyImport.update({
+  path: '/students',
+  getParentRoute: () => AuthenticatedRoute,
+} as any).lazy(() =>
+  import('./routes/_authenticated/students.lazy').then((d) => d.Route),
+)
+
+const AuthenticatedParentsLazyRoute = AuthenticatedParentsLazyImport.update({
+  path: '/parents',
+  getParentRoute: () => AuthenticatedRoute,
+} as any).lazy(() =>
+  import('./routes/_authenticated/parents.lazy').then((d) => d.Route),
 )
 
 const AuthenticatedDashboardLazyRoute = AuthenticatedDashboardLazyImport.update(
@@ -91,11 +111,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardLazyImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/mycourse': {
-      id: '/_authenticated/mycourse'
-      path: '/mycourse'
-      fullPath: '/mycourse'
-      preLoaderRoute: typeof AuthenticatedMycourseLazyImport
+    '/_authenticated/parents': {
+      id: '/_authenticated/parents'
+      path: '/parents'
+      fullPath: '/parents'
+      preLoaderRoute: typeof AuthenticatedParentsLazyImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/students': {
+      id: '/_authenticated/students'
+      path: '/students'
+      fullPath: '/students'
+      preLoaderRoute: typeof AuthenticatedStudentsLazyImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/teachers': {
+      id: '/_authenticated/teachers'
+      path: '/teachers'
+      fullPath: '/teachers'
+      preLoaderRoute: typeof AuthenticatedTeachersLazyImport
       parentRoute: typeof AuthenticatedImport
     }
   }
@@ -107,7 +141,9 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   AuthenticatedRoute: AuthenticatedRoute.addChildren({
     AuthenticatedDashboardLazyRoute,
-    AuthenticatedMycourseLazyRoute,
+    AuthenticatedParentsLazyRoute,
+    AuthenticatedStudentsLazyRoute,
+    AuthenticatedTeachersLazyRoute,
   }),
   LoginRoute,
 })
@@ -132,7 +168,9 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticated.tsx",
       "children": [
         "/_authenticated/dashboard",
-        "/_authenticated/mycourse"
+        "/_authenticated/parents",
+        "/_authenticated/students",
+        "/_authenticated/teachers"
       ]
     },
     "/login": {
@@ -142,8 +180,16 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_authenticated/dashboard.lazy.tsx",
       "parent": "/_authenticated"
     },
-    "/_authenticated/mycourse": {
-      "filePath": "_authenticated/mycourse.lazy.tsx",
+    "/_authenticated/parents": {
+      "filePath": "_authenticated/parents.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/students": {
+      "filePath": "_authenticated/students.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/teachers": {
+      "filePath": "_authenticated/teachers.lazy.tsx",
       "parent": "/_authenticated"
     }
   }
