@@ -1,36 +1,36 @@
-import { forwardRef, useState } from 'react'
+import * as React from 'react'
 
-import { LucideEye } from '@/icons/LucideEye'
-import { LucideEyeOff } from '@/icons/LucideEyeOff'
+import { LucideEye, LucideEyeOff } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-import { Input, InputProps } from './input'
+import { Input } from './input'
 
-export type PasswordInputProps = InputProps & {
-  hasSuffix?: boolean
-}
+export interface PasswordInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
-  ({ className, hasSuffix, ...props }, ref) => {
-    const [showPassword, setShowPassword] = useState(false)
+const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+  ({ className, ...props }, ref) => {
+    const [showPassword, setShowPassword] = React.useState(false)
 
     return (
       <Input
         type={showPassword ? 'text' : 'password'}
-        className={cn('border-none', className)}
-        {...props}
-        ref={ref}
         suffix={
-          hasSuffix && (
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 end-0 bg-white flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-primary dark:text-neutral-600 dark:focus:text-primary"
-            >
-              {showPassword ? <LucideEye /> : <LucideEyeOff />}
-            </button>
+          showPassword ? (
+            <LucideEye
+              className="select-none"
+              onClick={() => setShowPassword(false)}
+            />
+          ) : (
+            <LucideEyeOff
+              className="select-none"
+              onClick={() => setShowPassword(true)}
+            />
           )
         }
+        className={className}
+        {...props}
+        ref={ref}
       />
     )
   },
