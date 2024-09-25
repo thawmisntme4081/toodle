@@ -16,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { useAuth } from '@/hooks/useAuth.hook'
-import { LucideSchool } from '@/icons/LucideSchool'
+import { LucideSchool } from '@/icons'
 
 import { loginSchema } from './login.validation'
 

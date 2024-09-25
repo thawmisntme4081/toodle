@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { LucideBell } from '@/icons/LucideBell'
-import { LucideSun } from '@/icons/LucideSun'
+import { IconBell, LucideSun } from '@/icons'
 
 const HorizontalNavbar = () => {
   return (
@@ -9,8 +8,8 @@ const HorizontalNavbar = () => {
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <LucideBell className='w-5 h-5'/>
-      <LucideSun className='w-5 h-5'/>
+      <IconBell className="w-5 h-5" />
+      <LucideSun className="w-5 h-5" />
     </div>
   )
 }
