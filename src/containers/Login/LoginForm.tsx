@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/useAuth.hook'
 
 import { loginSchema } from './login.validation'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const LoginForm = () => {
   const navigate = useNavigate()
@@ -70,6 +71,20 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
+            <div className="flex justify-between">
+              <div className="flex items-center space-x-1">
+                <Checkbox id="terms" />
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Remember me
+                </label>
+              </div>
+              <a href="" className="text-primary">
+                Forgot password?
+              </a>
+            </div>
             <Button type="submit">Submit</Button>
           </form>
         </Form>
