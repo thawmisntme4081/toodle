@@ -1,8 +1,10 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { z } from 'zod'
 
+import { login } from '@/api/login'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -24,6 +26,11 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
+  const mutation = useMutation({
+    mutationKey: ['login'],
+    mutationFn: login,
+  })
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,9 +40,10 @@ const LoginForm = () => {
   })
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    signIn()
-    navigate({ to: '/dashboard' })
-    console.log(values)
+    mutation.mutate({ ...values })
+    // signIn()
+    console.log(mutation)
+    // navigate({ to: '/dashboard' })
   }
 
   return (
