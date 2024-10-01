@@ -7,7 +7,7 @@ export const useAuth = () => {
     localStorage.removeItem('isAuthenticated')
   }
 
-  const isLogged = () => localStorage.getItem('isAuthenticated') === 'true'
+  const isLogged = () => document.cookie.includes('accessToken')
 
   return { signIn, signOut, isLogged }
 }

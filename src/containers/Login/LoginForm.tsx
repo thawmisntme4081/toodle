@@ -26,7 +26,7 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const { signIn } = useAuth()
 
-  const mutation = useMutation({
+  const { mutate } = useMutation({
     mutationKey: ['login'],
     mutationFn: login,
   })
@@ -40,10 +40,8 @@ const LoginForm = () => {
   })
 
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    mutation.mutate({ ...values })
-    // signIn()
-    console.log(mutation)
-    // navigate({ to: '/dashboard' })
+    mutate(values)
+    navigate({ to: '/dashboard' })
   }
 
   return (
