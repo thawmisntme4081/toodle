@@ -1,4 +1,5 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router'
+import { Toaster } from 'sonner'
 
 import { useAuth } from '@/hooks/useAuth.hook'
 
@@ -18,7 +19,12 @@ declare module '@tanstack/react-router' {
 const App = () => {
   const auth = useAuth()
 
-  return <RouterProvider router={router} context={{ auth }} />
+  return (
+    <>
+      <RouterProvider router={router} context={{ auth }} />
+      <Toaster richColors closeButton position="top-right" />
+    </>
+  )
 }
 
 export default App

@@ -1,2 +1,3 @@
-import { testApi } from './login'
-export { testApi }
+import { authApi } from './_authApi'
+
+export { authApi }
