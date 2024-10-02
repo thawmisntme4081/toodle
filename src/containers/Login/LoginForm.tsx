@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useRouter } from '@tanstack/react-router'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { login } from '@/api/login'
+import { useLoginMutation } from '@/api/_authApi'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -23,13 +23,10 @@ import { LucideSchool } from '@/icons'
 import { loginSchema } from './login.validation'
 
 const LoginForm = () => {
+  const router = useRouter()
   const navigate = useNavigate()
-  const { signIn } = useAuth()
-
-  const mutation = useMutation({
-    mutationKey: ['login'],
-    mutationFn: login,
-  })
+  const auth = useAuth()
+  const [login, { isLoading }] = useLoginMutation()
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -39,11 +36,19 @@ const LoginForm = () => {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    mutation.mutate({ ...values })
-    // signIn()
-    console.log(mutation)
-    // navigate({ to: '/dashboard' })
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+    try {
+      const loginRes = await login(values)
+      if (loginRes.error) {
+        const error = loginRes.error as any
+        toast.error(error.data.message as string)
+        return
+      }
+      auth.signIn()
+      router.invalidate()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -62,7 +67,11 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="a@gmail.com" {...field} />
+                    <Input
+                      placeholder="a@gmail.com"
+                      {...field}
+                      disabled={isLoading}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,6 +86,7 @@ const LoginForm = () => {
                   <FormControl>
                     <PasswordInput
                       placeholder="********"
+                      disabled={isLoading}
                       hasSuffix
                       {...field}
                     />
@@ -90,7 +100,9 @@ const LoginForm = () => {
                 Forgot password?
               </a>
             </div>
-            <Button type="submit">Login</Button>
+            <Button type="submit" disabled={isLoading}>
+              Login
+            </Button>
           </form>
         </Form>
       </CardContent>

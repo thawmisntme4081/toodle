@@ -1,19 +1,14 @@
 import { Fragment } from 'react/jsx-runtime'
 import { Link, useNavigate } from '@tanstack/react-router'
 
-import { useAuth } from '@/hooks/useAuth.hook'
 import { LucideSchool } from '@/icons'
 
 import { MENU_GROUP } from './navigation'
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const { signOut } = useAuth()
 
-  const handleLogOut = () => {
-    signOut()
-    navigate({ to: '/' })
-  }
+  const handleLogOut = () => {}
 
   return (
     <div className="flex flex-col w-64 bg-[#2f3349] p-3 h-screen">
