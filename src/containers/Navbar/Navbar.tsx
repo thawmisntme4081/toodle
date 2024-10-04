@@ -1,7 +1,7 @@
 import { Fragment } from 'react/jsx-runtime'
 import { Link, useNavigate } from '@tanstack/react-router'
 
-import { LucideSchool } from '@/icons'
+import { IconSchool } from '@/icons'
 
 import { MENU_GROUP } from './navigation'
 
@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className="flex flex-col w-64 bg-[#2f3349] p-3 h-screen">
       <div className="text-2xl font-bold flex gap-2 items-center my-4 text-muted">
-        <LucideSchool />
+        <IconSchool />
         SchoolHub
       </div>
       <nav className="text-muted-foreground">

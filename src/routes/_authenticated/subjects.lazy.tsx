@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import Subject from '@/containers/Subject/Subject'
+import SubjectManagement from '@/containers/Subject/SubjectManagement'
 
 export const Route = createLazyFileRoute('/_authenticated/subjects')({
-  component: Subject,
+  component: SubjectManagement,
 })

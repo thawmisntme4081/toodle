@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react'
 
-export function LucideMail(props: SVGProps<SVGSVGElement>) {
+export function IconEye(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,8 +16,8 @@ export function LucideMail(props: SVGProps<SVGSVGElement>) {
         strokeLinejoin="round"
         strokeWidth={2}
       >
-        <rect width={20} height={16} x={2} y={4} rx={2}></rect>
-        <path d="m22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+        <path d="M2.062 12.348a1 1 0 0 1 0-.696a10.75 10.75 0 0 1 19.876 0a1 1 0 0 1 0 .696a10.75 10.75 0 0 1-19.876 0"></path>
+        <circle cx={12} cy={12} r={3}></circle>
       </g>
     </svg>
   )

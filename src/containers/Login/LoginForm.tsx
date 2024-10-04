@@ -18,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { useAuth } from '@/hooks/useAuth.hook'
-import { LucideSchool } from '@/icons'
+import { IconSchool } from '@/icons'
 
 import { loginSchema } from './login.validation'
 
@@ -54,7 +54,7 @@ const LoginForm = () => {
   return (
     <Card className="w-[500px]">
       <CardHeader className="flex-row gap-2 items-center">
-        <LucideSchool width={24} height={24} />
+        <IconSchool width={24} height={24} />
         <CardTitle>SchoolHub</CardTitle>
       </CardHeader>
       <CardContent>

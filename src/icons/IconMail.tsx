@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react'
 
-export function LucideMoon(props: SVGProps<SVGSVGElement>) {
+export function IconMail(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,14 +9,16 @@ export function LucideMoon(props: SVGProps<SVGSVGElement>) {
       viewBox="0 0 24 24"
       {...props}
     >
-      <path
+      <g
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={2}
-        d="M12 3a6 6 0 0 0 9 9a9 9 0 1 1-9-9"
-      />
+      >
+        <rect width={20} height={16} x={2} y={4} rx={2}></rect>
+        <path d="m22 7l-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+      </g>
     </svg>
   )
 }
