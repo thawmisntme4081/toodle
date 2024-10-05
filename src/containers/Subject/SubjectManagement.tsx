@@ -14,8 +14,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -39,22 +41,37 @@ import { IconEdit, IconMoreVertical, IconPlus, IconTrash } from '@/icons'
 import { subjectSchema } from './subject.validation'
 
 const SubjectManagement = () => {
+  const [isDialogOpen, setDialogOpen] = useState(false)
+  const [mode, setMode] = useState<'create' | 'update' | 'delete'>('create')
+  const [subjectId, setSubjectId] = useState<string | null>(null)
+
   const { data: subjects, isLoading } = useGetSujectsQuery()
   const [createSubject, { isLoading: isCreating }] = useCreateSubjectMutation()
   const [updateSubject, { isLoading: isUpdating }] = useUpdateSubjectMutation()
   const [deleteSubject, { isLoading: isDeleting }] = useDeleteSubjectMutation()
-  const [isDialogOpen, setDialogOpen] = useState(false)
-  const [isEditMode, setEditMode] = useState(false)
-  const [currentSubjectId, setCurrentSubjectId] = useState<string | null>(null)
 
   const form = useForm<z.infer<typeof subjectSchema>>({
     resolver: zodResolver(subjectSchema),
-    defaultValues: {
-      name: '',
-    },
+    defaultValues: { name: '' },
   })
 
   if (isLoading) return <div>No subject found</div>
+
+  const openDialogInMode = (
+    newMode: 'create' | 'update' | 'delete',
+    id: string | null,
+  ) => {
+    setMode(newMode)
+    setDialogOpen(true)
+    setSubjectId(id)
+
+    if (newMode == 'update' && id) {
+      const subject = subjects?.data.find((item) => item.id === id)
+      if (subject) form.setValue('name', subject.name)
+    } else if (newMode == 'create') {
+      form.reset()
+    }
+  }
 
   const handleError = (error: any) => {
     const subjectName = error.data.message
@@ -63,42 +80,29 @@ const SubjectManagement = () => {
     toast.error(`Subject ${subjectName} already exists.`)
   }
 
-  const modifySubject = async (value: z.infer<typeof subjectSchema>) => {
+  const handleFormSubmit = async (value: z.infer<typeof subjectSchema>) => {
     try {
       let response
-      if (isEditMode && currentSubjectId) {
+      if (mode === 'create') {
+        response = await createSubject(value)
+        form.reset()
+      } else if (mode === 'update' && subjectId) {
         response = await updateSubject({
-          id: currentSubjectId,
+          id: subjectId,
           name: value as unknown as string,
         })
-      } else {
-        response = await createSubject(value)
+      } else if (mode === 'delete' && subjectId) {
+        response = await deleteSubject(subjectId)
       }
-
-      if (response?.error) {
+      if (!response?.error) {
+        toast.success(`Subject ${mode}d successfully`)
+      } else {
         handleError(response.error)
-        return
       }
       setDialogOpen(false)
-      setEditMode(false)
-      setCurrentSubjectId(null)
     } catch (error) {
       console.error('Failed to create or update subject:', error)
     }
-  }
-
-  const handleEditSubject = (id: string) => {
-    const subject = subjects?.data.find((item) => item.id === id)
-    if (!subject) return
-
-    form.setValue('name', subject.name)
-    setCurrentSubjectId(id)
-    setEditMode(true)
-    setDialogOpen(true)
-  }
-  const handleDeleteSubject = async (id: string) => {
-    await deleteSubject(id)
-    toast.success('Subject deleted successfully')
   }
 
   return (
@@ -117,7 +121,7 @@ const SubjectManagement = () => {
             variant="outline"
             className="gap-2 my-4"
             onClick={() => {
-              form.reset()
+              openDialogInMode('create', null)
             }}
           >
             <IconPlus />
@@ -127,18 +131,22 @@ const SubjectManagement = () => {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>
-              {isEditMode ? 'Edit Subject' : 'Add Subject'}
+              {mode === 'create' && 'Create Subject'}
+              {mode === 'update' && 'Update Subject'}
+              {mode === 'delete' && 'Delete Subject'}
             </DialogTitle>
             <DialogDescription>
-              {isEditMode
-                ? 'Edit the subject details'
-                : 'Create a Subject here'}
+              {mode === 'create' && 'Create a new subject here.'}
+              {mode === 'update' && 'Edit the subject details here.'}
+              {mode === 'delete' && 'Confirm to delete the subject.'}
             </DialogDescription>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(modifySubject)}
-                className="space-y-8"
-              >
+          </DialogHeader>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleFormSubmit)}
+              className="space-y-8"
+            >
+              {mode !== 'delete' && (
                 <FormField
                   control={form.control}
                   name="name"
@@ -156,12 +164,24 @@ const SubjectManagement = () => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" disabled={isCreating || isUpdating}>
-                  Save changes
+              )}
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary">
+                    Close
+                  </Button>
+                </DialogClose>
+                <Button
+                  type="submit"
+                  disabled={isCreating || isUpdating || isDeleting}
+                >
+                  {mode === 'create' && 'Create Subject'}
+                  {mode === 'update' && 'Save changes'}
+                  {mode === 'delete' && 'Confirm'}
                 </Button>
-              </form>
-            </Form>
-          </DialogHeader>
+              </DialogFooter>
+            </form>
+          </Form>
         </DialogContent>
       </Dialog>
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
@@ -179,8 +199,7 @@ const SubjectManagement = () => {
                   <Button
                     variant="ghost"
                     className="gap-2 w-full"
-                    onClick={() => handleEditSubject(item.id)}
-                    disabled={isUpdating}
+                    onClick={() => openDialogInMode('update', item.id)}
                   >
                     <IconEdit />
                     Edit
@@ -188,8 +207,7 @@ const SubjectManagement = () => {
                   <Button
                     variant="ghost"
                     className="gap-2 w-full"
-                    onClick={() => handleDeleteSubject(item.id)}
-                    disabled={isDeleting}
+                    onClick={() => openDialogInMode('delete', item.id)}
                   >
                     <IconTrash />
                     Delete
