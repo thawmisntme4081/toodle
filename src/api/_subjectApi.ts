@@ -31,7 +31,7 @@ export const subjectApi = createApi({
       }),
       invalidatesTags: ['Subject'],
     }),
-    deleteSubject: build.mutation<Response<void>, string>({
+    deleteSubject: build.mutation<Response<null>, string>({
       query: (id) => ({
         url: `subjects/${id}`,
         method: 'DELETE',

@@ -41,6 +41,7 @@ import { IconEdit, IconMoreVertical, IconPlus, IconTrash } from '@/icons'
 import { subjectSchema } from './subject.validation'
 
 const SubjectManagement = () => {
+  const NUMBER_OF_TEACHERS = 1
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [mode, setMode] = useState<'create' | 'update' | 'delete'>('create')
   const [subjectId, setSubjectId] = useState<string | null>(null)
@@ -55,7 +56,7 @@ const SubjectManagement = () => {
     defaultValues: { name: '' },
   })
 
-  if (isLoading) return <div>No subject found</div>
+  if (isLoading) return <div>Loading...</div>
 
   const openDialogInMode = (
     newMode: 'create' | 'update' | 'delete',
@@ -65,10 +66,10 @@ const SubjectManagement = () => {
     setDialogOpen(true)
     setSubjectId(id)
 
-    if (newMode == 'update' && id) {
+    if (newMode == 'update' || (newMode == 'delete' && id)) {
       const subject = subjects?.data.find((item) => item.id === id)
       if (subject) form.setValue('name', subject.name)
-    } else if (newMode == 'create') {
+    } else {
       form.reset()
     }
   }
@@ -138,7 +139,8 @@ const SubjectManagement = () => {
             <DialogDescription>
               {mode === 'create' && 'Create a new subject here.'}
               {mode === 'update' && 'Edit the subject details here.'}
-              {mode === 'delete' && 'Confirm to delete the subject.'}
+              {mode === 'delete' &&
+                'Are you sure you want to delete this subject?'}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -177,7 +179,7 @@ const SubjectManagement = () => {
                 >
                   {mode === 'create' && 'Create Subject'}
                   {mode === 'update' && 'Save changes'}
-                  {mode === 'delete' && 'Confirm'}
+                  {mode === 'delete' && 'Delete Subject'}
                 </Button>
               </DialogFooter>
             </form>
@@ -216,7 +218,11 @@ const SubjectManagement = () => {
               </Popover>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="text-2xl font-bold">0</div>
+              <div className="text-xl font-bold">
+                {NUMBER_OF_TEACHERS == 1
+                  ? `${NUMBER_OF_TEACHERS} Teacher`
+                  : `${NUMBER_OF_TEACHERS} Teachers`}
+              </div>
             </CardContent>
           </Card>
         ))}
