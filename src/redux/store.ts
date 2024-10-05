@@ -11,7 +11,7 @@ import {
   REHYDRATE,
 } from 'redux-persist'
 
-import { authApi } from '@/api'
+import { authApi, subjectApi } from '@/api'
 
 import { rootReducer } from './rootReducer'
 
@@ -22,7 +22,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authApi.middleware),
+    }).concat(authApi.middleware, subjectApi.middleware),
 })
 
 export const persistor = persistStore(store)

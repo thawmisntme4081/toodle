@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react'
 
-import { LucideEye, LucideEyeOff } from '@/icons'
+import { IconEye, IconEyeOff } from '@/icons'
 import { cn } from '@/lib/utils'
 
 import { Input, InputProps } from './input'
@@ -26,7 +26,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 end-0 bg-white flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-primary dark:text-neutral-600 dark:focus:text-primary"
             >
-              {showPassword ? <LucideEye /> : <LucideEyeOff />}
+              {showPassword ? <IconEye /> : <IconEyeOff />}
             </button>
           )
         }
