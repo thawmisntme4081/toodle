@@ -26,6 +26,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
@@ -53,18 +54,13 @@ const SubjectManagement = () => {
     },
   })
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <div>No subject found</div>
 
   const handleError = (error: any) => {
-    if (error.status == 400) {
-      toast.error('Please enter the Subject name')
-      return
-    } else {
-      const subjectName = error.data.message
-        .split('Key (name)=(')[1]
-        .split(')')[0]
-      toast.error(`Subject ${subjectName} already exists.`)
-    }
+    const subjectName = error.data.message
+      .split('Key (name)=(')[1]
+      .split(')')[0]
+    toast.error(`Subject ${subjectName} already exists.`)
   }
 
   const modifySubject = async (value: z.infer<typeof subjectSchema>) => {
@@ -100,10 +96,22 @@ const SubjectManagement = () => {
     setEditMode(true)
     setDialogOpen(true)
   }
+  const handleDeleteSubject = async (id: string) => {
+    await deleteSubject(id)
+    toast.success('Subject deleted successfully')
+  }
 
   return (
     <>
-      <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog
+        open={isDialogOpen}
+        onOpenChange={(isOpen) => {
+          setDialogOpen(isOpen)
+          if (!isOpen) {
+            form.reset()
+          }
+        }}
+      >
         <DialogTrigger asChild>
           <Button
             variant="outline"
@@ -144,6 +152,7 @@ const SubjectManagement = () => {
                           disabled={isCreating || isUpdating}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -179,7 +188,7 @@ const SubjectManagement = () => {
                   <Button
                     variant="ghost"
                     className="gap-2 w-full"
-                    onClick={() => deleteSubject(item.id)}
+                    onClick={() => handleDeleteSubject(item.id)}
                     disabled={isDeleting}
                   >
                     <IconTrash />
