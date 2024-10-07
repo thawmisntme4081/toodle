@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate, useRouter } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -24,7 +24,6 @@ import { loginSchema } from './login.validation'
 
 const LoginForm = () => {
   const router = useRouter()
-  const navigate = useNavigate()
   const auth = useAuth()
   const [login, { isLoading }] = useLoginMutation()
 

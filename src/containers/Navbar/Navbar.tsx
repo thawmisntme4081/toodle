@@ -1,14 +1,36 @@
 import { Fragment } from 'react/jsx-runtime'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useRouter } from '@tanstack/react-router'
 
+import { useLogoutMutation } from '@/api/_authApi'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { useAuth } from '@/hooks/useAuth.hook'
 import { IconSchool } from '@/icons'
 
 import { MENU_GROUP } from './navigation'
 
 const Navbar = () => {
-  const navigate = useNavigate()
+  const router = useRouter()
+  const auth = useAuth()
+  const [logout, { isLoading }] = useLogoutMutation()
 
-  const handleLogOut = () => {}
+  const handleLogOut = async () => {
+    try {
+      await logout()
+      auth.signOut()
+      router.invalidate()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="flex flex-col w-64 bg-[#2f3349] p-3 h-screen">
@@ -26,13 +48,35 @@ const Navbar = () => {
               {item.groupItems.map((menuItem) => (
                 <li key={menuItem.link}>
                   {menuItem.link === '/logout' ? (
-                    <button
-                      className="flex gap-2 items-center mt-2 py-1 px-6 bg-transparent hover:bg-destructive hover:text-muted rounded text-lg w-full"
-                      onClick={handleLogOut}
-                    >
-                      <menuItem.icon />
-                      <span>{menuItem.name}</span>
-                    </button>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button className="flex gap-2 items-center mt-2 py-1 px-6 bg-transparent hover:bg-destructive hover:text-muted rounded text-lg w-full">
+                          <menuItem.icon />
+                          <span>{menuItem.name}</span>
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                          <DialogTitle>
+                            Are you sure you want to sign out?
+                          </DialogTitle>
+                        </DialogHeader>
+                        <DialogFooter>
+                          <DialogClose asChild>
+                            <Button type="button" variant="secondary">
+                              Close
+                            </Button>
+                          </DialogClose>
+                          <Button
+                            type="button"
+                            onClick={handleLogOut}
+                            disabled={isLoading}
+                          >
+                            Sign out
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
                   ) : (
                     <Link
                       to={menuItem.link}

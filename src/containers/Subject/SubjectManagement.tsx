@@ -55,7 +55,7 @@ const SubjectManagement = () => {
     defaultValues: { name: '' },
   })
 
-  if (isLoading) return <div>No subject found</div>
+  if (isLoading) return <div>Loading...</div>
 
   const openDialogInMode = (
     newMode: 'create' | 'update' | 'delete',
@@ -65,10 +65,10 @@ const SubjectManagement = () => {
     setDialogOpen(true)
     setSubjectId(id)
 
-    if (newMode == 'update' && id) {
+    if (newMode == 'update' || (newMode == 'delete' && id)) {
       const subject = subjects?.data.find((item) => item.id === id)
       if (subject) form.setValue('name', subject.name)
-    } else if (newMode == 'create') {
+    } else {
       form.reset()
     }
   }
@@ -138,7 +138,8 @@ const SubjectManagement = () => {
             <DialogDescription>
               {mode === 'create' && 'Create a new subject here.'}
               {mode === 'update' && 'Edit the subject details here.'}
-              {mode === 'delete' && 'Confirm to delete the subject.'}
+              {mode === 'delete' &&
+                'Are you sure you want to delete this subject?'}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -177,7 +178,7 @@ const SubjectManagement = () => {
                 >
                   {mode === 'create' && 'Create Subject'}
                   {mode === 'update' && 'Save changes'}
-                  {mode === 'delete' && 'Confirm'}
+                  {mode === 'delete' && 'Delete Subject'}
                 </Button>
               </DialogFooter>
             </form>
@@ -185,41 +186,49 @@ const SubjectManagement = () => {
         </DialogContent>
       </Dialog>
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-        {subjects?.data.map((item) => (
-          <Card className="p-4" key={item.id}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
-              <CardTitle className="text-sm font-medium">{item.name}</CardTitle>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="ghost">
-                    <IconMoreVertical />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="p-2 w-32">
-                  <Button
-                    variant="ghost"
-                    className="gap-2 w-full"
-                    onClick={() => openDialogInMode('update', item.id)}
-                  >
-                    <IconEdit />
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="gap-2 w-full"
-                    onClick={() => openDialogInMode('delete', item.id)}
-                  >
-                    <IconTrash />
-                    Delete
-                  </Button>
-                </PopoverContent>
-              </Popover>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="text-2xl font-bold">0</div>
-            </CardContent>
-          </Card>
-        ))}
+        {subjects?.data.length == 0
+          ? 'No Subject Found'
+          : subjects?.data.map((item) => (
+              <Card className="p-4" key={item.id}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
+                  <CardTitle className="text-sm font-medium">
+                    {item.name}
+                  </CardTitle>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost">
+                        <IconMoreVertical />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-2 w-32">
+                      <Button
+                        variant="ghost"
+                        className="gap-2 w-full"
+                        onClick={() => openDialogInMode('update', item.id)}
+                      >
+                        <IconEdit />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="gap-2 w-full"
+                        onClick={() => openDialogInMode('delete', item.id)}
+                      >
+                        <IconTrash />
+                        Delete
+                      </Button>
+                    </PopoverContent>
+                  </Popover>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="text-xl font-bold">
+                    {item.number_of_teachers == 1
+                      ? `${item.number_of_teachers} Teacher`
+                      : `${item.number_of_teachers} Teachers`}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
       </div>
     </>
   )
