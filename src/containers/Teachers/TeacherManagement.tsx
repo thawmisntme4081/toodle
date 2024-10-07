@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import * as React from 'react'
 import {
   ColumnFiltersState,
@@ -13,12 +12,12 @@ import {
 } from '@tanstack/react-table'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+// import {
+//   DropdownMenu,
+//   DropdownMenuCheckboxItem,
+//   DropdownMenuContent,
+//   DropdownMenuTrigger,
+// } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -94,6 +93,7 @@ export function TeacherManagement() {
       columnVisibility,
       rowSelection,
     },
+    columns: [],
   })
 
   return (
@@ -107,7 +107,7 @@ export function TeacherManagement() {
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Columns
@@ -132,7 +132,7 @@ export function TeacherManagement() {
                 )
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -173,12 +173,12 @@ export function TeacherManagement() {
               ))
             ) : (
               <TableRow>
-                <TableCell
+                {/* <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
                   No results.
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             )}
           </TableBody>

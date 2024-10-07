@@ -8,7 +8,7 @@ export const subjectApi = createApi({
   ...defaultConfig('subjectApi', { credentials: 'include' }),
   tagTypes: ['Subject'],
   endpoints: (build) => ({
-    getSujects: build.query<Response<Subject[]>, void>({
+    getSubjects: build.query<Response<Subject[]>, void>({
       query: () => ({
         url: 'subjects',
         method: 'GET',
@@ -23,11 +23,11 @@ export const subjectApi = createApi({
       }),
       invalidatesTags: ['Subject'],
     }),
-    updateSubject: build.mutation<Response<void>, Subject>({
+    updateSubject: build.mutation<Response<null>, Subject>({
       query: ({ id, name }) => ({
         url: `subjects/${id}`,
         method: 'PUT',
-        body: name,
+        body: { name },
       }),
       invalidatesTags: ['Subject'],
     }),
@@ -42,7 +42,7 @@ export const subjectApi = createApi({
 })
 
 export const {
-  useGetSujectsQuery,
+  useGetSubjectsQuery,
   useCreateSubjectMutation,
   useDeleteSubjectMutation,
   useUpdateSubjectMutation,
