@@ -41,7 +41,6 @@ import { IconEdit, IconMoreVertical, IconPlus, IconTrash } from '@/icons'
 import { subjectSchema } from './subject.validation'
 
 const SubjectManagement = () => {
-  const NUMBER_OF_TEACHERS = 1
   const [isDialogOpen, setDialogOpen] = useState(false)
   const [mode, setMode] = useState<'create' | 'update' | 'delete'>('create')
   const [subjectId, setSubjectId] = useState<string | null>(null)
@@ -187,45 +186,49 @@ const SubjectManagement = () => {
         </DialogContent>
       </Dialog>
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-        {subjects?.data.map((item) => (
-          <Card className="p-4" key={item.id}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
-              <CardTitle className="text-sm font-medium">{item.name}</CardTitle>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="ghost">
-                    <IconMoreVertical />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="p-2 w-32">
-                  <Button
-                    variant="ghost"
-                    className="gap-2 w-full"
-                    onClick={() => openDialogInMode('update', item.id)}
-                  >
-                    <IconEdit />
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="gap-2 w-full"
-                    onClick={() => openDialogInMode('delete', item.id)}
-                  >
-                    <IconTrash />
-                    Delete
-                  </Button>
-                </PopoverContent>
-              </Popover>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="text-xl font-bold">
-                {NUMBER_OF_TEACHERS == 1
-                  ? `${NUMBER_OF_TEACHERS} Teacher`
-                  : `${NUMBER_OF_TEACHERS} Teachers`}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {subjects?.data.length == 0
+          ? 'No Subject Found'
+          : subjects?.data.map((item) => (
+              <Card className="p-4" key={item.id}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 p-0">
+                  <CardTitle className="text-sm font-medium">
+                    {item.name}
+                  </CardTitle>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost">
+                        <IconMoreVertical />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-2 w-32">
+                      <Button
+                        variant="ghost"
+                        className="gap-2 w-full"
+                        onClick={() => openDialogInMode('update', item.id)}
+                      >
+                        <IconEdit />
+                        Edit
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="gap-2 w-full"
+                        onClick={() => openDialogInMode('delete', item.id)}
+                      >
+                        <IconTrash />
+                        Delete
+                      </Button>
+                    </PopoverContent>
+                  </Popover>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="text-xl font-bold">
+                    {item.number_of_teachers == 1
+                      ? `${item.number_of_teachers} Teacher`
+                      : `${item.number_of_teachers} Teachers`}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
       </div>
     </>
   )
