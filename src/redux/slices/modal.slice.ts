@@ -1,11 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import _ from 'lodash'
+
+type TypeModal = 'create' | 'update' | 'delete'
+type ModalName = 'subject' | 'teacher' | 'student' | 'class'
 
 type ModalState = {
   open: boolean
-  name: 'subject' | 'teacher' | 'student' | 'class' | null
-  type: 'create' | 'update' | 'delete' | null
-  data: any
+  name: ModalName | null
+  type: TypeModal | null
+  data?: any
   defaultTitle: string
   dangerDescription: string
 }
@@ -19,17 +22,19 @@ const initialState: ModalState = {
   dangerDescription: '',
 }
 
+type OpenModal = Pick<ModalState, 'type' | 'data'> & { name: ModalName }
+
 const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal: (state, action) => {
+    openModal: (state, action: PayloadAction<OpenModal>) => {
       state.open = true
       state.name = action.payload.name
       state.data = action.payload.data
       state.type = action.payload.type
       state.defaultTitle =
-        _.capitalize(action.payload.type) + ' ' + action.payload.name
+        _.capitalize(action.payload.type as string) + ' ' + action.payload.name
       state.dangerDescription =
         action.payload.type === 'delete' && action.payload?.data?.name
           ? `Are you sure you want to ${action.payload.type} ${action.payload.data.name}?`
