@@ -110,6 +110,23 @@ const TeacherForm = ({ type }: Props) => {
         <div className="grid grid-cols-3 gap-4">
           <FormField
             control={form.control}
+            name="avatar"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Avatar</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Insert url"
+                    {...field}
+                    disabled={isCreating}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="first_name"
             render={({ field }) => (
               <FormItem>
