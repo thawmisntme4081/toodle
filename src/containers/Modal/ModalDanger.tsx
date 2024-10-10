@@ -13,11 +13,11 @@ type ComponentMapType = {
 }
 
 const ModalDanger = () => {
-  const { open, dangerDescription, type } = useSelector(
+  const { open, dangerDescription, type, name } = useSelector(
     (state: RootState) => state.modal,
   )
 
-  if (!dangerDescription || !type) return null
+  if (!dangerDescription || !type || !name) return null
 
   const ComponentMap: ComponentMapType = {
     subject: <DeleteSubject />,
@@ -29,7 +29,7 @@ const ModalDanger = () => {
       open={open && type === 'delete'}
       description={dangerDescription}
     >
-      {ComponentMap[type as ModalName]}
+      {ComponentMap[name as ModalName]}
     </ModalLayout>
   )
 }
