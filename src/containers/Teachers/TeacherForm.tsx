@@ -257,7 +257,7 @@ const TeacherForm = ({ type }: Props) => {
                         )}
                       >
                         {field.value ? (
-                          format(field.value, 'YYYY-MM-DD')
+                          format(field.value, 'yyyy-MM-dd')
                         ) : (
                           <span>Pick a date</span>
                         )}
