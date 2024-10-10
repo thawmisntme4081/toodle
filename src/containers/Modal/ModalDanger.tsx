@@ -1,23 +1,33 @@
+import { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 
-import DeleteAction from '@/containers/Subject/DeleteAction'
+import DeleteSubject from '@/containers/Subject/DeleteSubject'
 import { RootState } from '@/redux/store'
+import { ModalName } from '@/types/modal.type'
 
 import ModalLayout from './ModalLayout'
+
+type ComponentMapType = {
+  [K in ModalName]?: ReactNode
+}
 
 const ModalDanger = () => {
   const { open, dangerDescription, type } = useSelector(
     (state: RootState) => state.modal,
   )
 
-  if (!dangerDescription) return null
+  if (!dangerDescription || !type) return null
+
+  const ComponentMap: ComponentMapType = {
+    subject: <DeleteSubject />,
+  }
 
   return (
     <ModalLayout
       open={open && type === 'delete'}
       description={dangerDescription}
     >
-      <DeleteAction />
+      {ComponentMap[type as ModalName]}
     </ModalLayout>
   )
 }
