@@ -21,5 +21,6 @@
     "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": ["javascript", "typescript"],
-  "eslint.nodePath": "./node_modules/eslint"
+  "eslint.nodePath": "./node_modules/eslint",
+  "cSpell.words": ["hookform", "reduxjs", "sonner", "tanstack"]
 }

@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { TeacherManagement } from '@/containers/Teachers/TeacherManagement'
+import { TeacherPage } from '@/containers/Teachers/TeacherPage'
 
 export const Route = createLazyFileRoute('/_authenticated/teachers')({
-  component: TeacherManagement,
+  component: TeacherPage,
 })

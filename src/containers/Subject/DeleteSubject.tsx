@@ -7,7 +7,7 @@ import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
 import { handleError } from '@/utils/handleError.util'
 
-const DeleteAction = () => {
+const DeleteSubject = () => {
   const dispatch = useAppDispatch()
   const data = useSelector((state: RootState) => state.modal.data)
   const [deleteSubject, { isLoading }] = useDeleteSubjectMutation()
@@ -44,4 +44,4 @@ const DeleteAction = () => {
   )
 }
 
-export default DeleteAction
+export default DeleteSubject

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -8,16 +9,10 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-  VisibilityState,
 } from '@tanstack/react-table'
 
+import { useGetTeachersQuery } from '@/api/_teacherApi'
 import { Button } from '@/components/ui/button'
-// import {
-//   DropdownMenu,
-//   DropdownMenuCheckboxItem,
-//   DropdownMenuContent,
-//   DropdownMenuTrigger,
-// } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -27,112 +22,150 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { IconPlus } from '@/icons'
+import { openModal } from '@/redux/slices/modal.slice'
+import { useAppDispatch } from '@/redux/store'
+import { Teacher } from '@/types/teacher.type'
 
-const data: Payment[] = [
+import PopoverActions from './PopoverActions'
+
+const columns: ColumnDef<Teacher>[] = [
   {
-    id: 'm5gr84i9',
-    amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
+    accessorKey: 'code',
+    header: 'Code',
+    cell: ({ row }) => <div className="capitalize">{row.getValue('code')}</div>,
   },
   {
-    id: '3u1reuv4',
-    amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
+    accessorKey: 'fullName',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Full Name
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const { first_name, last_name } = row.original
+      return (
+        <p className="lowercase">
+          {first_name} {last_name}
+        </p>
+      )
+    },
   },
   {
-    id: 'derv1ws0',
-    amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
+    accessorKey: 'phone_number',
+    header: () => <div className="text-right">Phone Number</div>,
+    cell: ({ row }) => (
+      <p className="text-right font-medium">{row.getValue('phone_number')}</p>
+    ),
   },
   {
-    id: '5kma53ae',
-    amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ row }) => (
+      <p className="text-right font-medium">{row.getValue('email')}</p>
+    ),
   },
   {
-    id: 'bhqecj4p',
-    amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
+    accessorKey: 'gender',
+    header: () => <div className="text-right">Gender</div>,
+    cell: ({ row }) => {
+      const genderValue = row.getValue('gender')
+      return (
+        <p className="text-right font-medium">
+          {genderValue ? 'Female' : 'Male'}
+        </p>
+      )
+    },
+  },
+  {
+    accessorKey: 'subjects',
+    header: () => <div className="text-right">Subjects</div>,
+    cell: ({ row }) => (
+      <p className="text-right font-medium">
+        {row.getValue('subjects')
+          ? 'No Subject Assigned'
+          : row.getValue('subjects')}
+      </p>
+    ),
+  },
+  {
+    accessorKey: 'classes',
+    header: () => <div className="text-right">Classes</div>,
+    cell: ({ row }) => (
+      <p className="text-right font-medium">
+        {row.getValue('classes')
+          ? 'No Class Assigned'
+          : row.getValue('classes')}
+      </p>
+    ),
+  },
+  {
+    id: 'actions',
+    header: () => <div>Actions</div>,
+    cell: ({ row }) => {
+      const item = row.original
+      return <PopoverActions item={item} />
+    },
   },
 ]
 
-export type Payment = {
-  id: string
-  amount: number
-  status: 'pending' | 'processing' | 'success' | 'failed'
-  email: string
-}
+export const TeacherPage = () => {
+  const dispatch = useAppDispatch()
 
-export function TeacherManagement() {
+  const { data: teachers, isLoading } = useGetTeachersQuery()
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
+    data: teachers?.data ?? [],
+    columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
-      columnVisibility,
       rowSelection,
     },
-    columns: [],
   })
+
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex gap-2 items-center py-4">
+        <Button
+          className="gap-2"
+          onClick={() =>
+            dispatch(openModal({ name: 'teacher', type: 'create' }))
+          }
+        >
+          <IconPlus />
+          Add Teacher
+        </Button>
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+          placeholder="Filter name..."
+          value={
+            (table.getColumn('fullName')?.getFilterValue() as string) ?? ''
+          }
           onChange={(event) =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
+            table.getColumn('fullName')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu> */}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -173,12 +206,12 @@ export function TeacherManagement() {
               ))
             ) : (
               <TableRow>
-                {/* <TableCell
+                <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
                   No results.
-                </TableCell> */}
+                </TableCell>
               </TableRow>
             )}
           </TableBody>

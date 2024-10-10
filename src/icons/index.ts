@@ -1,6 +1,9 @@
 import { IconBell } from './IconBell'
 import { IconBookOpen } from './IconBookOpen'
 import { IconBriefcase } from './IconBriefCase'
+import { IconCheck } from './IconCheck'
+import { IconChevronRight } from './IconChevronRight'
+import { IconCircle } from './IconCircle'
 import { IconCircleUser } from './IconCircleUser'
 import { IconClipboard } from './IconClipboard'
 import { IconClipboardPen } from './IconClipboardPen'
@@ -16,6 +19,7 @@ import { IconLogOut } from './IconLogout'
 import { IconMail } from './IconMail'
 import { IconMessage } from './IconMessage'
 import { IconMoon } from './IconMoon'
+import { IconMoreHorizontal } from './IconMoreHorizontal'
 import { IconMoreVertical } from './IconMoreVertical'
 import { IconPlus } from './IconPlus'
 import { IconScanFace } from './IconScanFace'
@@ -30,6 +34,9 @@ export {
   IconBell,
   IconBookOpen,
   IconBriefcase,
+  IconCheck,
+  IconChevronRight,
+  IconCircle,
   IconCircleUser,
   IconClipboard,
   IconClipboardPen,
@@ -45,6 +52,7 @@ export {
   IconMail,
   IconMessage,
   IconMoon,
+  IconMoreHorizontal,
   IconMoreVertical,
   IconPlus,
   IconScanFace,
