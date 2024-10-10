@@ -1,14 +1,16 @@
 export type Teacher = {
   id: string
   code: string
+  avatar: string
   first_name: string
   last_name: string
-  phoneNumber: string
+  phone_number: string
   email: string
+  address: string
   gender: boolean
-  dateOfBirth: string
-  subjects: [string]
-  classes: [string]
+  dateOfBirth: Date
+  subjects: string[]
+  classes: string[]
 }
 
-export type TeacherReq = Omit<Teacher, 'id'>
+export type TeacherReq = Omit<Teacher, 'id' | 'code' | 'classes'>

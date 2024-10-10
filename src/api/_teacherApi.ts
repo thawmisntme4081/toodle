@@ -20,16 +20,20 @@ export const teacherApi = createApi({
         url: 'teachers',
         method: 'POST',
       }),
-      invalidatesTags: ['Teacher'],
+      invalidatesTags: (_, error) => (error ? [] : ['Teacher']),
     }),
     deleteTeacher: build.mutation<Response<null>, string>({
       query: (id) => ({
         url: `teachers/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Teacher'],
+      invalidatesTags: (_, error) => (error ? [] : ['Teacher']),
     }),
   }),
 })
 
-export const { useGetTeachersQuery, useCreateTeacherMutation } = teacherApi
+export const {
+  useGetTeachersQuery,
+  useCreateTeacherMutation,
+  useDeleteTeacherMutation,
+} = teacherApi

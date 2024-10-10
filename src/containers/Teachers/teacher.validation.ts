@@ -14,7 +14,10 @@ export const teacherSchema = z
     phone_number: z.string().length(10, 'Phone number must be 10 digits'),
     address: z.string().optional(),
     avatar: z.string().optional(),
+    subjects: z.array(z.string()).optional(),
     gender: z.boolean(),
-    dateOfBirth: z.string().date(),
+    dateOfBirth: z.date({
+      required_error: 'A date of birth is required.',
+    }),
   })
   .required()

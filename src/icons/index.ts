@@ -1,8 +1,12 @@
 import { IconBell } from './IconBell'
 import { IconBookOpen } from './IconBookOpen'
 import { IconBriefcase } from './IconBriefCase'
+import { IconCalendar } from './IconCalendar'
 import { IconCheck } from './IconCheck'
+import { IconChevronDown } from './IconChevronDown'
+import { IconChevronLeft } from './IconChevronLeft'
 import { IconChevronRight } from './IconChevronRight'
+import { IconChevronUp } from './IconChevronUp'
 import { IconCircle } from './IconCircle'
 import { IconCircleUser } from './IconCircleUser'
 import { IconClipboard } from './IconClipboard'
@@ -24,6 +28,7 @@ import { IconMoreVertical } from './IconMoreVertical'
 import { IconPlus } from './IconPlus'
 import { IconScanFace } from './IconScanFace'
 import { IconSchool } from './IconSchool'
+import { IconSearch } from './IconSearch'
 import { IconSettings } from './IconSettings'
 import { IconSun } from './IconSun'
 import { IconTrash } from './IconTrash'
@@ -34,8 +39,12 @@ export {
   IconBell,
   IconBookOpen,
   IconBriefcase,
+  IconCalendar,
   IconCheck,
+  IconChevronDown,
+  IconChevronLeft,
   IconChevronRight,
+  IconChevronUp,
   IconCircle,
   IconCircleUser,
   IconClipboard,
@@ -57,6 +66,7 @@ export {
   IconPlus,
   IconScanFace,
   IconSchool,
+  IconSearch,
   IconSettings,
   IconSun,
   IconTrash,

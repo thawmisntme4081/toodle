@@ -25,7 +25,7 @@ const ModalLayout = ({ open, description, children }: Props) => {
 
   return (
     <Dialog open={open} onOpenChange={() => dispatch(closeModal())}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md lg:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{defaultTitle}</DialogTitle>
         </DialogHeader>

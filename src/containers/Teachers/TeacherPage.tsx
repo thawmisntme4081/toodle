@@ -27,30 +27,28 @@ import { openModal } from '@/redux/slices/modal.slice'
 import { useAppDispatch } from '@/redux/store'
 import { Teacher } from '@/types/teacher.type'
 
-import PopoverActions from './PopoverActions'
+import Actions from './Actions'
 
 const columns: ColumnDef<Teacher>[] = [
   {
     accessorKey: 'code',
     header: 'Code',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('code')}</div>,
+    cell: ({ row }) => <p className="capitalize">{row.getValue('code')}</p>,
   },
   {
     accessorKey: 'fullName',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Full Name
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+      >
+        Full Name
+      </Button>
+    ),
     cell: ({ row }) => {
       const { first_name, last_name } = row.original
       return (
-        <p className="lowercase">
+        <p>
           {first_name} {last_name}
         </p>
       )
@@ -58,35 +56,27 @@ const columns: ColumnDef<Teacher>[] = [
   },
   {
     accessorKey: 'phone_number',
-    header: () => <div className="text-right">Phone Number</div>,
-    cell: ({ row }) => (
-      <p className="text-right font-medium">{row.getValue('phone_number')}</p>
-    ),
+    header: () => <h1>Phone Number</h1>,
+    cell: ({ row }) => <p>{row.getValue('phone_number')}</p>,
   },
   {
     accessorKey: 'email',
     header: 'Email',
-    cell: ({ row }) => (
-      <p className="text-right font-medium">{row.getValue('email')}</p>
-    ),
+    cell: ({ row }) => <p>{row.getValue('email')}</p>,
   },
   {
     accessorKey: 'gender',
-    header: () => <div className="text-right">Gender</div>,
+    header: () => <h1>Gender</h1>,
     cell: ({ row }) => {
       const genderValue = row.getValue('gender')
-      return (
-        <p className="text-right font-medium">
-          {genderValue ? 'Female' : 'Male'}
-        </p>
-      )
+      return <p> {genderValue ? 'Female' : 'Male'} </p>
     },
   },
   {
     accessorKey: 'subjects',
-    header: () => <div className="text-right">Subjects</div>,
+    header: () => <h1>Subjects</h1>,
     cell: ({ row }) => (
-      <p className="text-right font-medium">
+      <p>
         {row.getValue('subjects')
           ? 'No Subject Assigned'
           : row.getValue('subjects')}
@@ -95,9 +85,9 @@ const columns: ColumnDef<Teacher>[] = [
   },
   {
     accessorKey: 'classes',
-    header: () => <div className="text-right">Classes</div>,
+    header: () => <h1>Classes</h1>,
     cell: ({ row }) => (
-      <p className="text-right font-medium">
+      <p className="font-medium">
         {row.getValue('classes')
           ? 'No Class Assigned'
           : row.getValue('classes')}
@@ -106,10 +96,10 @@ const columns: ColumnDef<Teacher>[] = [
   },
   {
     id: 'actions',
-    header: () => <div>Actions</div>,
+    header: () => <h1>Actions</h1>,
     cell: ({ row }) => {
       const item = row.original
-      return <PopoverActions item={item} />
+      return <Actions item={item} />
     },
   },
 ]
