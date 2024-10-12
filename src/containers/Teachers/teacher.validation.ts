@@ -16,8 +16,6 @@ export const teacherSchema = z
     avatar: z.string().optional(),
     subjects: z.array(z.string()).optional(),
     gender: z.boolean(),
-    dateOfBirth: z.date({
-      required_error: 'A date of birth is required.',
-    }),
+    dateOfBirth: z.date(),
   })
   .required()

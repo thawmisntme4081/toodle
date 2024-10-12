@@ -6,6 +6,7 @@ import _ from 'lodash'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { useGetSubjectsQuery } from '@/api/_subjectApi'
 import { useCreateTeacherMutation } from '@/api/_teacherApi'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -43,24 +44,19 @@ type Props = {
   type: 'create' | 'update'
 }
 
-const OPTIONS: Option[] = [
-  { label: 'nextjs', value: 'Nextjs' },
-  { label: 'React', value: 'react' },
-  { label: 'Remix', value: 'remix' },
-  { label: 'Vite', value: 'vite' },
-  { label: 'Nuxt', value: 'nuxt' },
-  { label: 'Vue', value: 'vue' },
-  { label: 'Svelte', value: 'svelte' },
-  { label: 'Angular', value: 'angular' },
-  { label: 'Astro', value: 'astro' },
-]
-
 const TeacherForm = ({ type }: Props) => {
   const dispatch = useAppDispatch()
   const dataEdit = useSelector((state: RootState) => state.modal.data)
 
+  const { data: subjects } = useGetSubjectsQuery()
   const [createTeacher, { isLoading: isCreating }] = useCreateTeacherMutation()
   //   const [updateTeacher, { isLoading: isUpdating }] = useUpdateSubjectMutation()
+  const subject: Option[] =
+    subjects?.data.map((subject) => ({
+      label: subject.name,
+      value: subject.id,
+    })) ?? []
+  // console.log(subject)
 
   const form = useForm<z.infer<typeof teacherSchema>>({
     resolver: zodResolver(teacherSchema),
@@ -86,16 +82,21 @@ const TeacherForm = ({ type }: Props) => {
       //           id: dataEdit?.id,
       //           name: value.name,
       //         })
+      const formattedDate = format(value.dateOfBirth, 'yyyy-MM-dd')
+      const response =
+        type === 'create'
+          ? await createTeacher({
+              ...value,
+              dateOfBirth: formattedDate,
+            })
+          : null
 
-      const response = await createTeacher(value)
-      console.log(value)
-
-      if (response.error) {
+      if (response?.error) {
         handleError(response.error)
         return
       }
 
-      toast.success(response.data?.message)
+      toast.success(response?.data?.message)
       form.reset()
 
       dispatch(closeModal())
@@ -214,7 +215,7 @@ const TeacherForm = ({ type }: Props) => {
                 <FormLabel>Gender</FormLabel>
                 <Select
                   onValueChange={(value) => {
-                    field.onChange(value === 'female') // Convert 'female' to true, 'male' to false
+                    field.onChange(value === 'female')
                   }}
                 >
                   <FormControl>
@@ -239,12 +240,8 @@ const TeacherForm = ({ type }: Props) => {
                 <FormLabel>Select Subject</FormLabel>
                 <FormControl>
                   <MultipleSelector
-                    defaultOptions={OPTIONS}
-                    {...field}
-                    value={field.value.map((subject) => ({
-                      label: subject,
-                      value: subject,
-                    }))} // Convert string[] to Option[]
+                    {...field.value}
+                    defaultOptions={subject}
                     placeholder="Select Subjects"
                     emptyIndicator={
                       <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
