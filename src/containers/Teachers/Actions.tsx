@@ -12,16 +12,15 @@ const Actions = ({ item }: Props) => {
   const dispatch = useAppDispatch()
 
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex gap-2">
       <Button
         variant="ghost"
-        className="justify-start gap-2 hover:bg-primary hover:text-white"
+        className="justify-start gap-2 text-yellow-500 hover:bg-yellow-400 hover:text-white"
         onClick={() =>
           dispatch(openModal({ name: 'teacher', type: 'update', data: item }))
         }
       >
-        <IconEdit />
-        Edit
+        <IconEdit className="h-5 w-5" />
       </Button>
       <Button
         variant="ghost"
@@ -39,8 +38,7 @@ const Actions = ({ item }: Props) => {
           )
         }
       >
-        <IconTrash />
-        Delete
+        <IconTrash className="h-5 w-5" />
       </Button>
     </div>
   )

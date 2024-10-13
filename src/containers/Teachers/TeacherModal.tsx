@@ -15,9 +15,7 @@ const TeacherModal = () => {
       open={open && name === 'teacher'}
       className="lg:max-w-2xl"
       description={
-        type === 'create'
-          ? 'Create a new teacher here.'
-          : 'Edit the teacher here.'
+        type === 'create' ? 'Teacher information' : 'Edit the teacher here.'
       }
     >
       <TeacherForm type={type} />
