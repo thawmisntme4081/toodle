@@ -1,9 +1,17 @@
 import { IconBell } from './IconBell'
 import { IconBookOpen } from './IconBookOpen'
 import { IconBriefcase } from './IconBriefCase'
+import { IconCalendar } from './IconCalendar'
+import { IconCheck } from './IconCheck'
+import { IconChevronDown } from './IconChevronDown'
+import { IconChevronLeft } from './IconChevronLeft'
+import { IconChevronRight } from './IconChevronRight'
+import { IconChevronUp } from './IconChevronUp'
+import { IconCircle } from './IconCircle'
 import { IconCircleUser } from './IconCircleUser'
 import { IconClipboard } from './IconClipboard'
 import { IconClipboardPen } from './IconClipboardPen'
+import { IconClock } from './IconClock'
 import { IconDashboard } from './IconDashboard'
 import { IconEdit } from './IconEdit'
 import { IconEye } from './IconEye'
@@ -16,10 +24,12 @@ import { IconLogOut } from './IconLogout'
 import { IconMail } from './IconMail'
 import { IconMessage } from './IconMessage'
 import { IconMoon } from './IconMoon'
+import { IconMoreHorizontal } from './IconMoreHorizontal'
 import { IconMoreVertical } from './IconMoreVertical'
 import { IconPlus } from './IconPlus'
 import { IconScanFace } from './IconScanFace'
 import { IconSchool } from './IconSchool'
+import { IconSearch } from './IconSearch'
 import { IconSettings } from './IconSettings'
 import { IconSun } from './IconSun'
 import { IconTrash } from './IconTrash'
@@ -30,9 +40,17 @@ export {
   IconBell,
   IconBookOpen,
   IconBriefcase,
+  IconCalendar,
+  IconCheck,
+  IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
+  IconChevronUp,
+  IconCircle,
   IconCircleUser,
   IconClipboard,
   IconClipboardPen,
+  IconClock,
   IconDashboard,
   IconEdit,
   IconEye,
@@ -45,10 +63,12 @@ export {
   IconMail,
   IconMessage,
   IconMoon,
+  IconMoreHorizontal,
   IconMoreVertical,
   IconPlus,
   IconScanFace,
   IconSchool,
+  IconSearch,
   IconSettings,
   IconSun,
   IconTrash,

@@ -21,7 +21,7 @@ export const subjectApi = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Subject'],
+      invalidatesTags: (_, error) => (error ? [] : ['Subject']),
     }),
     updateSubject: build.mutation<Response<null>, Subject>({
       query: ({ id, name }) => ({
@@ -29,14 +29,14 @@ export const subjectApi = createApi({
         method: 'PUT',
         body: { name },
       }),
-      invalidatesTags: ['Subject'],
+      invalidatesTags: (_, error) => (error ? [] : ['Subject']),
     }),
     deleteSubject: build.mutation<Response<null>, string>({
       query: (id) => ({
         url: `subjects/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Subject'],
+      invalidatesTags: (_, error) => (error ? [] : ['Subject']),
     }),
   }),
 })

@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react'
 import { IconEye, IconEyeOff } from '@/icons'
 import { cn } from '@/lib/utils'
 
-import { Input, InputProps } from './input'
+import { Input, InputProps } from '../ui/input'
 
 export type PasswordInputProps = InputProps & {
   hasSuffix?: boolean
