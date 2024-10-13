@@ -1,7 +1,4 @@
-'use client'
-
-import * as React from 'react'
-import { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import { Command as CommandPrimitive, useCommandState } from 'cmdk'
 
 import { Badge } from '@/components/ui/badge'

@@ -16,9 +16,10 @@ export const teacherApi = createApi({
       providesTags: ['Teacher'],
     }),
     createTeacher: build.mutation<Response<Teacher>, TeacherReq>({
-      query: () => ({
+      query: (body) => ({
         url: 'teachers',
         method: 'POST',
+        body,
       }),
       invalidatesTags: (_, error) => (error ? [] : ['Teacher']),
     }),

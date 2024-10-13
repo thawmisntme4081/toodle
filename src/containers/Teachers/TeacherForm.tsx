@@ -8,6 +8,9 @@ import { z } from 'zod'
 
 import { useGetSubjectsQuery } from '@/api/_subjectApi'
 import { useCreateTeacherMutation } from '@/api/_teacherApi'
+import MultipleSelector, {
+  Option,
+} from '@/components/custom-ui/multiple-select'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -19,7 +22,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import MultipleSelector, { Option } from '@/components/ui/multiple-select'
 import {
   Popover,
   PopoverContent,
@@ -62,10 +64,10 @@ const TeacherForm = ({ type }: Props) => {
     resolver: zodResolver(teacherSchema),
     defaultValues: {
       avatar: dataEdit?.avatar ?? '',
-      first_name: dataEdit?.first_name ?? '',
-      last_name: dataEdit?.last_name ?? '',
+      firstName: dataEdit?.first_name ?? '',
+      lastName: dataEdit?.last_name ?? '',
       email: dataEdit?.email ?? '',
-      phone_number: dataEdit?.phone_number ?? '',
+      phoneNumber: dataEdit?.phone_number ?? '',
       address: dataEdit?.address ?? '',
       dateOfBirth: dataEdit?.dateOfBirth ?? null,
       gender: dataEdit?.gender ?? '',
@@ -73,20 +75,23 @@ const TeacherForm = ({ type }: Props) => {
     },
   })
 
-  const onSubmit = async (value: z.infer<typeof teacherSchema>) => {
+  const onSubmit = async (data: z.infer<typeof teacherSchema>) => {
     try {
       //   const response =
       //     type === 'create'
-      //       ? await createTeacher(value)
+      //       ? await createTeacher(data)
       //       : await updateTeacher({
       //           id: dataEdit?.id,
-      //           name: value.name,
+      //           name: data.name,
       //         })
-      const formattedDate = format(value.dateOfBirth, 'yyyy-MM-dd')
+      const formattedDate = format(data.dateOfBirth, 'yyyy-MM-dd')
+      const formattedSubjects = data.subjects.map((subject) => subject.value)
+
       const response =
         type === 'create'
           ? await createTeacher({
-              ...value,
+              ...data,
+              subjects: formattedSubjects,
               dateOfBirth: formattedDate,
             })
           : null
@@ -128,7 +133,7 @@ const TeacherForm = ({ type }: Props) => {
           />
           <FormField
             control={form.control}
-            name="first_name"
+            name="firstName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First name</FormLabel>
@@ -141,7 +146,7 @@ const TeacherForm = ({ type }: Props) => {
           />
           <FormField
             control={form.control}
-            name="last_name"
+            name="lastName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last name</FormLabel>
@@ -175,7 +180,7 @@ const TeacherForm = ({ type }: Props) => {
           />
           <FormField
             control={form.control}
-            name="phone_number"
+            name="phoneNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone number</FormLabel>
@@ -240,13 +245,15 @@ const TeacherForm = ({ type }: Props) => {
                 <FormLabel>Select Subject</FormLabel>
                 <FormControl>
                   <MultipleSelector
-                    {...field.value}
-                    defaultOptions={subject}
+                    {...field}
+                    options={subject}
                     placeholder="Select Subjects"
+                    onChange={field.onChange}
+                    hideClearAllButton
                     emptyIndicator={
-                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                        no Subject found.
-                      </p>
+                      <span className="text-center p-0 m-0">
+                        No Subject found.
+                      </span>
                     }
                   />
                 </FormControl>
