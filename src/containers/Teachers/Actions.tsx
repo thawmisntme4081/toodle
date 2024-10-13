@@ -12,7 +12,7 @@ const Actions = ({ item }: Props) => {
   const dispatch = useAppDispatch()
 
   return (
-    <div className="flex justify-center gap-2">
+    <div className="flex gap-2">
       <Button
         variant="ghost"
         className="justify-start gap-2 text-yellow-500 hover:bg-yellow-400 hover:text-white"
