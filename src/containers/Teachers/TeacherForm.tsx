@@ -22,17 +22,12 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
 import { handleError } from '@/utils/handleError.util'
 
+import { GENDERS } from './teacher.declation'
 import { teacherSchema } from './teacher.validation'
 
 type Props = {
@@ -51,7 +46,6 @@ const TeacherForm = ({ type }: Props) => {
       label: subject.name,
       value: subject.id,
     })) ?? []
-  // console.log(subject)
 
   const form = useForm<z.infer<typeof teacherSchema>>({
     resolver: zodResolver(teacherSchema),
@@ -109,29 +103,12 @@ const TeacherForm = ({ type }: Props) => {
         <div className="grid grid-cols-3 gap-4">
           <FormField
             control={form.control}
-            name="avatar"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Avatar</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Insert url"
-                    {...field}
-                    disabled={isCreating}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="firstName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Duy" {...field} disabled={isCreating} />
+                  <Input placeholder="John" {...field} disabled={isCreating} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -144,11 +121,37 @@ const TeacherForm = ({ type }: Props) => {
               <FormItem>
                 <FormLabel>Last name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Nguyen"
-                    {...field}
-                    disabled={isCreating}
-                  />
+                  <Input placeholder="Doe" {...field} disabled={isCreating} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field: { onChange } }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={(value) => onChange(value === 'female')}
+                    className="flex items-center gap-4 h-10"
+                  >
+                    {GENDERS.map((item) => (
+                      <FormItem
+                        className="flex items-center space-x-1 space-y-0"
+                        key={item.value}
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={item.value} />
+                        </FormControl>
+                        <FormLabel className="font-normal cursor-pointer">
+                          {item.label}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -162,7 +165,7 @@ const TeacherForm = ({ type }: Props) => {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="admin@toodle.com"
+                    placeholder="johndoe@gmail.com"
                     {...field}
                     disabled={isCreating}
                   />
@@ -207,32 +210,17 @@ const TeacherForm = ({ type }: Props) => {
           />
           <FormField
             control={form.control}
-            name="gender"
+            name="avatar"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Gender</FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    field.onChange(value === 'female')
-                  }}
-                  defaultValue={
-                    type === 'update'
-                      ? field.value
-                        ? 'female'
-                        : 'male'
-                      : undefined
-                  }
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a gender" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="male">Male</SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormLabel>Avatar</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Insert url"
+                    {...field}
+                    disabled={isCreating}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -246,6 +234,7 @@ const TeacherForm = ({ type }: Props) => {
                 <FormControl>
                   <MultipleSelector
                     {...field}
+                    disabled={!subjects}
                     options={subject}
                     placeholder="Select Subjects"
                     onChange={field.onChange}
