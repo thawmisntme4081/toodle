@@ -18,6 +18,18 @@ export const teacherSchema = z
       .array(z.object({ value: z.string(), label: z.string() }))
       .optional(),
     gender: z.boolean(),
-    dateOfBirth: z.date(),
+    dateOfBirth: z.date().refine(
+      (date) => {
+        const today = new Date()
+        const age = today.getFullYear() - date.getFullYear()
+        const monthDiff = today.getMonth() - date.getMonth()
+        return (
+          age > 18 ||
+          (age === 18 && monthDiff > 0) ||
+          (age === 18 && monthDiff === 0 && today.getDate() >= date.getDate())
+        )
+      },
+      { message: 'You must be over 18 years old' },
+    ),
   })
   .required()

@@ -11,6 +11,7 @@ import { IconCircle } from './IconCircle'
 import { IconCircleUser } from './IconCircleUser'
 import { IconClipboard } from './IconClipboard'
 import { IconClipboardPen } from './IconClipboardPen'
+import { IconClock } from './IconClock'
 import { IconDashboard } from './IconDashboard'
 import { IconEdit } from './IconEdit'
 import { IconEye } from './IconEye'
@@ -49,6 +50,7 @@ export {
   IconCircleUser,
   IconClipboard,
   IconClipboardPen,
+  IconClock,
   IconDashboard,
   IconEdit,
   IconEye,

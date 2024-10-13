@@ -46,10 +46,10 @@ const columns: ColumnDef<Teacher>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      const { firstName, lastName } = row.original
+      const { first_name, last_name } = row.original
       return (
         <p>
-          {firstName} {lastName}
+          {first_name} {last_name}
         </p>
       )
     },

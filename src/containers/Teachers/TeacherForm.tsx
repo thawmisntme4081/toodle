@@ -8,11 +8,11 @@ import { z } from 'zod'
 
 import { useGetSubjectsQuery } from '@/api/_subjectApi'
 import { useCreateTeacherMutation } from '@/api/_teacherApi'
+import { DateTimePicker } from '@/components/custom-ui/datetime-picker'
 import MultipleSelector, {
   Option,
 } from '@/components/custom-ui/multiple-select'
 import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
   FormControl,
@@ -23,19 +23,12 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { IconCalendar } from '@/icons'
-import { cn } from '@/lib/utils'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
 import { handleError } from '@/utils/handleError.util'
@@ -222,6 +215,13 @@ const TeacherForm = ({ type }: Props) => {
                   onValueChange={(value) => {
                     field.onChange(value === 'female')
                   }}
+                  defaultValue={
+                    type === 'update'
+                      ? field.value
+                        ? 'female'
+                        : 'male'
+                      : undefined
+                  }
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -267,34 +267,15 @@ const TeacherForm = ({ type }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date of birth</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={'outline'}
-                        className={cn(
-                          'w-full text-left font-normal',
-                          !field.value && 'text-muted-foreground',
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, 'yyyy-MM-dd')
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <IconCalendar className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <FormControl>
+                  <DateTimePicker
+                    granularity="day"
+                    placeholder="What's your birthday?"
+                    displayFormat={{ hour24: 'yyyy-MM-dd' }}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
