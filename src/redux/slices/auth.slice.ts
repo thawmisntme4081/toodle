@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { authApi } from '@/api'
 import { ROLES } from '@/enums/roles.enum'
+import { getFallBackAvatar } from '@/utils/getFallBackAvatar.util'
 
 interface AuthState {
   firstName: string | null
@@ -10,6 +11,7 @@ interface AuthState {
   role: ROLES | null
   userId: string
   isLogged: boolean
+  fallBackAvatar: string
 }
 
 const initialState: AuthState = {
@@ -19,6 +21,7 @@ const initialState: AuthState = {
   avatar: '',
   userId: '',
   isLogged: false,
+  fallBackAvatar: '',
 }
 
 const authSlice = createSlice({
@@ -40,6 +43,10 @@ const authSlice = createSlice({
         state.lastName = action.payload.data.last_name
         state.role = action.payload.data.role
         state.userId = action.payload.data.id
+        state.fallBackAvatar = getFallBackAvatar(
+          action.payload.data.first_name,
+          action.payload.data.last_name,
+        )
         state.isLogged = true
       },
     )

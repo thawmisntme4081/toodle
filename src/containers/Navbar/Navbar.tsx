@@ -38,7 +38,7 @@ const Navbar = () => {
         <IconSchool />
         SchoolHub
       </div>
-      <nav className="text-muted-foreground">
+      <nav className="text-muted-foreground overflow-y-scroll">
         {MENU_GROUP.map((item) => (
           <Fragment key={item.groupName}>
             <h3 className="uppercase font-semibold text-sm text-muted">

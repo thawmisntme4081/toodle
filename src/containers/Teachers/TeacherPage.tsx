@@ -6,7 +6,7 @@ import { IconPlus } from '@/icons'
 import { openModal } from '@/redux/slices/modal.slice'
 import { useAppDispatch } from '@/redux/store'
 
-import { columns } from './teacher.declation'
+import { columns } from './teacher.declaration'
 
 export const TeacherPage = () => {
   const dispatch = useAppDispatch()
