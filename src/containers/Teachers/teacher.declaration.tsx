@@ -12,7 +12,7 @@ export const columns: ColumnDef<Teacher>[] = [
     cell: ({ row }) => <p>{row.getValue('code')}</p>,
   },
   {
-    accessorKey: 'fullName',
+    accessorKey: 'full_name',
     header: 'Full Name',
     cell: ({ row }) => {
       const { first_name, last_name } = row.original

@@ -38,8 +38,8 @@ const CustomTable = <T extends Record<string, any>>({
 
   return (
     <>
-      <Table className="rounded-md border">
-        <TableHeader>
+      <Table className="rounded-md border overflow-x-scroll">
+        <TableHeader className="bg-slate-200">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -59,10 +59,11 @@ const CustomTable = <T extends Record<string, any>>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row, index) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                className={index % 2 === 1 ? 'bg-white' : ''}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

@@ -51,12 +51,12 @@ const TeacherForm = ({ type }: Props) => {
     resolver: zodResolver(teacherSchema),
     defaultValues: {
       avatar: dataEdit?.avatar ?? '',
-      firstName: dataEdit?.first_name ?? '',
-      lastName: dataEdit?.last_name ?? '',
+      first_name: dataEdit?.first_name ?? '',
+      last_name: dataEdit?.last_name ?? '',
       email: dataEdit?.email ?? '',
-      phoneNumber: dataEdit?.phone_number ?? '',
+      phone_number: dataEdit?.phone_number ?? '',
       address: dataEdit?.address ?? '',
-      dateOfBirth: dataEdit?.dateOfBirth ?? null,
+      date_of_birth: dataEdit?.date_of_birth ?? null,
       gender: dataEdit?.gender ?? '',
       subjects: dataEdit?.subjects ?? [],
     },
@@ -71,7 +71,7 @@ const TeacherForm = ({ type }: Props) => {
       //           id: dataEdit?.id,
       //           name: data.name,
       //         })
-      const formattedDate = format(data.dateOfBirth, 'yyyy-MM-dd')
+      const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
       const formattedSubjects = data.subjects.map((subject) => subject.value)
 
       const response =
@@ -79,7 +79,7 @@ const TeacherForm = ({ type }: Props) => {
           ? await createTeacher({
               ...data,
               subjects: formattedSubjects,
-              dateOfBirth: formattedDate,
+              date_of_birth: formattedDate,
             })
           : null
 
@@ -103,7 +103,7 @@ const TeacherForm = ({ type }: Props) => {
         <div className="grid grid-cols-3 gap-4">
           <FormField
             control={form.control}
-            name="firstName"
+            name="first_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First name</FormLabel>
@@ -116,7 +116,7 @@ const TeacherForm = ({ type }: Props) => {
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name="last_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last name</FormLabel>
@@ -176,7 +176,7 @@ const TeacherForm = ({ type }: Props) => {
           />
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name="phone_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone number</FormLabel>
@@ -252,7 +252,7 @@ const TeacherForm = ({ type }: Props) => {
           />
           <FormField
             control={form.control}
-            name="dateOfBirth"
+            name="date_of_birth"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date of birth</FormLabel>
