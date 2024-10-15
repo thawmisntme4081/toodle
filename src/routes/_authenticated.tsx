@@ -21,7 +21,7 @@ function Layout() {
       <div className="hidden lg:flex">
         <Navbar />
       </div>
-      <div className="p-4 flex-1">
+      <div className="p-4 flex-1 overflow-hidden">
         <HorizontalNavbar />
         <Outlet />
       </div>
