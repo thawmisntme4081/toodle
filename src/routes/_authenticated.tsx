@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_authenticated')({
 function Layout() {
   return (
     <div className="flex">
-      <div className="hidden md:flex">
+      <div className="hidden lg:flex">
         <Navbar />
       </div>
       <div className="p-4 flex-1">

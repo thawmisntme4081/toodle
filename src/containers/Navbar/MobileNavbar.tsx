@@ -12,15 +12,12 @@ export default function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden">
+        <Button variant="ghost" size="icon" className="lg:hidden">
           <IconHamburger />
         </Button>
       </SheetTrigger>
 
-      <SheetContent
-        className="w-fit bg-primary m-0 p-0 border-0 md:hidden"
-        side="left"
-      >
+      <SheetContent className="w-fit bg-primary m-0 p-0 border-0" side="left">
         <Navbar />
       </SheetContent>
     </Sheet>

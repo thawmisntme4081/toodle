@@ -27,7 +27,7 @@ import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
 import { handleError } from '@/utils/handleError.util'
 
-import { GENDERS } from './teacher.declation'
+import { GENDERS } from './teacher.declaration'
 import { teacherSchema } from './teacher.validation'
 
 type Props = {
