@@ -2,7 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
-import { authApi, subjectApi, teacherApi } from '@/api'
+import { authApi, classApi, gradeApi, subjectApi, teacherApi } from '@/api'
 
 import { authReducer } from './slices/auth.slice'
 import { modalReducer } from './slices/modal.slice'
@@ -20,4 +20,6 @@ export const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [subjectApi.reducerPath]: subjectApi.reducer,
   [teacherApi.reducerPath]: teacherApi.reducer,
+  [classApi.reducerPath]: classApi.reducer,
+  [gradeApi.reducerPath]: gradeApi.reducer,
 })
