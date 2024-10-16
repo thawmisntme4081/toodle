@@ -14,6 +14,7 @@ const TeacherModal = () => {
     <ModalLayout
       open={open && name === 'teacher'}
       className="lg:max-w-2xl"
+      title="Add teacher"
       description={
         type === 'create' ? 'Teacher information' : 'Edit the teacher here.'
       }
