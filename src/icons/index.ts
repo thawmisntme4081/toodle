@@ -35,6 +35,7 @@ import { IconSun } from './IconSun'
 import { IconTrash } from './IconTrash'
 import { IconUsers } from './IconUsers'
 import { IconX } from './IconX'
+import { IconXCircle } from './IconXCircle'
 
 export {
   IconBell,
@@ -74,4 +75,5 @@ export {
   IconTrash,
   IconUsers,
   IconX,
+  IconXCircle,
 }
