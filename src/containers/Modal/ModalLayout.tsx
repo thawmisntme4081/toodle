@@ -14,11 +14,18 @@ import { RootState, useAppDispatch } from '@/redux/store'
 
 type Props = {
   open: boolean
+  title?: string
   description: string
   children: ReactNode
   className?: string
 }
-const ModalLayout = ({ open, description, children, className }: Props) => {
+const ModalLayout = ({
+  open,
+  title,
+  description,
+  children,
+  className,
+}: Props) => {
   const dispatch = useAppDispatch()
 
   const defaultTitle = useSelector(
@@ -29,7 +36,7 @@ const ModalLayout = ({ open, description, children, className }: Props) => {
     <Dialog open={open} onOpenChange={() => dispatch(closeModal())}>
       <DialogContent className={cn('sm:max-w-md', className)}>
         <DialogHeader>
-          <DialogTitle>{defaultTitle}</DialogTitle>
+          <DialogTitle>{title ?? defaultTitle}</DialogTitle>
         </DialogHeader>
         <DialogDescription>{description}</DialogDescription>
         {children}

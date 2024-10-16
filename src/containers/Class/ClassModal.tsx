@@ -3,25 +3,24 @@ import { useSelector } from 'react-redux'
 import ModalLayout from '@/containers/Modal/ModalLayout'
 import { RootState } from '@/redux/store'
 
-import TeacherForm from './TeacherForm'
+import ClassForm from './ClassForm'
 
-const TeacherModal = () => {
+const ClassModal = () => {
   const { open, name, type } = useSelector((state: RootState) => state.modal)
 
   if (!type || type === 'delete') return null
 
   return (
     <ModalLayout
-      open={open && name === 'teacher'}
+      open={open && name === 'class'}
       className="lg:max-w-2xl"
-      title="Add teacher"
       description={
-        type === 'create' ? 'Teacher information' : 'Edit the teacher here.'
+        type === 'create' ? 'Class information' : 'Edit the class here.'
       }
     >
-      <TeacherForm type={type} />
+      <ClassForm type={type} />
     </ModalLayout>
   )
 }
 
-export default TeacherModal
+export default ClassModal

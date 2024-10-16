@@ -228,12 +228,7 @@ const TeacherForm = ({ type }: Props) => {
                         value: subject.id,
                       })) ?? []
                     }
-                    onValueChange={(value) => {
-                      console.log(value, 'value')
-                      console.log(form.formState, 'form')
-
-                      field.onChange(value)
-                    }}
+                    onValueChange={field.onChange}
                     // defaultValue={selectedFrameworks}
                     placeholder="Select subject(s)"
                     variant="inverted"

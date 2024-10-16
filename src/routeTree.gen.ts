@@ -34,6 +34,9 @@ const AuthenticatedParentsLazyImport = createFileRoute(
 const AuthenticatedDashboardLazyImport = createFileRoute(
   '/_authenticated/dashboard',
 )()
+const AuthenticatedClassesLazyImport = createFileRoute(
+  '/_authenticated/classes',
+)()
 
 // Create/Update Routes
 
@@ -89,6 +92,13 @@ const AuthenticatedDashboardLazyRoute = AuthenticatedDashboardLazyImport.update(
   import('./routes/_authenticated/dashboard.lazy').then((d) => d.Route),
 )
 
+const AuthenticatedClassesLazyRoute = AuthenticatedClassesLazyImport.update({
+  path: '/classes',
+  getParentRoute: () => AuthenticatedRoute,
+} as any).lazy(() =>
+  import('./routes/_authenticated/classes.lazy').then((d) => d.Route),
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -113,6 +123,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
+    }
+    '/_authenticated/classes': {
+      id: '/_authenticated/classes'
+      path: '/classes'
+      fullPath: '/classes'
+      preLoaderRoute: typeof AuthenticatedClassesLazyImport
+      parentRoute: typeof AuthenticatedImport
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -155,6 +172,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedClassesLazyRoute: typeof AuthenticatedClassesLazyRoute
   AuthenticatedDashboardLazyRoute: typeof AuthenticatedDashboardLazyRoute
   AuthenticatedParentsLazyRoute: typeof AuthenticatedParentsLazyRoute
   AuthenticatedStudentsLazyRoute: typeof AuthenticatedStudentsLazyRoute
@@ -163,6 +181,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedClassesLazyRoute: AuthenticatedClassesLazyRoute,
   AuthenticatedDashboardLazyRoute: AuthenticatedDashboardLazyRoute,
   AuthenticatedParentsLazyRoute: AuthenticatedParentsLazyRoute,
   AuthenticatedStudentsLazyRoute: AuthenticatedStudentsLazyRoute,
@@ -178,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
+  '/classes': typeof AuthenticatedClassesLazyRoute
   '/dashboard': typeof AuthenticatedDashboardLazyRoute
   '/parents': typeof AuthenticatedParentsLazyRoute
   '/students': typeof AuthenticatedStudentsLazyRoute
@@ -189,6 +209,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
+  '/classes': typeof AuthenticatedClassesLazyRoute
   '/dashboard': typeof AuthenticatedDashboardLazyRoute
   '/parents': typeof AuthenticatedParentsLazyRoute
   '/students': typeof AuthenticatedStudentsLazyRoute
@@ -201,6 +222,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
+  '/_authenticated/classes': typeof AuthenticatedClassesLazyRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardLazyRoute
   '/_authenticated/parents': typeof AuthenticatedParentsLazyRoute
   '/_authenticated/students': typeof AuthenticatedStudentsLazyRoute
@@ -214,6 +236,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/login'
+    | '/classes'
     | '/dashboard'
     | '/parents'
     | '/students'
@@ -224,6 +247,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/login'
+    | '/classes'
     | '/dashboard'
     | '/parents'
     | '/students'
@@ -234,6 +258,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/login'
+    | '/_authenticated/classes'
     | '/_authenticated/dashboard'
     | '/_authenticated/parents'
     | '/_authenticated/students'
@@ -277,6 +302,7 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
+        "/_authenticated/classes",
         "/_authenticated/dashboard",
         "/_authenticated/parents",
         "/_authenticated/students",
@@ -286,6 +312,10 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/_authenticated/classes": {
+      "filePath": "_authenticated/classes.lazy.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/dashboard": {
       "filePath": "_authenticated/dashboard.lazy.tsx",
