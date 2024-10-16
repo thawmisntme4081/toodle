@@ -62,21 +62,22 @@
 /* width */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #2f3349;
+  background: transparent;
   border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #f1f1f1;
+  background: hsl(220 8.9% 46.1%);
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #f2f2f2;
+  background: hsla(220, 9%, 46%, 0.8);
 }

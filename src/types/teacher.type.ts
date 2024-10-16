@@ -8,7 +8,7 @@ export type Teacher = {
   email: string
   address?: string
   gender: boolean
-  dateOfBirth: string
+  date_of_birth: string
   subjects?: string[]
 }
 
