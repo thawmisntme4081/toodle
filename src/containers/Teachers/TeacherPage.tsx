@@ -1,5 +1,6 @@
 import { useGetTeachersQuery } from '@/api/_teacherApi'
 import CustomTable from '@/components/custom-ui/CustomTable'
+import Loading from '@/components/custom-ui/Loading'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { IconPlus } from '@/icons'
@@ -13,7 +14,7 @@ export const TeacherPage = () => {
 
   const { data: teachers, isLoading } = useGetTeachersQuery()
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loading />
 
   if (!teachers) return null
 
