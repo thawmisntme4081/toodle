@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import _ from 'lodash'
 
-import { Teacher } from '@/types/teacher.type'
+import { Teacher, TeacherClass, TeacherSubject } from '@/types/teacher.type'
 
 import Actions from './Actions'
 
@@ -41,16 +41,30 @@ export const columns: ColumnDef<Teacher>[] = [
     accessorKey: 'subjects',
     header: 'Subjects',
     cell: ({ row }) => {
-      const subjects: string[] = row.getValue('subjects')
-      return <p>{_.isEmpty(subjects) ? '_' : subjects.join(', ')}</p>
+      const subjects: TeacherSubject[] = row.getValue('subjects')
+      return (
+        <p>
+          {_.isEmpty(subjects)
+            ? '_'
+            : subjects.map((subject) => subject.subject_name).join(', ')}
+        </p>
+      )
     },
   },
   {
     accessorKey: 'classes',
     header: 'Classes',
     cell: ({ row }) => {
-      const classes: string[] = row.getValue('classes')
-      return <p>{_.isEmpty(classes) ? '_' : classes.join(', ')}</p>
+      const classes: TeacherClass[] = row.getValue('classes')
+      return (
+        <p>
+          {_.isEmpty(classes)
+            ? '_'
+            : classes
+                .map((_class) => `${_class.class_grade} ${_class.class_name}`)
+                .join(', ')}
+        </p>
+      )
     },
   },
   {

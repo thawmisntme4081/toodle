@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { Response } from '@/types/response.type'
-import { Teacher, TeacherReq } from '@/types/teacher.type'
+import { Teacher, TeacherReq, TeacherUpdateReq } from '@/types/teacher.type'
 import { defaultConfig } from '@/utils/createApi.config'
 
 export const teacherApi = createApi({
@@ -23,7 +23,7 @@ export const teacherApi = createApi({
       }),
       invalidatesTags: (_, error) => (error ? [] : ['Teacher']),
     }),
-    updateTeacher: build.mutation<Response<null>, Teacher>({
+    updateTeacher: build.mutation<Response<null>, TeacherUpdateReq>({
       query: ({ id, ...body }) => ({
         url: `teachers/${id}`,
         method: 'PUT',
