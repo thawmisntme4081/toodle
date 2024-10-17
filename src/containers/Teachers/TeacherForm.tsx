@@ -201,11 +201,11 @@ const TeacherForm = ({ type }: Props) => {
                 <FormLabel>Date of birth</FormLabel>
                 <FormControl>
                   <DateTimePicker
+                    value={field.value}
+                    onChange={field.onChange}
                     granularity="day"
                     placeholder="What's your birthday?"
                     displayFormat={{ hour24: 'yyyy-MM-dd' }}
-                    value={field.value}
-                    onChange={field.onChange}
                     disabled={isCreating || isUpdating}
                   />
                 </FormControl>
@@ -234,14 +234,14 @@ const TeacherForm = ({ type }: Props) => {
                 <FormLabel>Select subject(s)</FormLabel>
                 <FormControl>
                   <MultiSelect
+                    value={field.value[0]}
+                    onValueChange={field.onChange}
                     options={
                       subjects?.data.map((subject) => ({
                         label: subject.name,
                         value: subject.id,
                       })) ?? []
                     }
-                    onValueChange={field.onChange}
-                    // defaultValue={selectedFrameworks}
                     placeholder="Select subject(s)"
                     variant="inverted"
                     disabled={isCreating || isUpdating}
