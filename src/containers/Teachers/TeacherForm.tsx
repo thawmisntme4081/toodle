@@ -26,6 +26,7 @@ import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
+import { TeacherSubject } from '@/types/teacher.type'
 import { handleError } from '@/utils/handleError.util'
 
 import { GENDERS } from './teacher.declaration'
@@ -52,9 +53,14 @@ const TeacherForm = ({ type }: Props) => {
       email: dataEdit?.email ?? '',
       phone_number: dataEdit?.phone_number ?? '',
       address: dataEdit?.address ?? '',
-      date_of_birth: dataEdit?.date_of_birth ?? null,
+      date_of_birth: dataEdit?.date_of_birth
+        ? new Date(dataEdit.date_of_birth)
+        : undefined,
       gender: dataEdit?.gender ?? '',
-      subjects: dataEdit?.subjects ?? [],
+      subjects:
+        dataEdit?.subjects?.map(
+          (subject: TeacherSubject) => subject.subject_id,
+        ) ?? [],
     },
   })
 
@@ -201,11 +207,11 @@ const TeacherForm = ({ type }: Props) => {
                 <FormLabel>Date of birth</FormLabel>
                 <FormControl>
                   <DateTimePicker
+                    value={field.value}
+                    onChange={field.onChange}
                     granularity="day"
                     placeholder="What's your birthday?"
                     displayFormat={{ hour24: 'yyyy-MM-dd' }}
-                    value={field.value}
-                    onChange={field.onChange}
                     disabled={isCreating || isUpdating}
                   />
                 </FormControl>
@@ -229,27 +235,32 @@ const TeacherForm = ({ type }: Props) => {
           <FormField
             control={form.control}
             name="subjects"
-            render={({ field }) => (
-              <FormItem className="col-span-full">
-                <FormLabel>Select subject(s)</FormLabel>
-                <FormControl>
-                  <MultiSelect
-                    options={
-                      subjects?.data.map((subject) => ({
-                        label: subject.name,
-                        value: subject.id,
-                      })) ?? []
-                    }
-                    onValueChange={field.onChange}
-                    // defaultValue={selectedFrameworks}
-                    placeholder="Select subject(s)"
-                    variant="inverted"
-                    disabled={isCreating || isUpdating}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              console.log(field)
+
+              return (
+                <FormItem className="col-span-full">
+                  <FormLabel>Select subject(s)</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      defaultValue={field.value}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      options={
+                        subjects?.data.map((subject) => ({
+                          label: subject.name,
+                          value: subject.id,
+                        })) ?? []
+                      }
+                      placeholder="Select subject(s)"
+                      variant="inverted"
+                      disabled={isCreating || isUpdating}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
           />
           <FormField
             control={form.control}
