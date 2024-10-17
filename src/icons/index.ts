@@ -20,6 +20,7 @@ import { IconFileCheck } from './IconFileCheck'
 import { IconFolder } from './IconFolder'
 import { IconGraduationCap } from './IconGraduationCap'
 import { IconHamburger } from './IconHamburger'
+import { IconLoading } from './IconLoading'
 import { IconLogOut } from './IconLogout'
 import { IconMail } from './IconMail'
 import { IconMessage } from './IconMessage'
@@ -60,6 +61,7 @@ export {
   IconFolder,
   IconGraduationCap,
   IconHamburger,
+  IconLoading,
   IconLogOut,
   IconMail,
   IconMessage,

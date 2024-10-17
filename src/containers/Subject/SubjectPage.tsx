@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
 import { useGetSubjectsQuery } from '@/api/_subjectApi'
+import Loading from '@/components/custom-ui/Loading'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { IconPlus } from '@/icons'
@@ -14,7 +15,7 @@ const SubjectPage = () => {
 
   const { data: subjects, isLoading } = useGetSubjectsQuery()
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loading />
 
   return (
     <div className="flex flex-col gap-4">
