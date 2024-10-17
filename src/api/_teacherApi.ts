@@ -23,6 +23,17 @@ export const teacherApi = createApi({
       }),
       invalidatesTags: (_, error) => (error ? [] : ['Teacher']),
     }),
+    updateTeacher: build.mutation<
+      Response<null>,
+      Teacher | Omit<Teacher, 'code'>
+    >({
+      query: (body) => ({
+        url: `teachers/${body.id}`,
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: (_, error) => (error ? [] : ['Teacher']),
+    }),
     deleteTeacher: build.mutation<Response<null>, string>({
       query: (id) => ({
         url: `teachers/${id}`,
@@ -36,5 +47,6 @@ export const teacherApi = createApi({
 export const {
   useGetTeachersQuery,
   useCreateTeacherMutation,
+  useUpdateTeacherMutation,
   useDeleteTeacherMutation,
 } = teacherApi
