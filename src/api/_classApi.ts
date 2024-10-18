@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { Class, ClassReq } from '@/types/class.type'
+import { Class, ClassReq, UpdateClassReq } from '@/types/class.type'
 import { Response } from '@/types/response.type'
 import { defaultConfig } from '@/utils/createApi.config'
 
@@ -23,11 +23,11 @@ export const classApi = createApi({
       }),
       invalidatesTags: (_, error) => (error ? [] : ['Class']),
     }),
-    updateClass: build.mutation<Response<null>, Class>({
-      query: ({ id, name }) => ({
+    updateClass: build.mutation<Response<null>, UpdateClassReq>({
+      query: ({ id, ...body }) => ({
         url: `classes/${id}`,
         method: 'PUT',
-        body: { name },
+        body,
       }),
       invalidatesTags: (_, error) => (error ? [] : ['Class']),
     }),
@@ -41,4 +41,8 @@ export const classApi = createApi({
   }),
 })
 
-export const { useGetClassesQuery, useCreateClassMutation } = classApi
+export const {
+  useGetClassesQuery,
+  useCreateClassMutation,
+  useUpdateClassMutation,
+} = classApi

@@ -24,8 +24,8 @@ export const columns: ColumnDef<Class>[] = [
     accessorKey: 'supervisor',
     header: 'Supervisor',
     cell: ({ row }) => {
-      const { first_name, last_name } = row.original.supervisor
-      return <p>{`${first_name} ${last_name}`}</p>
+      const { supervisor_id, first_name, last_name } = row.original.supervisor
+      return <p>{supervisor_id ? `${first_name} ${last_name}` : '_'}</p>
     },
   },
   {

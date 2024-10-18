@@ -1,5 +1,3 @@
-import { Grade } from './grade.type'
-
 export type Class = {
   id: string
   name: string
@@ -14,4 +12,8 @@ type Supervisor = {
   last_name: string
 }
 
-export type ClassReq = Pick<Class, 'name' | 'capacity'> | Pick<Grade, 'id'>
+export type UpdateClassReq = Omit<Class, 'grade' | 'supervisor'>
+
+export type ClassReq = Pick<Class, 'name' | 'capacity'> & {
+  grade_id: string
+}

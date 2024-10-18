@@ -1,4 +1,4 @@
-import ClassModal from '@/containers/Class/ClassModal'
+import ClassModal from '@/containers/Classes/ClassModal'
 import SubjectModal from '@/containers/Subject/SubjectModal'
 import TeacherModal from '@/containers/Teachers/TeacherModal'
 
