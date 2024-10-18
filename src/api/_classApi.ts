@@ -45,4 +45,5 @@ export const {
   useGetClassesQuery,
   useCreateClassMutation,
   useUpdateClassMutation,
+  useDeleteClassMutation,
 } = classApi
