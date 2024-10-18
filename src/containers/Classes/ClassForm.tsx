@@ -38,7 +38,7 @@ const ClassForm = ({ type }: Props) => {
   const dispatch = useAppDispatch()
   const dataEdit = useSelector((state: RootState) => state.modal.data)
 
-  const { data: grade } = useGetGradeQuery()
+  const { data: grades, isFetching } = useGetGradeQuery()
 
   const [createClass, { isLoading: isCreating }] = useCreateClassMutation()
 
@@ -47,7 +47,9 @@ const ClassForm = ({ type }: Props) => {
     defaultValues: {
       name: dataEdit?.name ?? '',
       capacity: dataEdit?.capacity ?? 0,
-      grade_id: dataEdit?.grade_id ?? '',
+      grade_id: grades
+        ? grades.data.find((grade) => grade.level === dataEdit?.grade)?.id
+        : '',
     },
   })
 
@@ -114,6 +116,8 @@ const ClassForm = ({ type }: Props) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
+                  disabled={isFetching}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -121,9 +125,9 @@ const ClassForm = ({ type }: Props) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {grade?.data.map((item) => (
-                      <SelectItem key={item.id} value={item.id}>
-                        {item.level}
+                    {grades?.data.map((grade) => (
+                      <SelectItem key={grade.id} value={grade.id}>
+                        {grade.level}
                       </SelectItem>
                     ))}
                   </SelectContent>
