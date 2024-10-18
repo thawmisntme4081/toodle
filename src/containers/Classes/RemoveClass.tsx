@@ -1,22 +1,22 @@
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 
-import { useDeleteTeacherMutation } from '@/api/_teacherApi'
+import { useDeleteClassMutation } from '@/api/_classApi'
 import { Button } from '@/components/ui/button'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
 import { handleError } from '@/utils/handleError.util'
 
-const DeleteTeacher = () => {
+const RemoveClass = () => {
   const dispatch = useAppDispatch()
   const data = useSelector((state: RootState) => state.modal.data)
-  const [deleteTeacher, { isLoading }] = useDeleteTeacherMutation()
+  const [removeClass, { isLoading }] = useDeleteClassMutation()
 
   if (!data?.id) return null
 
   const handleDelete = async () => {
     try {
-      const response = await deleteTeacher(data.id)
+      const response = await removeClass(data.id)
       if (response.error) {
         handleError(response.error)
         return
@@ -44,4 +44,4 @@ const DeleteTeacher = () => {
   )
 }
 
-export default DeleteTeacher
+export default RemoveClass

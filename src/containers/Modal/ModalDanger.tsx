@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 
+import RemoveClass from '@/containers/Classes/RemoveClass'
 import DeleteSubject from '@/containers/Subject/DeleteSubject'
 import DeleteTeacher from '@/containers/Teachers/DeleteTeacher'
 import { RootState } from '@/redux/store'
@@ -22,6 +23,7 @@ const ModalDanger = () => {
   const ComponentMap: ComponentMapType = {
     subject: <DeleteSubject />,
     teacher: <DeleteTeacher />,
+    class: <RemoveClass />,
   }
 
   return (
