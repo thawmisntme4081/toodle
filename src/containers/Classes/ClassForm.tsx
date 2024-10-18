@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { useCreateClassMutation } from '@/api/_classApi'
+import { useCreateClassMutation, useUpdateClassMutation } from '@/api/_classApi'
 import { useGetGradeQuery } from '@/api/_gradeApi'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/select'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
+import { Class } from '@/types/class.type'
 import { handleError } from '@/utils/handleError.util'
 
 import { classSchema } from './class.validation'
@@ -36,11 +37,12 @@ type Props = {
 
 const ClassForm = ({ type }: Props) => {
   const dispatch = useAppDispatch()
-  const dataEdit = useSelector((state: RootState) => state.modal.data)
+  const dataEdit: Class = useSelector((state: RootState) => state.modal.data)
 
   const { data: grades, isFetching } = useGetGradeQuery()
 
   const [createClass, { isLoading: isCreating }] = useCreateClassMutation()
+  const [updateClass, { isLoading: isUpdating }] = useUpdateClassMutation()
 
   const form = useForm<z.infer<typeof classSchema>>({
     resolver: zodResolver(classSchema),
@@ -55,7 +57,14 @@ const ClassForm = ({ type }: Props) => {
 
   const onSubmit = async (data: z.infer<typeof classSchema>) => {
     try {
-      const response = type === 'create' ? await createClass({ ...data }) : null
+      const response =
+        type === 'create'
+          ? await createClass(data)
+          : await updateClass({
+              id: dataEdit?.id,
+              capacity: data.capacity,
+              name: data.name,
+            })
 
       if (response?.error) {
         handleError(response.error)
@@ -117,7 +126,7 @@ const ClassForm = ({ type }: Props) => {
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   value={field.value}
-                  disabled={isFetching}
+                  disabled={isFetching || type === 'update'}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -146,7 +155,7 @@ const ClassForm = ({ type }: Props) => {
           >
             Reset
           </Button>
-          <Button type="submit" disabled={isCreating}>
+          <Button type="submit" disabled={isCreating || isUpdating}>
             {_.capitalize(type)}
           </Button>
         </div>
