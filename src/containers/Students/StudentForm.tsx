@@ -29,6 +29,7 @@ import { getBooleanValue } from '@/utils/form.util'
 import { handleError } from '@/utils/handleError.util'
 
 import { studentSchema } from './student.validation'
+import { studentFormMap } from './studentFormMap.declaration'
 
 type Props = {
   type: 'create' | 'update'
@@ -88,153 +89,72 @@ const StudentForm = ({ type }: Props) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <div className="grid grid-cols-3 gap-4">
-          <FormField
-            control={form.control}
-            name="first_name"
-            render={({ field }) => (
-              <FormItem>
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <Input
-                    placeholder="John"
-                    {...field}
-                    disabled={isCreating || isUpdating}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="last_name"
-            render={({ field }) => (
-              <FormItem>
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <Input
-                    placeholder="Doe"
-                    {...field}
-                    disabled={isCreating || isUpdating}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="gender"
-            render={({ field: { onChange, value } }) => (
-              <FormItem>
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={(value) => onChange(value === 'female')}
-                    value={getBooleanValue(value)}
-                    className="flex items-center gap-4 h-10"
-                  >
-                    {GENDERS.map((item) => (
-                      <FormItem
-                        className="flex items-center space-x-1 space-y-0"
-                        key={item.value}
-                      >
+          {studentFormMap.map(
+            ({ fieldName, type, placeHolder, fieldClassName }) => {
+              if (fieldName === 'gender') {
+                return (
+                  <FormField
+                    key={fieldName}
+                    control={form.control}
+                    name={fieldName}
+                    render={({ field: { onChange, value } }) => (
+                      <FormItem>
+                        <CustomFormLabel schema={studentSchema} />
                         <FormControl>
-                          <RadioGroupItem
-                            value={item.value}
-                            disabled={isCreating || isUpdating}
-                          />
+                          <RadioGroup
+                            onValueChange={(value) =>
+                              onChange(value === 'female')
+                            }
+                            value={getBooleanValue(value)}
+                            className="flex items-center gap-4 h-10"
+                          >
+                            {GENDERS.map((item) => (
+                              <FormItem
+                                className="flex items-center space-x-1 space-y-0"
+                                key={item.value}
+                              >
+                                <FormControl>
+                                  <RadioGroupItem
+                                    value={item.value}
+                                    disabled={isCreating || isUpdating}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal cursor-pointer">
+                                  {item.label}
+                                </FormLabel>
+                              </FormItem>
+                            ))}
+                          </RadioGroup>
                         </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
-                          {item.label}
-                        </FormLabel>
+                        <FormMessage />
                       </FormItem>
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <Input
-                    placeholder="johndoe@gmail.com"
-                    {...field}
-                    disabled={isCreating || isUpdating}
+                    )}
                   />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone_number"
-            render={({ field }) => (
-              <FormItem>
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="0987654321"
-                    maxLength={10}
-                    value={field.value ?? ''}
-                    disabled={isCreating || isUpdating}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="date_of_birth"
-            render={({ field }) => (
-              <FormItem>
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="date"
-                    disabled={isCreating || isUpdating}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem className="col-span-full">
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <Input {...field} disabled={isCreating || isUpdating} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="avatar"
-            render={({ field }) => (
-              <FormItem className="col-span-full">
-                <CustomFormLabel schema={studentSchema} />
-                <FormControl>
-                  <Input {...field} disabled={isCreating || isUpdating} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                )
+              }
+              return (
+                <FormField
+                  key={fieldName}
+                  control={form.control}
+                  name={fieldName}
+                  render={({ field }) => (
+                    <FormItem className={fieldClassName}>
+                      <CustomFormLabel schema={studentSchema} />
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder={placeHolder}
+                          type={type}
+                          disabled={isCreating || isUpdating}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )
+            },
+          )}
         </div>
         <div className="flex justify-end gap-2">
           <Button
