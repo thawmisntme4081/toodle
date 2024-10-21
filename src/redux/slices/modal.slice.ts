@@ -3,7 +3,8 @@ import _ from 'lodash'
 
 import { ModalName } from '@/types/modal.type'
 
-type TypeModal = 'create' | 'update' | 'delete'
+type TypeModal = 'add' | 'update' | 'delete'
+export type TypeModalForm = Omit<TypeModal, 'delete'>
 
 type ModalState = {
   open: boolean

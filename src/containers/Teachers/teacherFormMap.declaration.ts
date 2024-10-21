@@ -2,16 +2,16 @@ import { HTMLInputTypeAttribute } from 'react'
 import { FieldName } from 'react-hook-form'
 import { z } from 'zod'
 
-import { studentSchema } from './student.validation'
+import { teacherSchema } from './teacher.validation'
 
-type StudentForm = {
-  fieldName: FieldName<z.infer<typeof studentSchema>>
+type TeacherForm = {
+  fieldName: FieldName<z.infer<typeof teacherSchema>>
   placeholder?: string
   type?: HTMLInputTypeAttribute
   fieldClassName?: string
 }
 
-export const studentFormMap: StudentForm[] = [
+export const teacherFormMap: TeacherForm[] = [
   {
     fieldName: 'first_name',
     placeholder: 'John',

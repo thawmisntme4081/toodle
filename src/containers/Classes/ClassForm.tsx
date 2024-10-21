@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { closeModal } from '@/redux/slices/modal.slice'
+import { closeModal, TypeModalForm } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
 import { handleError } from '@/utils/handleError.util'
 
@@ -32,7 +32,7 @@ import { Class } from './class.type'
 import { classSchema } from './class.validation'
 
 type Props = {
-  type: 'create' | 'update'
+  type: TypeModalForm
 }
 
 const ClassForm = ({ type }: Props) => {
@@ -58,7 +58,7 @@ const ClassForm = ({ type }: Props) => {
   const onSubmit = async (data: z.infer<typeof classSchema>) => {
     try {
       const response =
-        type === 'create'
+        type === 'add'
           ? await createClass(data)
           : await updateClass({
               id: dataEdit?.id,
@@ -156,7 +156,7 @@ const ClassForm = ({ type }: Props) => {
             Reset
           </Button>
           <Button type="submit" disabled={isCreating || isUpdating}>
-            {_.capitalize(type)}
+            {_.capitalize(type as string)}
           </Button>
         </div>
       </form>

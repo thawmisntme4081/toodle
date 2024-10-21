@@ -13,13 +13,20 @@ export const teacherSchema = z
       .min(1, 'Please enter the last name')
       .max(50, 'Last name must not exceed 50 characters'),
     email: z.string().email('Please enter a valid email'),
-    phone_number: z.string().length(10, 'Phone number must be 10 digits'),
-    address: z.string().optional(),
-    avatar: z.string().optional(),
-    subjects: z.array(z.string()).optional(),
-    gender: z.boolean(),
-    date_of_birth: z.date().refine(
-      (date) => {
+    phone_number: z
+      .string()
+      .refine((value) => !value || /^[0-9]{10}$/.test(value), {
+        message: 'Phone number must be 10 digits',
+      }),
+    address: z.string().optional().or(z.literal('')),
+    avatar: z.string().optional().or(z.literal('')),
+    gender: z.boolean({ message: 'Please choose gender' }),
+    date_of_birth: z.string().refine(
+      (dateString) => {
+        const date = new Date(dateString)
+        const isValidDate = !isNaN(date.getTime())
+        if (!isValidDate) return false
+
         const today = new Date()
         const age = today.getFullYear() - date.getFullYear()
         const monthDiff = today.getMonth() - date.getMonth()
@@ -33,5 +40,6 @@ export const teacherSchema = z
       },
       { message: 'You must be over 18 years old' },
     ),
+    subjects: z.string().array().optional(),
   })
   .required()

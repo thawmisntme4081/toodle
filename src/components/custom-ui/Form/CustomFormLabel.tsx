@@ -5,12 +5,12 @@ import { FormLabel, useFormField } from '@/components/ui/form'
 
 type Props<T> = {
   schema: T
-  fieldName?: string
+  customName?: string
 }
 
 const CustomFormLabel = <T extends ZodObject<any>>({
   schema,
-  fieldName,
+  customName,
 }: Props<T>) => {
   const { name } = useFormField()
 
@@ -18,7 +18,7 @@ const CustomFormLabel = <T extends ZodObject<any>>({
 
   return (
     <FormLabel>
-      {fieldName ?? _.capitalize(_.replace(name, /_/g, ' '))}{' '}
+      {customName ?? _.capitalize(_.replace(name, /_/g, ' '))}{' '}
       {!isOptional && <span className="text-destructive">*</span>}
     </FormLabel>
   )

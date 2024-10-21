@@ -16,7 +16,7 @@ const StudentModal = () => {
       className="lg:max-w-2xl"
       title="Add student"
       description={
-        type === 'create' ? 'Student information' : 'Edit the student here.'
+        type === 'add' ? 'Student information' : 'Edit the student here.'
       }
     >
       <StudentForm type={type} />

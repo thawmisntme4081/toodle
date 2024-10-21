@@ -15,7 +15,7 @@ export const subjectApi = createApi({
       }),
       providesTags: ['Subject'],
     }),
-    createSubject: build.mutation<Response<Subject[]>, SubjectReq>({
+    addSubject: build.mutation<Response<Subject[]>, SubjectReq>({
       query: (body) => ({
         url: 'subjects',
         method: 'POST',
@@ -43,7 +43,7 @@ export const subjectApi = createApi({
 
 export const {
   useGetSubjectsQuery,
-  useCreateSubjectMutation,
+  useAddSubjectMutation,
   useDeleteSubjectMutation,
   useUpdateSubjectMutation,
 } = subjectApi

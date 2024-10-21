@@ -34,7 +34,7 @@ const TableListLayout = <T extends Record<string, any>>({
       <div className="flex gap-2 items-center py-4">
         <Button
           className="gap-2"
-          onClick={() => dispatch(openModal({ name, type: 'create' }))}
+          onClick={() => dispatch(openModal({ name, type: 'add' }))}
         >
           <IconPlus />
           <span>Add {_.capitalize(name)}</span>

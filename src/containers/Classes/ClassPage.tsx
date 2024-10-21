@@ -20,7 +20,7 @@ const ClassPage = () => {
       <div className="flex gap-2 items-center py-4">
         <Button
           className="gap-2"
-          onClick={() => dispatch(openModal({ name: 'class', type: 'create' }))}
+          onClick={() => dispatch(openModal({ name: 'class', type: 'add' }))}
         >
           <IconPlus />
           Add Class

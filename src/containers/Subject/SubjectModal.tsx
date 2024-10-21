@@ -14,9 +14,7 @@ const SubjectModal = () => {
     <ModalLayout
       open={open && name === 'subject'}
       description={
-        type === 'create'
-          ? 'Create a new subject here.'
-          : 'Edit the subject here.'
+        type === 'add' ? 'Create a new subject here.' : 'Edit the subject here.'
       }
     >
       <SubjectForm type={type} />

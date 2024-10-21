@@ -16,7 +16,7 @@ export const studentSchema = z
     phone_number: z
       .string()
       .optional()
-      .refine((value) => value === undefined || /^[0-9]{10}$/.test(value), {
+      .refine((value) => !value || /^[0-9]{10}$/.test(value), {
         message: 'Phone number must be 10 digits',
       }),
     address: z.string().min(1, 'Please enter the address'),

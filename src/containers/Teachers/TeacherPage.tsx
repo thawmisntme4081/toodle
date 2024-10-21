@@ -1,7 +1,7 @@
 import { useGetTeachersQuery } from '@/api/_teacherApi'
 import TableListLayout from '@/layouts/TableListLayout'
 
-import { columns } from './teacher.declaration'
+import { columns } from './teacherColumns.declaration'
 
 export const TeacherPage = () => {
   const { data: teachers, isLoading } = useGetTeachersQuery()

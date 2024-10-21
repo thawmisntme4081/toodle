@@ -15,7 +15,7 @@ const ClassModal = () => {
       open={open && name === 'class'}
       className="lg:max-w-2xl"
       description={
-        type === 'create' ? 'Class information' : 'Edit the class here.'
+        type === 'add' ? 'Class information' : 'Edit the class here.'
       }
     >
       <ClassForm type={type} />
