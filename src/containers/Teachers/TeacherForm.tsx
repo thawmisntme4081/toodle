@@ -1,17 +1,7 @@
-import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
 import _ from 'lodash'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 import { useGetSubjectsQuery } from '@/api/_subjectApi'
-import {
-  useCreateTeacherMutation,
-  useUpdateTeacherMutation,
-} from '@/api/_teacherApi'
-import { DateTimePicker } from '@/components/custom-ui/datetime-picker'
+import CustomFormLabel from '@/components/custom-ui/Form/CustomFormLabel'
 import { MultiSelect } from '@/components/custom-ui/MultiSelect'
 import { Button } from '@/components/ui/button'
 import {
@@ -24,74 +14,19 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { closeModal } from '@/redux/slices/modal.slice'
-import { RootState, useAppDispatch } from '@/redux/store'
-import { TeacherSubject } from '@/types/teacher.type'
-import { handleError } from '@/utils/handleError.util'
+import { GENDERS } from '@/global.constant'
+import { getBooleanValue } from '@/utils/form.util'
 
-import { GENDERS } from './teacher.declaration'
 import { teacherSchema } from './teacher.validation'
+import { useTeacherForm } from './useTeacherForm.hook'
 
 type Props = {
-  type: 'create' | 'update'
+  type: 'add' | 'update'
 }
 
 const TeacherForm = ({ type }: Props) => {
-  const dispatch = useAppDispatch()
-  const dataEdit = useSelector((state: RootState) => state.modal.data)
-
   const { data: subjects } = useGetSubjectsQuery()
-  const [createTeacher, { isLoading: isCreating }] = useCreateTeacherMutation()
-  const [updateTeacher, { isLoading: isUpdating }] = useUpdateTeacherMutation()
-
-  const form = useForm<z.infer<typeof teacherSchema>>({
-    resolver: zodResolver(teacherSchema),
-    defaultValues: {
-      avatar: dataEdit?.avatar ?? '',
-      first_name: dataEdit?.first_name ?? '',
-      last_name: dataEdit?.last_name ?? '',
-      email: dataEdit?.email ?? '',
-      phone_number: dataEdit?.phone_number ?? '',
-      address: dataEdit?.address ?? '',
-      date_of_birth: dataEdit?.date_of_birth
-        ? new Date(dataEdit.date_of_birth)
-        : undefined,
-      gender: dataEdit?.gender ?? '',
-      subjects:
-        dataEdit?.subjects?.map(
-          (subject: TeacherSubject) => subject.subject_id,
-        ) ?? [],
-    },
-  })
-
-  const onSubmit = async (data: z.infer<typeof teacherSchema>) => {
-    try {
-      const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
-      const response =
-        type === 'create'
-          ? await createTeacher({
-              ...data,
-              date_of_birth: formattedDate,
-            })
-          : await updateTeacher({
-              ...data,
-              id: dataEdit?.id,
-              date_of_birth: formattedDate,
-            })
-
-      if (response?.error) {
-        handleError(response.error)
-        return
-      }
-
-      toast.success(response?.data?.message)
-      form.reset()
-
-      dispatch(closeModal())
-    } catch (error) {
-      console.error('Failed to create or update subject:', error)
-    }
-  }
+  const { form, onSubmit, disabled } = useTeacherForm(type)
 
   return (
     <Form {...form}>
@@ -104,11 +39,7 @@ const TeacherForm = ({ type }: Props) => {
               <FormItem>
                 <FormLabel>First name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="John"
-                    {...field}
-                    disabled={isCreating || isUpdating}
-                  />
+                  <Input placeholder="John" {...field} disabled={disabled} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,11 +52,7 @@ const TeacherForm = ({ type }: Props) => {
               <FormItem>
                 <FormLabel>Last name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Doe"
-                    {...field}
-                    disabled={isCreating || isUpdating}
-                  />
+                  <Input placeholder="Doe" {...field} disabled={disabled} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -134,13 +61,13 @@ const TeacherForm = ({ type }: Props) => {
           <FormField
             control={form.control}
             name="gender"
-            render={({ field: { onChange } }) => (
+            render={({ field: { onChange, value } }) => (
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={(value) => onChange(value === 'female')}
-                    value={form.getValues('gender') ? 'female' : 'male'}
+                    value={getBooleanValue(value)}
                     className="flex items-center gap-4 h-10"
                   >
                     {GENDERS.map((item) => (
@@ -151,7 +78,7 @@ const TeacherForm = ({ type }: Props) => {
                         <FormControl>
                           <RadioGroupItem
                             value={item.value}
-                            disabled={isCreating || isUpdating}
+                            disabled={disabled}
                           />
                         </FormControl>
                         <FormLabel className="font-normal cursor-pointer">
@@ -175,7 +102,7 @@ const TeacherForm = ({ type }: Props) => {
                   <Input
                     placeholder="johndoe@gmail.com"
                     {...field}
-                    disabled={isCreating || isUpdating}
+                    disabled={disabled}
                   />
                 </FormControl>
                 <FormMessage />
@@ -192,7 +119,7 @@ const TeacherForm = ({ type }: Props) => {
                   <Input
                     placeholder="0987654321"
                     {...field}
-                    disabled={isCreating || isUpdating}
+                    disabled={disabled}
                   />
                 </FormControl>
                 <FormMessage />
@@ -206,14 +133,7 @@ const TeacherForm = ({ type }: Props) => {
               <FormItem>
                 <FormLabel>Date of birth</FormLabel>
                 <FormControl>
-                  <DateTimePicker
-                    value={field.value}
-                    onChange={field.onChange}
-                    granularity="day"
-                    placeholder="What's your birthday?"
-                    displayFormat={{ hour24: 'yyyy-MM-dd' }}
-                    disabled={isCreating || isUpdating}
-                  />
+                  <Input {...field} type="date" disabled={disabled} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -226,7 +146,7 @@ const TeacherForm = ({ type }: Props) => {
               <FormItem className="col-span-full">
                 <FormLabel>Address</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isCreating || isUpdating} />
+                  <Input {...field} disabled={disabled} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -235,32 +155,28 @@ const TeacherForm = ({ type }: Props) => {
           <FormField
             control={form.control}
             name="subjects"
-            render={({ field }) => {
-              console.log(field)
-
-              return (
-                <FormItem className="col-span-full">
-                  <FormLabel>Select subject(s)</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      defaultValue={field.value}
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      options={
-                        subjects?.data.map((subject) => ({
-                          label: subject.name,
-                          value: subject.id,
-                        })) ?? []
-                      }
-                      placeholder="Select subject(s)"
-                      variant="inverted"
-                      disabled={isCreating || isUpdating}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
+            render={({ field }) => (
+              <FormItem className="col-span-full">
+                <CustomFormLabel schema={teacherSchema} />
+                <FormControl>
+                  <MultiSelect
+                    defaultValue={field.value}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    options={
+                      subjects?.data.map((subject) => ({
+                        label: subject.name,
+                        value: subject.id,
+                      })) ?? []
+                    }
+                    placeholder="Select subject(s)"
+                    variant="inverted"
+                    disabled={disabled}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
           <FormField
             control={form.control}
@@ -269,7 +185,7 @@ const TeacherForm = ({ type }: Props) => {
               <FormItem className="col-span-full">
                 <FormLabel>Avatar</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isCreating || isUpdating} />
+                  <Input {...field} disabled={disabled} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -280,12 +196,12 @@ const TeacherForm = ({ type }: Props) => {
           <Button
             variant="outline"
             type="reset"
-            disabled={isCreating}
+            disabled={disabled}
             onClick={() => form.reset()}
           >
             Reset
           </Button>
-          <Button type="submit" disabled={isCreating || isUpdating}>
+          <Button type="submit" disabled={disabled}>
             {_.capitalize(type)}
           </Button>
         </div>

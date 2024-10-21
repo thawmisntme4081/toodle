@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import ModalLayout from '@/containers/Modal/ModalLayout'
+import ModalLayout from '@/layouts/ModalLayout'
 import { RootState } from '@/redux/store'
 
 import SubjectForm from './SubjectForm'
@@ -14,9 +14,7 @@ const SubjectModal = () => {
     <ModalLayout
       open={open && name === 'subject'}
       description={
-        type === 'create'
-          ? 'Create a new subject here.'
-          : 'Edit the subject here.'
+        type === 'add' ? 'Create a new subject here.' : 'Edit the subject here.'
       }
     >
       <SubjectForm type={type} />

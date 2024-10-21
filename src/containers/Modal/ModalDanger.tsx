@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux'
 import RemoveClass from '@/containers/Classes/RemoveClass'
 import DeleteSubject from '@/containers/Subject/DeleteSubject'
 import DeleteTeacher from '@/containers/Teachers/DeleteTeacher'
+import ModalLayout from '@/layouts/ModalLayout'
 import { RootState } from '@/redux/store'
 import { ModalName } from '@/types/modal.type'
-
-import ModalLayout from './ModalLayout'
 
 type ComponentMapType = {
   [K in ModalName]?: ReactNode

@@ -22,9 +22,7 @@ const SubjectPage = () => {
       <div className="mt-4">
         <Button
           className="gap-2"
-          onClick={() =>
-            dispatch(openModal({ name: 'subject', type: 'create' }))
-          }
+          onClick={() => dispatch(openModal({ name: 'subject', type: 'add' }))}
         >
           <IconPlus />
           Add Subject

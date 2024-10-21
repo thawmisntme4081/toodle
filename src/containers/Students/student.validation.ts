@@ -1,8 +1,8 @@
 import { z } from 'zod'
 
-const ADULT = 18
+const MIN_AGE = 15
 
-export const teacherSchema = z
+export const studentSchema = z
   .object({
     first_name: z
       .string()
@@ -15,10 +15,11 @@ export const teacherSchema = z
     email: z.string().email('Please enter a valid email'),
     phone_number: z
       .string()
+      .optional()
       .refine((value) => !value || /^[0-9]{10}$/.test(value), {
         message: 'Phone number must be 10 digits',
       }),
-    address: z.string().optional().or(z.literal('')),
+    address: z.string().min(1, 'Please enter the address'),
     avatar: z.string().optional().or(z.literal('')),
     gender: z.boolean({ message: 'Please choose gender' }),
     date_of_birth: z.string().refine(
@@ -30,16 +31,18 @@ export const teacherSchema = z
         const today = new Date()
         const age = today.getFullYear() - date.getFullYear()
         const monthDiff = today.getMonth() - date.getMonth()
+        const dayDiff = today.getDate() - date.getDate()
+
         return (
-          age > ADULT ||
-          (age === ADULT && monthDiff > 0) ||
-          (age === ADULT &&
-            monthDiff === 0 &&
-            today.getDate() >= date.getDate())
+          isValidDate &&
+          (age > MIN_AGE ||
+            (age === MIN_AGE && monthDiff > 0) ||
+            (age === MIN_AGE && monthDiff === 0 && dayDiff >= 0))
         )
       },
-      { message: 'You must be over 18 years old' },
+      {
+        message: 'Date must be valid and age must be more than 15 years.',
+      },
     ),
-    subjects: z.string().array().optional(),
   })
   .required()

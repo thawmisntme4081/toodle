@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import ModalLayout from '@/containers/Modal/ModalLayout'
+import ModalLayout from '@/layouts/ModalLayout'
 import { RootState } from '@/redux/store'
 
 import ClassForm from './ClassForm'
@@ -15,7 +15,7 @@ const ClassModal = () => {
       open={open && name === 'class'}
       className="lg:max-w-2xl"
       description={
-        type === 'create' ? 'Class information' : 'Edit the class here.'
+        type === 'add' ? 'Class information' : 'Edit the class here.'
       }
     >
       <ClassForm type={type} />

@@ -1,8 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import { Class } from '@/types/class.type'
-
 import Actions from './Actions'
+import { Class } from './class.type'
 
 export const columns: ColumnDef<Class>[] = [
   {

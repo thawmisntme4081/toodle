@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
+import { Subject, SubjectReq } from '@/containers/Subject/subject.type'
 import { Response } from '@/types/response.type'
-import { Subject, SubjectReq } from '@/types/subject.type'
 import { defaultConfig } from '@/utils/createApi.config'
 
 export const subjectApi = createApi({
@@ -15,7 +15,7 @@ export const subjectApi = createApi({
       }),
       providesTags: ['Subject'],
     }),
-    createSubject: build.mutation<Response<Subject[]>, SubjectReq>({
+    addSubject: build.mutation<Response<Subject[]>, SubjectReq>({
       query: (body) => ({
         url: 'subjects',
         method: 'POST',
@@ -43,7 +43,7 @@ export const subjectApi = createApi({
 
 export const {
   useGetSubjectsQuery,
-  useCreateSubjectMutation,
+  useAddSubjectMutation,
   useDeleteSubjectMutation,
   useUpdateSubjectMutation,
 } = subjectApi

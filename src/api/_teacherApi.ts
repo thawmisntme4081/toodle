@@ -1,7 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
+import {
+  Teacher,
+  TeacherReq,
+  TeacherUpdateReq,
+} from '@/containers/Teachers/teacher.type'
 import { Response } from '@/types/response.type'
-import { Teacher, TeacherReq, TeacherUpdateReq } from '@/types/teacher.type'
 import { defaultConfig } from '@/utils/createApi.config'
 
 export const teacherApi = createApi({

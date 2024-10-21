@@ -1,9 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
 import _ from 'lodash'
 
-import { Teacher, TeacherClass, TeacherSubject } from '@/types/teacher.type'
-
 import Actions from './Actions'
+import { Teacher, TeacherClass, TeacherSubject } from './teacher.type'
 
 export const columns: ColumnDef<Teacher>[] = [
   {
@@ -74,16 +73,5 @@ export const columns: ColumnDef<Teacher>[] = [
       const item = row.original
       return <Actions item={item} />
     },
-  },
-]
-
-export const GENDERS = [
-  {
-    label: 'Male',
-    value: 'male',
-  },
-  {
-    label: 'Female',
-    value: 'female',
   },
 ]

@@ -3,10 +3,10 @@ import { IconEdit, IconTrash } from '@/icons'
 import { openModal } from '@/redux/slices/modal.slice'
 import { useAppDispatch } from '@/redux/store'
 
-import { Class } from './class.type'
+import { Teacher } from './student.type'
 
 type Props = {
-  item: Class
+  item: Teacher
 }
 
 const Actions = ({ item }: Props) => {
@@ -18,7 +18,7 @@ const Actions = ({ item }: Props) => {
         variant="ghost"
         className="justify-start gap-2 text-yellow-500 hover:bg-yellow-400 hover:text-white"
         onClick={() =>
-          dispatch(openModal({ name: 'class', type: 'update', data: item }))
+          dispatch(openModal({ name: 'teacher', type: 'update', data: item }))
         }
       >
         <IconEdit className="h-5 w-5" />
@@ -29,10 +29,10 @@ const Actions = ({ item }: Props) => {
         onClick={() =>
           dispatch(
             openModal({
-              name: 'class',
+              name: 'teacher',
               type: 'delete',
               data: {
-                name: `${item.name}`,
+                name: `${item.first_name} ${item.last_name}`,
                 id: item.id,
               },
             }),
