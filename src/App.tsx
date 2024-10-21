@@ -4,11 +4,12 @@ import { Toaster } from 'sonner'
 import ModalProvider from '@/containers/Modal/ModalProvider'
 import { useAuth } from '@/hooks/useAuth.hook'
 
+import { useRole } from './hooks/useRole.hook'
 import { routeTree } from './routeTree.gen'
 
 const router = createRouter({
   routeTree,
-  context: { auth: undefined! },
+  context: { auth: undefined!, role: undefined! },
 })
 
 declare module '@tanstack/react-router' {
@@ -19,10 +20,11 @@ declare module '@tanstack/react-router' {
 
 const App = () => {
   const auth = useAuth()
+  const role = useRole()
 
   return (
     <>
-      <RouterProvider router={router} context={{ auth }} />
+      <RouterProvider router={router} context={{ auth, role }} />
       <Toaster richColors closeButton position="top-right" />
       <ModalProvider />
     </>

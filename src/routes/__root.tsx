@@ -2,9 +2,11 @@ import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 import { AuthContext } from '@/hooks/useAuth.hook'
+import { RoleContext } from '@/hooks/useRole.hook'
 
 type RouteContext = {
   auth: AuthContext
+  role: RoleContext
 }
 
 export const Route = createRootRouteWithContext<RouteContext>()({
