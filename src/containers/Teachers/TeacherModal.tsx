@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import ModalLayout from '@/containers/Modal/ModalLayout'
+import ModalLayout from '@/layouts/ModalLayout'
 import { RootState } from '@/redux/store'
 
 import TeacherForm from './TeacherForm'

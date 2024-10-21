@@ -1,6 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { Class, ClassReq, UpdateClassReq } from '@/types/class.type'
+import {
+  Class,
+  ClassReq,
+  UpdateClassReq,
+} from '@/containers/Classes/class.type'
 import { Response } from '@/types/response.type'
 import { defaultConfig } from '@/utils/createApi.config'
 

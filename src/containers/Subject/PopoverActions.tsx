@@ -7,7 +7,8 @@ import {
 import { IconEdit, IconMoreVertical, IconTrash } from '@/icons'
 import { openModal } from '@/redux/slices/modal.slice'
 import { useAppDispatch } from '@/redux/store'
-import { Subject } from '@/types/subject.type'
+
+import { Subject } from './subject.type'
 
 type Props = {
   item: Subject

@@ -1,4 +1,5 @@
 import ClassModal from '@/containers/Classes/ClassModal'
+import StudentModal from '@/containers/Students/StudentModal'
 import SubjectModal from '@/containers/Subject/SubjectModal'
 import TeacherModal from '@/containers/Teachers/TeacherModal'
 
@@ -9,6 +10,7 @@ const ModalProvider = () => {
     <>
       <SubjectModal />
       <TeacherModal />
+      <StudentModal />
       <ClassModal />
       <ModalDanger />
     </>

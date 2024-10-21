@@ -9,13 +9,13 @@ import {
   useCreateSubjectMutation,
   useUpdateSubjectMutation,
 } from '@/api/_subjectApi'
+import CustomFormLabel from '@/components/custom-ui/CustomFormLabel'
 import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -73,7 +73,10 @@ const SubjectForm = ({ type }: Props) => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subject name</FormLabel>
+              <CustomFormLabel
+                schema={subjectSchema}
+                fieldName="Subject name"
+              />
               <FormControl>
                 <Input
                   placeholder="Subject name"

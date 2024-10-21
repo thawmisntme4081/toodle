@@ -2,7 +2,8 @@ import { Button } from '@/components/ui/button'
 import { IconEdit, IconTrash } from '@/icons'
 import { openModal } from '@/redux/slices/modal.slice'
 import { useAppDispatch } from '@/redux/store'
-import { Teacher } from '@/types/teacher.type'
+
+import { Teacher } from './teacher.type'
 
 type Props = {
   item: Teacher

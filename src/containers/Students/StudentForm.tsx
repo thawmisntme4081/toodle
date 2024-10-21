@@ -6,13 +6,11 @@ import _ from 'lodash'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { useGetSubjectsQuery } from '@/api/_subjectApi'
 import {
-  useCreateTeacherMutation,
-  useUpdateTeacherMutation,
-} from '@/api/_teacherApi'
-import { DateTimePicker } from '@/components/custom-ui/datetime-picker'
-import { MultiSelect } from '@/components/custom-ui/MultiSelect'
+  useAddStudentMutation,
+  useUpdateStudentMutation,
+} from '@/api/_studentApi'
+import CustomFormLabel from '@/components/custom-ui/CustomFormLabel'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -30,51 +28,43 @@ import { RootState, useAppDispatch } from '@/redux/store'
 import { getBooleanValue } from '@/utils/form.util'
 import { handleError } from '@/utils/handleError.util'
 
-import { TeacherSubject } from './teacher.type'
-import { teacherSchema } from './teacher.validation'
+import { studentSchema } from './student.validation'
 
 type Props = {
   type: 'create' | 'update'
 }
 
-const TeacherForm = ({ type }: Props) => {
+const StudentForm = ({ type }: Props) => {
   const dispatch = useAppDispatch()
   const dataEdit = useSelector((state: RootState) => state.modal.data)
 
-  const { data: subjects } = useGetSubjectsQuery()
-  const [createTeacher, { isLoading: isCreating }] = useCreateTeacherMutation()
-  const [updateTeacher, { isLoading: isUpdating }] = useUpdateTeacherMutation()
+  const [addStudent, { isLoading: isCreating }] = useAddStudentMutation()
+  const [updateStudent, { isLoading: isUpdating }] = useUpdateStudentMutation()
 
-  const form = useForm<z.infer<typeof teacherSchema>>({
-    resolver: zodResolver(teacherSchema),
+  const form = useForm<z.infer<typeof studentSchema>>({
+    resolver: zodResolver(studentSchema),
     defaultValues: {
-      avatar: dataEdit?.avatar ?? '',
+      avatar: dataEdit?.avatar,
       first_name: dataEdit?.first_name ?? '',
       last_name: dataEdit?.last_name ?? '',
       email: dataEdit?.email ?? '',
-      phone_number: dataEdit?.phone_number ?? '',
+      phone_number: dataEdit?.phone_number,
       address: dataEdit?.address ?? '',
-      date_of_birth: dataEdit?.date_of_birth
-        ? new Date(dataEdit.date_of_birth)
-        : undefined,
+      date_of_birth: dataEdit?.date_of_birth ?? '',
       gender: dataEdit?.gender,
-      subjects:
-        dataEdit?.subjects?.map(
-          (subject: TeacherSubject) => subject.subject_id,
-        ) ?? [],
     },
   })
 
-  const onSubmit = async (data: z.infer<typeof teacherSchema>) => {
+  const onSubmit = async (data: z.infer<typeof studentSchema>) => {
     try {
       const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
       const response =
         type === 'create'
-          ? await createTeacher({
+          ? await addStudent({
               ...data,
               date_of_birth: formattedDate,
             })
-          : await updateTeacher({
+          : await updateStudent({
               ...data,
               id: dataEdit?.id,
               date_of_birth: formattedDate,
@@ -103,7 +93,7 @@ const TeacherForm = ({ type }: Props) => {
             name="first_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First name</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
                   <Input
                     placeholder="John"
@@ -120,7 +110,7 @@ const TeacherForm = ({ type }: Props) => {
             name="last_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Last name</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
                   <Input
                     placeholder="Doe"
@@ -137,7 +127,7 @@ const TeacherForm = ({ type }: Props) => {
             name="gender"
             render={({ field: { onChange, value } }) => (
               <FormItem>
-                <FormLabel>Gender</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
                   <RadioGroup
                     onValueChange={(value) => onChange(value === 'female')}
@@ -171,7 +161,7 @@ const TeacherForm = ({ type }: Props) => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
                   <Input
                     placeholder="johndoe@gmail.com"
@@ -188,11 +178,13 @@ const TeacherForm = ({ type }: Props) => {
             name="phone_number"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone number</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
                   <Input
-                    placeholder="0987654321"
                     {...field}
+                    placeholder="0987654321"
+                    maxLength={10}
+                    value={field.value ?? ''}
                     disabled={isCreating || isUpdating}
                   />
                 </FormControl>
@@ -205,14 +197,11 @@ const TeacherForm = ({ type }: Props) => {
             name="date_of_birth"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Date of birth</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
-                  <DateTimePicker
-                    value={field.value}
-                    onChange={field.onChange}
-                    granularity="day"
-                    placeholder="What's your birthday?"
-                    displayFormat={{ hour24: 'yyyy-MM-dd' }}
+                  <Input
+                    {...field}
+                    type="date"
                     disabled={isCreating || isUpdating}
                   />
                 </FormControl>
@@ -225,35 +214,9 @@ const TeacherForm = ({ type }: Props) => {
             name="address"
             render={({ field }) => (
               <FormItem className="col-span-full">
-                <FormLabel>Address</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
                   <Input {...field} disabled={isCreating || isUpdating} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="subjects"
-            render={({ field }) => (
-              <FormItem className="col-span-full">
-                <FormLabel>Select subject(s)</FormLabel>
-                <FormControl>
-                  <MultiSelect
-                    defaultValue={field.value}
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    options={
-                      subjects?.data.map((subject) => ({
-                        label: subject.name,
-                        value: subject.id,
-                      })) ?? []
-                    }
-                    placeholder="Select subject(s)"
-                    variant="inverted"
-                    disabled={isCreating || isUpdating}
-                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -264,7 +227,7 @@ const TeacherForm = ({ type }: Props) => {
             name="avatar"
             render={({ field }) => (
               <FormItem className="col-span-full">
-                <FormLabel>Avatar</FormLabel>
+                <CustomFormLabel schema={studentSchema} />
                 <FormControl>
                   <Input {...field} disabled={isCreating || isUpdating} />
                 </FormControl>
@@ -291,4 +254,4 @@ const TeacherForm = ({ type }: Props) => {
   )
 }
 
-export default TeacherForm
+export default StudentForm

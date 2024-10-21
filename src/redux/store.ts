@@ -11,7 +11,14 @@ import {
   REHYDRATE,
 } from 'redux-persist'
 
-import { authApi, classApi, gradeApi, subjectApi, teacherApi } from '@/api'
+import {
+  authApi,
+  classApi,
+  gradeApi,
+  studentApi,
+  subjectApi,
+  teacherApi,
+} from '@/api'
 
 import { rootReducer } from './rootReducer'
 
@@ -24,10 +31,11 @@ export const store = configureStore({
       },
     }).concat(
       authApi.middleware,
-      subjectApi.middleware,
-      teacherApi.middleware,
       classApi.middleware,
       gradeApi.middleware,
+      studentApi.middleware,
+      subjectApi.middleware,
+      teacherApi.middleware,
     ),
 })
 

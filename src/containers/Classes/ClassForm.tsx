@@ -26,9 +26,9 @@ import {
 } from '@/components/ui/select'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { Class } from '@/types/class.type'
 import { handleError } from '@/utils/handleError.util'
 
+import { Class } from './class.type'
 import { classSchema } from './class.validation'
 
 type Props = {
