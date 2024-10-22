@@ -21,10 +21,6 @@ import { Separator } from '@/components/ui/separator'
 import { IconCheck, IconChevronDown, IconX, IconXCircle } from '@/icons'
 import { cn } from '@/lib/utils'
 
-/**
- * Variants for the multi-select component to handle different styles.
- * Uses class-variance-authority (cva) to define different styles based on "variant" prop.
- */
 const multiSelectVariants = cva(
   'm-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300',
   {
@@ -45,24 +41,23 @@ const multiSelectVariants = cva(
   },
 )
 
+export type Option = {
+  label: string
+  value: string
+  icon?: React.ComponentType<{ className?: string }>
+}
+
 /**
  * Props for MultiSelect component
  */
-interface MultiSelectProps
+export interface MultiSelectProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof multiSelectVariants> {
   /**
    * An array of option objects to be displayed in the multi-select component.
    * Each option object has a label, value, and an optional icon.
    */
-  options: {
-    /** The text to display for the option. */
-    label: string
-    /** The unique value associated with the option. */
-    value: string
-    /** Optional icon component to display alongside the option. */
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
+  options: Option[]
 
   /**
    * Callback function triggered when the selected values change.

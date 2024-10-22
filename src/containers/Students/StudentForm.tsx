@@ -12,7 +12,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { GENDERS } from '@/global.constant'
 import { TypeModalForm } from '@/redux/slices/modal.slice'
-import { getBooleanValue } from '@/utils/form.util'
+import { getGenderValue } from '@/utils/form.util'
 
 import { studentSchema } from './student.validation'
 import { studentFormMap } from './studentFormMap.declaration'
@@ -45,7 +45,7 @@ const StudentForm = ({ type }: Props) => {
                             onValueChange={(value) =>
                               onChange(value === 'female')
                             }
-                            value={getBooleanValue(value)}
+                            value={getGenderValue(value)}
                             className="flex items-center gap-4 h-10"
                           >
                             {GENDERS.map((item) => (
