@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Fragment } from 'react/jsx-runtime'
+import { useSelector } from 'react-redux'
 import {
   Link,
   useLocation,
@@ -19,7 +20,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { IconSchool } from '@/icons'
-import { store } from '@/redux/store'
+import { RootState } from '@/redux/store'
 
 import { MENU_GROUP } from './navigation'
 
@@ -29,16 +30,17 @@ const Navbar = () => {
   const navigation = useNavigate()
   const [logout, { isLoading }] = useLogoutMutation()
 
-  const getRole = store.getState().auth.role!
-  const findRole = MENU_GROUP.flatMap((item) => item.groupItems).find(
+  const userRole = useSelector((state: RootState) => state.auth.role!)
+
+  const navbarAuth = MENU_GROUP.flatMap((item) => item.groupItems).find(
     (item) => item.link === location.href,
   )
 
   useEffect(() => {
-    if (findRole?.hidden.includes(getRole)) {
+    if (navbarAuth?.hidden.includes(userRole)) {
       navigation({ to: '/dashboard' })
     }
-  }, [findRole, getRole, navigation])
+  }, [navbarAuth, userRole, navigation])
 
   const handleLogOut = async () => {
     try {
@@ -94,7 +96,7 @@ const Navbar = () => {
                         </DialogFooter>
                       </DialogContent>
                     </Dialog>
-                  ) : menuItem.hidden.includes(getRole) ? null : (
+                  ) : menuItem.hidden.includes(userRole) ? null : (
                     <Link
                       to={menuItem.link}
                       className="flex gap-2 items-center mt-2 py-1 px-6 hover:bg-[#3d4056] rounded text-lg"
