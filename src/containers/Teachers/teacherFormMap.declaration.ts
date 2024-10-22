@@ -1,11 +1,10 @@
 import { HTMLInputTypeAttribute } from 'react'
-import { FieldName } from 'react-hook-form'
 import { z } from 'zod'
 
 import { teacherSchema } from './teacher.validation'
 
 type TeacherForm = {
-  fieldName: FieldName<z.infer<typeof teacherSchema>>
+  fieldName: keyof z.infer<typeof teacherSchema>
   placeholder?: string
   type?: HTMLInputTypeAttribute
   fieldClassName?: string
@@ -34,6 +33,11 @@ export const teacherFormMap: TeacherForm[] = [
   {
     fieldName: 'date_of_birth',
     type: 'date',
+  },
+  {
+    fieldName: 'subjects',
+    placeholder: 'Select subject(s)',
+    fieldClassName: 'col-span-full',
   },
   {
     fieldName: 'address',
