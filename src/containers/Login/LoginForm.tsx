@@ -17,14 +17,12 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useAuth } from '@/hooks/useAuth.hook'
 import { IconSchool } from '@/icons'
 
 import { loginSchema } from './login.validation'
 
 const LoginForm = () => {
   const router = useRouter()
-  const auth = useAuth()
   const [login, { isLoading }] = useLoginMutation()
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -43,7 +41,6 @@ const LoginForm = () => {
         toast.error(error.data.message as string)
         return
       }
-      auth.signIn()
       router.invalidate()
     } catch (error) {
       console.log(error)

@@ -1,11 +1,12 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 import LoginForm from '@/containers/Login/LoginForm'
+import { store } from '@/redux/store'
 
 export const Route = createFileRoute('/login')({
-  beforeLoad({ context }) {
-    const { isLogged } = context.auth
-    if (isLogged()) {
+  beforeLoad: () => {
+    const isLogged = store.getState().auth.isLogged
+    if (isLogged) {
       throw redirect({
         to: '/',
       })

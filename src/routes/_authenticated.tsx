@@ -2,11 +2,12 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 
 import HorizontalNavbar from '@/containers/Navbar/HorizontalNavBar'
 import Navbar from '@/containers/Navbar/Navbar'
+import { store } from '@/redux/store'
 
 export const Route = createFileRoute('/_authenticated')({
-  beforeLoad: async ({ context }) => {
-    const { isLogged } = context.auth
-    if (!isLogged()) {
+  beforeLoad: () => {
+    const isLogged = store.getState().auth.isLogged
+    if (!isLogged) {
       throw redirect({
         to: '/login',
       })

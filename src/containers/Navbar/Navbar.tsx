@@ -12,20 +12,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useAuth } from '@/hooks/useAuth.hook'
 import { IconSchool } from '@/icons'
 
 import { MENU_GROUP } from './navigation'
 
 const Navbar = () => {
   const router = useRouter()
-  const auth = useAuth()
   const [logout, { isLoading }] = useLogoutMutation()
 
   const handleLogOut = async () => {
     try {
       await logout()
-      auth.signOut()
       router.invalidate()
     } catch (error) {
       console.log(error)
