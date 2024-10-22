@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 
 import RemoveClass from '@/containers/Classes/RemoveClass'
-import DeleteSubject from '@/containers/Subject/DeleteSubject'
+import DeleteSubject from '@/containers/Subjects/DeleteSubject'
 import DeleteTeacher from '@/containers/Teachers/DeleteTeacher'
 import ModalLayout from '@/layouts/ModalLayout'
 import { RootState } from '@/redux/store'
