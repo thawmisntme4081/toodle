@@ -10,7 +10,6 @@ import {
 } from '@/api/_subjectApi'
 import { closeModal, TypeModalForm } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { handleError } from '@/utils/handleError.util'
 
 import { subjectSchema } from './subject.validation'
 
@@ -27,27 +26,18 @@ export const useSubjectForm = (type: TypeModalForm) => {
   })
 
   const onSubmit = async (value: z.infer<typeof subjectSchema>) => {
-    try {
-      const response =
-        type === 'add'
-          ? await addSubject(value)
-          : await updateSubject({
-              id: dataEdit?.id,
-              name: value.name,
-            })
+    const response =
+      type === 'add'
+        ? await addSubject(value).unwrap()
+        : await updateSubject({
+            id: dataEdit?.id,
+            name: value.name,
+          }).unwrap()
 
-      if (response.error) {
-        handleError(response.error)
-        return
-      }
+    toast.success(response.message)
+    form.reset()
 
-      toast.success(response.data?.message)
-      form.reset()
-
-      dispatch(closeModal())
-    } catch (error) {
-      console.error('Failed to create or update subject:', error)
-    }
+    dispatch(closeModal())
   }
 
   return { form, onSubmit, disabled: isAdding || isUpdating }

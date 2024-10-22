@@ -1,5 +1,10 @@
 import { useDispatch } from 'react-redux'
-import { configureStore } from '@reduxjs/toolkit'
+import {
+  configureStore,
+  isRejectedWithValue,
+  Middleware,
+  MiddlewareAPI,
+} from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import {
   FLUSH,
@@ -19,8 +24,18 @@ import {
   subjectApi,
   teacherApi,
 } from '@/api'
+import { handleError } from '@/utils/handleError.util'
 
 import { rootReducer } from './rootReducer'
+
+const rtkQueryErrorLogger: Middleware =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (_api: MiddlewareAPI) => (next) => (action: any) => {
+    if (isRejectedWithValue(action)) {
+      handleError(action.payload)
+    }
+    return next(action)
+  }
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -36,6 +51,7 @@ export const store = configureStore({
       studentApi.middleware,
       subjectApi.middleware,
       teacherApi.middleware,
+      rtkQueryErrorLogger,
     ),
 })
 
