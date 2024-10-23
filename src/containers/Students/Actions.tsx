@@ -3,10 +3,10 @@ import { IconEdit, IconTrash } from '@/icons'
 import { openModal } from '@/redux/slices/modal.slice'
 import { useAppDispatch } from '@/redux/store'
 
-import { Teacher } from './student.type'
+import { Student } from './student.type'
 
 type Props = {
-  item: Teacher
+  item: Student
 }
 
 const Actions = ({ item }: Props) => {

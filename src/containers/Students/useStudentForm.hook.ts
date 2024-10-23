@@ -11,7 +11,6 @@ import {
 } from '@/api/_studentApi'
 import { closeModal, TypeModalForm } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { handleError } from '@/utils/handleError.util'
 
 import { studentSchema } from './student.validation'
 
@@ -37,32 +36,23 @@ export const useStudentForm = (type: TypeModalForm) => {
   })
 
   const onSubmit = async (data: z.infer<typeof studentSchema>) => {
-    try {
-      const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
-      const response =
-        type === 'add'
-          ? await addStudent({
-              ...data,
-              date_of_birth: formattedDate,
-            })
-          : await updateStudent({
-              ...data,
-              id: dataEdit?.id,
-              date_of_birth: formattedDate,
-            })
+    const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
+    const response =
+      type === 'add'
+        ? await addStudent({
+            ...data,
+            date_of_birth: formattedDate,
+          })
+        : await updateStudent({
+            ...data,
+            id: dataEdit?.id,
+            date_of_birth: formattedDate,
+          }).unwrap()
 
-      if (response?.error) {
-        handleError(response.error)
-        return
-      }
+    toast.success(response?.data?.message)
+    form.reset()
 
-      toast.success(response?.data?.message)
-      form.reset()
-
-      dispatch(closeModal())
-    } catch (error) {
-      console.error('Failed to create or update subject:', error)
-    }
+    dispatch(closeModal())
   }
 
   return { form, onSubmit, disabled: isAdding || isUpdating }

@@ -11,7 +11,6 @@ import {
 } from '@/api/_teacherApi'
 import { closeModal, TypeModalForm } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { handleError } from '@/utils/handleError.util'
 
 import { TeacherSubject } from './teacher.type'
 import { teacherSchema } from './teacher.validation'
@@ -33,7 +32,7 @@ export const useTeacherForm = (type: TypeModalForm) => {
       phone_number: dataEdit?.phone_number ?? '',
       address: dataEdit?.address ?? '',
       date_of_birth: dataEdit?.date_of_birth
-        ? new Date(dataEdit.date_of_birth)
+        ? dataEdit.date_of_birth
         : undefined,
       gender: dataEdit?.gender,
       subjects:
@@ -44,32 +43,22 @@ export const useTeacherForm = (type: TypeModalForm) => {
   })
 
   const onSubmit = async (data: z.infer<typeof teacherSchema>) => {
-    try {
-      const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
-      const response =
-        type === 'add'
-          ? await createTeacher({
-              ...data,
-              date_of_birth: formattedDate,
-            })
-          : await updateTeacher({
-              ...data,
-              id: dataEdit?.id,
-              date_of_birth: formattedDate,
-            })
+    const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
+    const response =
+      type === 'add'
+        ? await createTeacher({
+            ...data,
+            date_of_birth: formattedDate,
+          }).unwrap()
+        : await updateTeacher({
+            ...data,
+            id: dataEdit?.id,
+            date_of_birth: formattedDate,
+          }).unwrap()
+    toast.success(response?.message)
+    form.reset()
 
-      if (response?.error) {
-        handleError(response.error)
-        return
-      }
-
-      toast.success(response?.data?.message)
-      form.reset()
-
-      dispatch(closeModal())
-    } catch (error) {
-      console.error('Failed to create or update subject:', error)
-    }
+    dispatch(closeModal())
   }
 
   return { form, onSubmit, disabled: isAdding || isUpdating }

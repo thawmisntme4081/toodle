@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { useSelector } from 'react-redux'
 
 import RemoveClass from '@/containers/Classes/RemoveClass'
+import LogoutAccount from '@/containers/Navbar/LogoutAccount'
 import DeleteSubject from '@/containers/Subjects/DeleteSubject'
 import DeleteTeacher from '@/containers/Teachers/DeleteTeacher'
 import ModalLayout from '@/layouts/ModalLayout'
@@ -23,6 +24,7 @@ const ModalDanger = () => {
     subject: <DeleteSubject />,
     teacher: <DeleteTeacher />,
     class: <RemoveClass />,
+    logout: <LogoutAccount />,
   }
 
   return (

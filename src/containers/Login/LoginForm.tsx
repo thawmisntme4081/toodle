@@ -34,17 +34,9 @@ const LoginForm = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    try {
-      const loginRes = await login(values)
-      if (loginRes.error) {
-        const error = loginRes.error as any
-        toast.error(error.data.message as string)
-        return
-      }
-      router.invalidate()
-    } catch (error) {
-      console.log(error)
-    }
+    const response = await login(values).unwrap()
+    toast.success(response.message)
+    router.invalidate()
   }
 
   return (
