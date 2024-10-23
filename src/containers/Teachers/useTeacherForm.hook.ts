@@ -44,32 +44,28 @@ export const useTeacherForm = (type: TypeModalForm) => {
   })
 
   const onSubmit = async (data: z.infer<typeof teacherSchema>) => {
-    try {
-      const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
-      const response =
-        type === 'add'
-          ? await createTeacher({
-              ...data,
-              date_of_birth: formattedDate,
-            })
-          : await updateTeacher({
-              ...data,
-              id: dataEdit?.id,
-              date_of_birth: formattedDate,
-            })
+    const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
+    const response =
+      type === 'add'
+        ? await createTeacher({
+            ...data,
+            date_of_birth: formattedDate,
+          })
+        : await updateTeacher({
+            ...data,
+            id: dataEdit?.id,
+            date_of_birth: formattedDate,
+          })
 
-      if (response?.error) {
-        handleError(response.error)
-        return
-      }
-
-      toast.success(response?.data?.message)
-      form.reset()
-
-      dispatch(closeModal())
-    } catch (error) {
-      console.error('Failed to create or update subject:', error)
+    if (response?.error) {
+      handleError(response.error)
+      return
     }
+
+    toast.success(response?.data?.message)
+    form.reset()
+
+    dispatch(closeModal())
   }
 
   return { form, onSubmit, disabled: isAdding || isUpdating }

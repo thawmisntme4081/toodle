@@ -1,1 +1,1 @@
-export type ModalName = 'subject' | 'teacher' | 'student' | 'class'
+export type ModalName = 'subject' | 'teacher' | 'student' | 'class' | 'logout'

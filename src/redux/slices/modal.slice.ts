@@ -2,8 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import _ from 'lodash'
 
 import { ModalName } from '@/types/modal.type'
+import { getDangerDescription } from '@/utils/getDangerDescription.util'
 
-type TypeModal = 'add' | 'update' | 'delete'
+export type TypeModal = 'add' | 'update' | 'delete'
 export type TypeModalForm = Omit<TypeModal, 'delete'>
 
 type ModalState = {
@@ -24,7 +25,11 @@ const initialState: ModalState = {
   dangerDescription: '',
 }
 
-type OpenModal = Pick<ModalState, 'type' | 'data'> & { name: ModalName }
+type OpenModal = Pick<ModalState, 'data'> & {
+  type: TypeModal
+  name: ModalName
+  dangerDescription?: string
+}
 
 const modalSlice = createSlice({
   name: 'modal',
@@ -36,17 +41,19 @@ const modalSlice = createSlice({
       state.data = action.payload.data
       state.type = action.payload.type
       state.defaultTitle =
-        _.capitalize(action.payload.type as string) + ' ' + action.payload.name
-      state.dangerDescription =
-        action.payload.type === 'delete' && action.payload?.data?.name
-          ? `Are you sure you want to ${action.payload.type} ${action.payload.data.name}?`
-          : ''
+        action.payload.name === 'logout'
+          ? 'Confirm logout'
+          : _.capitalize(action.payload.type as string) +
+            ' ' +
+            action.payload.name
+      state.dangerDescription = getDangerDescription(
+        action.payload.type,
+        action.payload.name,
+        action.payload.data?.name,
+      )
     },
     closeModal: (state) => {
-      state.open = false
-      state.name = null
-      state.data = null
-      state.type = null
+      Object.assign(state, initialState)
     },
   },
 })

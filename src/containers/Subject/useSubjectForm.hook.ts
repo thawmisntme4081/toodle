@@ -27,27 +27,23 @@ export const useSubjectForm = (type: TypeModalForm) => {
   })
 
   const onSubmit = async (value: z.infer<typeof subjectSchema>) => {
-    try {
-      const response =
-        type === 'add'
-          ? await addSubject(value)
-          : await updateSubject({
-              id: dataEdit?.id,
-              name: value.name,
-            })
+    const response =
+      type === 'add'
+        ? await addSubject(value)
+        : await updateSubject({
+            id: dataEdit?.id,
+            name: value.name,
+          })
 
-      if (response.error) {
-        handleError(response.error)
-        return
-      }
-
-      toast.success(response.data?.message)
-      form.reset()
-
-      dispatch(closeModal())
-    } catch (error) {
-      console.error('Failed to create or update subject:', error)
+    if (response.error) {
+      handleError(response.error)
+      return
     }
+
+    toast.success(response.data?.message)
+    form.reset()
+
+    dispatch(closeModal())
   }
 
   return { form, onSubmit, disabled: isAdding || isUpdating }
