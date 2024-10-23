@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { Subject, SubjectReq } from '@/containers/Subject/subject.type'
+import { Subject, SubjectReq } from '@/containers/Subjects/subject.type'
 import { Response } from '@/types/response.type'
 import { defaultConfig } from '@/utils/createApi.config'
 
