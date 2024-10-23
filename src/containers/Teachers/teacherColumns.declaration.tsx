@@ -68,7 +68,7 @@ export const columns: ColumnDef<Teacher>[] = [
   },
   {
     id: 'actions',
-    header: () => <p>Actions</p>,
+    header: () => <p className="text-center">Actions</p>,
     cell: ({ row }) => {
       const item = row.original
       return <Actions item={item} />

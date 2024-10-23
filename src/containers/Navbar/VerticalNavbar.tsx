@@ -38,7 +38,7 @@ const VerticalNavbar = () => {
           <SidebarMenuItem>
             <SidebarMenuButton
               disabled
-              className="text-2xl font-bold text-muted"
+              className="text-2xl font-bold text-muted my-4"
             >
               <IconSchool />
               <p>SchoolHub</p>
@@ -59,6 +59,7 @@ const VerticalNavbar = () => {
                     >
                       <Link
                         to={item.link}
+                        className="!h-10"
                         activeProps={{
                           className:
                             'bg-primary hover:bg-primary text-secondary',
