@@ -15,17 +15,13 @@ const DeleteSubject = () => {
   if (!data?.id) return null
 
   const handleDelete = async () => {
-    try {
-      const response = await deleteSubject(data.id)
-      if (response.error) {
-        handleError(response.error)
-        return
-      }
-      toast.success(response.data?.message)
-      dispatch(closeModal())
-    } catch (error) {
-      console.log(error)
+    const response = await deleteSubject(data.id)
+    if (response.error) {
+      handleError(response.error)
+      return
     }
+    toast.success(response.data?.message)
+    dispatch(closeModal())
   }
 
   return (
