@@ -11,7 +11,6 @@ import {
 } from '@/api/_teacherApi'
 import { closeModal, TypeModalForm } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { handleError } from '@/utils/handleError.util'
 
 import { TeacherSubject } from './teacher.type'
 import { teacherSchema } from './teacher.validation'
@@ -55,13 +54,7 @@ export const useTeacherForm = (type: TypeModalForm) => {
             ...data,
             id: dataEdit?.id,
             date_of_birth: formattedDate,
-          })
-
-    if (response?.error) {
-      handleError(response.error)
-      return
-    }
-
+          }).unwrap()
     toast.success(response?.data?.message)
     form.reset()
 

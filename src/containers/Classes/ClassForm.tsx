@@ -26,7 +26,6 @@ import {
 } from '@/components/ui/select'
 import { closeModal, TypeModalForm } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { handleError } from '@/utils/handleError.util'
 
 import { Class } from './class.type'
 import { classSchema } from './class.validation'
@@ -56,28 +55,19 @@ const ClassForm = ({ type }: Props) => {
   })
 
   const onSubmit = async (data: z.infer<typeof classSchema>) => {
-    try {
-      const response =
-        type === 'add'
-          ? await createClass(data)
-          : await updateClass({
-              id: dataEdit?.id,
-              capacity: data.capacity,
-              name: data.name,
-            })
+    const response =
+      type === 'add'
+        ? await createClass(data)
+        : await updateClass({
+            id: dataEdit?.id,
+            capacity: data.capacity,
+            name: data.name,
+          }).unwrap()
 
-      if (response?.error) {
-        handleError(response.error)
-        return
-      }
+    toast.success(response?.data?.message)
+    form.reset()
 
-      toast.success(response?.data?.message)
-      form.reset()
-
-      dispatch(closeModal())
-    } catch (error) {
-      console.error('Failed to create or update subject:', error)
-    }
+    dispatch(closeModal())
   }
 
   return (

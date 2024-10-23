@@ -8,10 +8,10 @@ const WebLayout = () => {
   return (
     <SidebarProvider>
       <VerticalNavbar />
-      <div className="flex flex-col w-full m-4">
+      <main className="w-full m-4">
         <HorizontalNavbar />
         <Outlet />
-      </div>
+      </main>
     </SidebarProvider>
   )
 }

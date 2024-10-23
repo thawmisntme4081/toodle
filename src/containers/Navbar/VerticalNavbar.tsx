@@ -2,7 +2,16 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from '@tanstack/react-router'
 
-import { Sidebar, SidebarContent, SidebarHeader } from '@/components/ui/sidebar'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/ui/sidebar'
 import { IconSchool } from '@/icons'
 import { RootState } from '@/redux/store'
 
@@ -23,34 +32,48 @@ const VerticalNavbar = () => {
   }, [navbarAuth, userRole, navigation])
 
   return (
-    <Sidebar className="flex flex-col w-64 bg-[#2f3349] p-2 h-screen">
+    <Sidebar collapsible="icon">
       <SidebarHeader className="bg-[#2f3349]">
-        <div className="text-2xl font-bold text-muted flex gap-2 items-center">
-          <IconSchool />
-          SchoolHub
-        </div>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              disabled
+              className="text-2xl font-bold text-muted"
+            >
+              <IconSchool />
+              <p>SchoolHub</p>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent className="bg-[#2f3349]">
-        <nav className="text-muted-foreground overflow-y-scroll">
-          <ul className="mb-4">
-            {MENU_GROUP.map((item) => (
-              <li key={item.link}>
-                {item.hidden.includes(userRole) ? null : (
-                  <Link
-                    to={item.link}
-                    className="flex gap-2 items-center mt-2 py-1 px-6 hover:bg-[#3d4056] rounded text-lg"
-                    activeProps={{
-                      className: 'bg-primary hover:bg-primary text-white',
-                    }}
-                  >
-                    <item.icon />
-                    <span>{item.name}</span>
-                  </Link>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <SidebarMenu>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              {MENU_GROUP.map((item) => (
+                <SidebarMenuItem key={item.link}>
+                  {item.hidden.includes(userRole) ? null : (
+                    <SidebarMenuButton
+                      asChild
+                      className="hover:bg-[#3d4056] mb-2 text-muted rounded text-lg"
+                    >
+                      <Link
+                        to={item.link}
+                        activeProps={{
+                          className:
+                            'bg-primary hover:bg-primary text-secondary',
+                        }}
+                      >
+                        <item.icon />
+                        <span>{item.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  )}
+                </SidebarMenuItem>
+              ))}
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarMenu>
       </SidebarContent>
     </Sidebar>
   )

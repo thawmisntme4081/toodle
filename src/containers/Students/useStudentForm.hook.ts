@@ -11,7 +11,6 @@ import {
 } from '@/api/_studentApi'
 import { closeModal, TypeModalForm } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { handleError } from '@/utils/handleError.util'
 
 import { studentSchema } from './student.validation'
 
@@ -48,12 +47,7 @@ export const useStudentForm = (type: TypeModalForm) => {
             ...data,
             id: dataEdit?.id,
             date_of_birth: formattedDate,
-          })
-
-    if (response?.error) {
-      handleError(response.error)
-      return
-    }
+          }).unwrap()
 
     toast.success(response?.data?.message)
     form.reset()

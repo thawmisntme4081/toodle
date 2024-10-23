@@ -5,7 +5,6 @@ import { useDeleteTeacherMutation } from '@/api/_teacherApi'
 import { Button } from '@/components/ui/button'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-import { handleError } from '@/utils/handleError.util'
 
 const DeleteTeacher = () => {
   const dispatch = useAppDispatch()
@@ -15,12 +14,8 @@ const DeleteTeacher = () => {
   if (!data?.id) return null
 
   const handleDelete = async () => {
-    const response = await deleteTeacher(data.id)
-    if (response.error) {
-      handleError(response.error)
-      return
-    }
-    toast.success(response.data?.message)
+    const response = await deleteTeacher(data.id).unwrap()
+    toast.success(response.message)
     dispatch(closeModal())
   }
 
