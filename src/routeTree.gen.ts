@@ -19,9 +19,6 @@ import { Route as IndexImport } from './routes/index'
 
 // Create Virtual Routes
 
-const AuthenticatedTeachersLazyImport = createFileRoute(
-  '/_authenticated/teachers',
-)()
 const AuthenticatedSubjectsLazyImport = createFileRoute(
   '/_authenticated/subjects',
 )()
@@ -36,6 +33,12 @@ const AuthenticatedDashboardLazyImport = createFileRoute(
 )()
 const AuthenticatedClassesLazyImport = createFileRoute(
   '/_authenticated/classes',
+)()
+const AuthenticatedTeachersIndexLazyImport = createFileRoute(
+  '/_authenticated/teachers/',
+)()
+const AuthenticatedTeachersTeacherIdLazyImport = createFileRoute(
+  '/_authenticated/teachers/$teacherId',
 )()
 
 // Create/Update Routes
@@ -54,13 +57,6 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
-
-const AuthenticatedTeachersLazyRoute = AuthenticatedTeachersLazyImport.update({
-  path: '/teachers',
-  getParentRoute: () => AuthenticatedRoute,
-} as any).lazy(() =>
-  import('./routes/_authenticated/teachers.lazy').then((d) => d.Route),
-)
 
 const AuthenticatedSubjectsLazyRoute = AuthenticatedSubjectsLazyImport.update({
   path: '/subjects',
@@ -98,6 +94,24 @@ const AuthenticatedClassesLazyRoute = AuthenticatedClassesLazyImport.update({
 } as any).lazy(() =>
   import('./routes/_authenticated/classes.lazy').then((d) => d.Route),
 )
+
+const AuthenticatedTeachersIndexLazyRoute =
+  AuthenticatedTeachersIndexLazyImport.update({
+    path: '/teachers/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/teachers/index.lazy').then((d) => d.Route),
+  )
+
+const AuthenticatedTeachersTeacherIdLazyRoute =
+  AuthenticatedTeachersTeacherIdLazyImport.update({
+    path: '/teachers/$teacherId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/teachers/$teacherId.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 // Populate the FileRoutesByPath interface
 
@@ -159,11 +173,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSubjectsLazyImport
       parentRoute: typeof AuthenticatedImport
     }
-    '/_authenticated/teachers': {
-      id: '/_authenticated/teachers'
+    '/_authenticated/teachers/$teacherId': {
+      id: '/_authenticated/teachers/$teacherId'
+      path: '/teachers/$teacherId'
+      fullPath: '/teachers/$teacherId'
+      preLoaderRoute: typeof AuthenticatedTeachersTeacherIdLazyImport
+      parentRoute: typeof AuthenticatedImport
+    }
+    '/_authenticated/teachers/': {
+      id: '/_authenticated/teachers/'
       path: '/teachers'
       fullPath: '/teachers'
-      preLoaderRoute: typeof AuthenticatedTeachersLazyImport
+      preLoaderRoute: typeof AuthenticatedTeachersIndexLazyImport
       parentRoute: typeof AuthenticatedImport
     }
   }
@@ -177,7 +198,8 @@ interface AuthenticatedRouteChildren {
   AuthenticatedParentsLazyRoute: typeof AuthenticatedParentsLazyRoute
   AuthenticatedStudentsLazyRoute: typeof AuthenticatedStudentsLazyRoute
   AuthenticatedSubjectsLazyRoute: typeof AuthenticatedSubjectsLazyRoute
-  AuthenticatedTeachersLazyRoute: typeof AuthenticatedTeachersLazyRoute
+  AuthenticatedTeachersTeacherIdLazyRoute: typeof AuthenticatedTeachersTeacherIdLazyRoute
+  AuthenticatedTeachersIndexLazyRoute: typeof AuthenticatedTeachersIndexLazyRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -186,7 +208,9 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedParentsLazyRoute: AuthenticatedParentsLazyRoute,
   AuthenticatedStudentsLazyRoute: AuthenticatedStudentsLazyRoute,
   AuthenticatedSubjectsLazyRoute: AuthenticatedSubjectsLazyRoute,
-  AuthenticatedTeachersLazyRoute: AuthenticatedTeachersLazyRoute,
+  AuthenticatedTeachersTeacherIdLazyRoute:
+    AuthenticatedTeachersTeacherIdLazyRoute,
+  AuthenticatedTeachersIndexLazyRoute: AuthenticatedTeachersIndexLazyRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
@@ -202,7 +226,8 @@ export interface FileRoutesByFullPath {
   '/parents': typeof AuthenticatedParentsLazyRoute
   '/students': typeof AuthenticatedStudentsLazyRoute
   '/subjects': typeof AuthenticatedSubjectsLazyRoute
-  '/teachers': typeof AuthenticatedTeachersLazyRoute
+  '/teachers/$teacherId': typeof AuthenticatedTeachersTeacherIdLazyRoute
+  '/teachers': typeof AuthenticatedTeachersIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
@@ -214,7 +239,8 @@ export interface FileRoutesByTo {
   '/parents': typeof AuthenticatedParentsLazyRoute
   '/students': typeof AuthenticatedStudentsLazyRoute
   '/subjects': typeof AuthenticatedSubjectsLazyRoute
-  '/teachers': typeof AuthenticatedTeachersLazyRoute
+  '/teachers/$teacherId': typeof AuthenticatedTeachersTeacherIdLazyRoute
+  '/teachers': typeof AuthenticatedTeachersIndexLazyRoute
 }
 
 export interface FileRoutesById {
@@ -227,7 +253,8 @@ export interface FileRoutesById {
   '/_authenticated/parents': typeof AuthenticatedParentsLazyRoute
   '/_authenticated/students': typeof AuthenticatedStudentsLazyRoute
   '/_authenticated/subjects': typeof AuthenticatedSubjectsLazyRoute
-  '/_authenticated/teachers': typeof AuthenticatedTeachersLazyRoute
+  '/_authenticated/teachers/$teacherId': typeof AuthenticatedTeachersTeacherIdLazyRoute
+  '/_authenticated/teachers/': typeof AuthenticatedTeachersIndexLazyRoute
 }
 
 export interface FileRouteTypes {
@@ -241,6 +268,7 @@ export interface FileRouteTypes {
     | '/parents'
     | '/students'
     | '/subjects'
+    | '/teachers/$teacherId'
     | '/teachers'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -252,6 +280,7 @@ export interface FileRouteTypes {
     | '/parents'
     | '/students'
     | '/subjects'
+    | '/teachers/$teacherId'
     | '/teachers'
   id:
     | '__root__'
@@ -263,7 +292,8 @@ export interface FileRouteTypes {
     | '/_authenticated/parents'
     | '/_authenticated/students'
     | '/_authenticated/subjects'
-    | '/_authenticated/teachers'
+    | '/_authenticated/teachers/$teacherId'
+    | '/_authenticated/teachers/'
   fileRoutesById: FileRoutesById
 }
 
@@ -307,7 +337,8 @@ export const routeTree = rootRoute
         "/_authenticated/parents",
         "/_authenticated/students",
         "/_authenticated/subjects",
-        "/_authenticated/teachers"
+        "/_authenticated/teachers/$teacherId",
+        "/_authenticated/teachers/"
       ]
     },
     "/login": {
@@ -333,8 +364,12 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/subjects.lazy.tsx",
       "parent": "/_authenticated"
     },
-    "/_authenticated/teachers": {
-      "filePath": "_authenticated/teachers.lazy.tsx",
+    "/_authenticated/teachers/$teacherId": {
+      "filePath": "_authenticated/teachers/$teacherId.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/teachers/": {
+      "filePath": "_authenticated/teachers/index.lazy.tsx",
       "parent": "/_authenticated"
     }
   }
