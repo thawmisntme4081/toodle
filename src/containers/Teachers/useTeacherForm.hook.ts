@@ -32,7 +32,7 @@ export const useTeacherForm = (type: TypeModalForm) => {
       phone_number: dataEdit?.phone_number ?? '',
       address: dataEdit?.address ?? '',
       date_of_birth: dataEdit?.date_of_birth
-        ? new Date(dataEdit.date_of_birth)
+        ? dataEdit.date_of_birth
         : undefined,
       gender: dataEdit?.gender,
       subjects:
@@ -49,13 +49,13 @@ export const useTeacherForm = (type: TypeModalForm) => {
         ? await createTeacher({
             ...data,
             date_of_birth: formattedDate,
-          })
+          }).unwrap()
         : await updateTeacher({
             ...data,
             id: dataEdit?.id,
             date_of_birth: formattedDate,
           }).unwrap()
-    toast.success(response?.data?.message)
+    toast.success(response?.message)
     form.reset()
 
     dispatch(closeModal())

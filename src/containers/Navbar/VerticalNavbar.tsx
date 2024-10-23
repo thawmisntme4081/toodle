@@ -55,7 +55,7 @@ const VerticalNavbar = () => {
                   {item.hidden.includes(userRole) ? null : (
                     <SidebarMenuButton
                       asChild
-                      className="hover:bg-[#3d4056] mb-2 text-muted rounded text-lg"
+                      className="hover:bg-[#3d4056] hover:text-muted mb-2 text-muted rounded text-lg"
                     >
                       <Link
                         to={item.link}
