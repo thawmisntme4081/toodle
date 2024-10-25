@@ -42,14 +42,14 @@ export const useStudentForm = (type: TypeModalForm) => {
         ? await addStudent({
             ...data,
             date_of_birth: formattedDate,
-          })
+          }).unwrap()
         : await updateStudent({
             ...data,
             id: dataEdit?.id,
             date_of_birth: formattedDate,
           }).unwrap()
 
-    toast.success(response?.data?.message)
+    toast.success(response.message)
     form.reset()
 
     dispatch(closeModal())
