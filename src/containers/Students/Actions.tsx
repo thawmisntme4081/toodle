@@ -18,7 +18,7 @@ const Actions = ({ item }: Props) => {
         variant="ghost"
         className="justify-start gap-2 text-yellow-500 hover:bg-yellow-400 hover:text-white"
         onClick={() =>
-          dispatch(openModal({ name: 'teacher', type: 'update', data: item }))
+          dispatch(openModal({ name: 'student', type: 'update', data: item }))
         }
       >
         <IconEdit className="h-5 w-5" />
@@ -29,7 +29,7 @@ const Actions = ({ item }: Props) => {
         onClick={() =>
           dispatch(
             openModal({
-              name: 'teacher',
+              name: 'student',
               type: 'delete',
               data: {
                 name: `${item.first_name} ${item.last_name}`,

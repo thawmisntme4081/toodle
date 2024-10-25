@@ -1,20 +1,20 @@
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 
-import { useDeleteTeacherMutation } from '@/api/_teacherApi'
+import { useRemoveStudentMutation } from '@/api/_studentApi'
 import { Button } from '@/components/ui/button'
 import { closeModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
 
-const DeleteTeacher = () => {
+const RemoveStudent = () => {
   const dispatch = useAppDispatch()
   const data = useSelector((state: RootState) => state.modal.data)
-  const [deleteTeacher, { isLoading }] = useDeleteTeacherMutation()
+  const [removeStudent, { isLoading }] = useRemoveStudentMutation()
 
   if (!data?.id) return null
 
   const handleDelete = async () => {
-    const response = await deleteTeacher(data.id).unwrap()
+    const response = await removeStudent(data.id).unwrap()
     toast.success(response.message)
     dispatch(closeModal())
   }
@@ -35,4 +35,4 @@ const DeleteTeacher = () => {
   )
 }
 
-export default DeleteTeacher
+export default RemoveStudent

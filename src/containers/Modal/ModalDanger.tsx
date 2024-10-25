@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import RemoveClass from '@/containers/Classes/RemoveClass'
 import LogoutAccount from '@/containers/Navbar/LogoutAccount'
+import RemoveStudent from '@/containers/Students/RemoveStudent'
 import DeleteSubject from '@/containers/Subjects/DeleteSubject'
 import DeleteTeacher from '@/containers/Teachers/DeleteTeacher'
 import ModalLayout from '@/layouts/ModalLayout'
@@ -23,6 +24,7 @@ const ModalDanger = () => {
   const ComponentMap: ComponentMapType = {
     subject: <DeleteSubject />,
     teacher: <DeleteTeacher />,
+    student: <RemoveStudent />,
     class: <RemoveClass />,
     logout: <LogoutAccount />,
   }

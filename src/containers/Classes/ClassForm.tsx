@@ -57,14 +57,14 @@ const ClassForm = ({ type }: Props) => {
   const onSubmit = async (data: z.infer<typeof classSchema>) => {
     const response =
       type === 'add'
-        ? await createClass(data)
+        ? await createClass(data).unwrap()
         : await updateClass({
             id: dataEdit?.id,
             capacity: data.capacity,
             name: data.name,
           }).unwrap()
 
-    toast.success(response?.data?.message)
+    toast.success(response.message)
     form.reset()
 
     dispatch(closeModal())

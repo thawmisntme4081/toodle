@@ -55,7 +55,7 @@ export const useTeacherForm = (type: TypeModalForm) => {
             id: dataEdit?.id,
             date_of_birth: formattedDate,
           }).unwrap()
-    toast.success(response?.message)
+    toast.success(response.message)
     form.reset()
 
     dispatch(closeModal())
