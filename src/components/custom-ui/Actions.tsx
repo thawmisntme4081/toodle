@@ -1,21 +1,26 @@
 import { useSelector } from 'react-redux'
-import { useNavigate } from '@tanstack/react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 
 import { Button } from '@/components/ui/button'
 import { ROLES } from '@/enums/roles.enum'
 import { IconEdit, IconEye, IconTrash } from '@/icons'
 import { openModal } from '@/redux/slices/modal.slice'
 import { RootState, useAppDispatch } from '@/redux/store'
-
-import { Teacher } from './teacher.type'
+import { ModalName } from '@/types/modal.type'
 
 type Props = {
-  item: Teacher
+  modalName: Exclude<ModalName, 'subject' | 'logout'>
+  itemEdit: { id: string }
+  dataDelete?: {
+    name: string
+    id: string
+  }
 }
 
-const Actions = ({ item }: Props) => {
+const Actions = ({ itemEdit, modalName, dataDelete }: Props) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const userRole = useSelector((state: RootState) => state.auth.role)
 
@@ -24,7 +29,7 @@ const Actions = ({ item }: Props) => {
       <Button
         variant="ghost"
         className="justify-start gap-2 text-[#00bad1] hover:bg-[#00bad1] hover:text-white"
-        onClick={() => navigate({ to: `/teachers/${item.id}` })}
+        onClick={() => navigate({ to: `${location.pathname}/${itemEdit.id}` })}
       >
         <IconEye className="h-5 w-5" />
       </Button>
@@ -35,7 +40,7 @@ const Actions = ({ item }: Props) => {
             className="justify-start gap-2 text-yellow-500 hover:bg-yellow-400 hover:text-white"
             onClick={() =>
               dispatch(
-                openModal({ name: 'teacher', type: 'update', data: item }),
+                openModal({ name: modalName, type: 'update', data: itemEdit }),
               )
             }
           >
@@ -47,12 +52,9 @@ const Actions = ({ item }: Props) => {
             onClick={() =>
               dispatch(
                 openModal({
-                  name: 'teacher',
+                  name: modalName,
                   type: 'delete',
-                  data: {
-                    name: `${item.first_name} ${item.last_name}`,
-                    id: item.id,
-                  },
+                  data: dataDelete,
                 }),
               )
             }

@@ -4,7 +4,7 @@ import { SidebarProvider } from '@/components/ui/sidebar'
 import HorizontalNavbar from '@/containers/Navbar/HorizontalNavBar'
 import VerticalNavbar from '@/containers/Navbar/VerticalNavbar'
 
-const WebLayout = () => {
+const AppLayout = () => {
   return (
     <SidebarProvider>
       <VerticalNavbar />
@@ -16,4 +16,4 @@ const WebLayout = () => {
   )
 }
 
-export default WebLayout
+export default AppLayout

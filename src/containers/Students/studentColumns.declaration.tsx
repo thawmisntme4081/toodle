@@ -1,7 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
 import _ from 'lodash'
 
-import Actions from './Actions'
+import Actions from '@/components/custom-ui/Actions'
+
 import { Student } from './student.type'
 
 export const columns: ColumnDef<Student>[] = [
@@ -57,7 +58,16 @@ export const columns: ColumnDef<Student>[] = [
     header: () => <p>Actions</p>,
     cell: ({ row }) => {
       const item = row.original
-      return <Actions item={item} />
+      return (
+        <Actions
+          modalName="student"
+          itemEdit={item}
+          dataDelete={{
+            name: `${item.first_name} ${item.last_name}`,
+            id: item.id,
+          }}
+        />
+      )
     },
   },
 ]

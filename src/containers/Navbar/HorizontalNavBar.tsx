@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { PopoverContent } from '@radix-ui/react-popover'
 import { Link } from '@tanstack/react-router'
+import _ from 'lodash'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Popover, PopoverTrigger } from '@/components/ui/popover'
@@ -14,8 +15,8 @@ import { MENU_POPOVER } from './navigation'
 const HorizontalNavbar = () => {
   const dispatch = useAppDispatch()
 
-  const fallBackAvatar = useSelector(
-    (state: RootState) => state.auth.fallBackAvatar,
+  const { fallBackAvatar, fullName, roleText } = useSelector(
+    (state: RootState) => state.auth,
   )
 
   return (
@@ -26,10 +27,16 @@ const HorizontalNavbar = () => {
         <IconBell className="w-5 h-5" />
         <Popover>
           <PopoverTrigger asChild className="cursor-pointer">
-            <Avatar>
-              <AvatarImage src="" />
-              <AvatarFallback>{fallBackAvatar}</AvatarFallback>
-            </Avatar>
+            <div className="flex items-center gap-2">
+              <div>
+                <p className="text-sm">{fullName}</p>
+                <p className="text-xs text-end">{_.capitalize(roleText)}</p>
+              </div>
+              <Avatar>
+                <AvatarImage src="" />
+                <AvatarFallback>{fallBackAvatar}</AvatarFallback>
+              </Avatar>
+            </div>
           </PopoverTrigger>
           <PopoverContent className="bg-white rounded m-4 z-50 p-2">
             <ul>

@@ -12,8 +12,9 @@ const LogoutAccount = () => {
   const [logout, { isLoading }] = useLogoutMutation()
 
   const handleLogout = async () => {
-    await logout()
+    await logout().unwrap()
     router.invalidate()
+    dispatch(closeModal())
   }
   return (
     <div className="flex justify-end gap-2">
