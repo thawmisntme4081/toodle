@@ -7,8 +7,10 @@ import { getFallBackAvatar } from '@/utils/getFallBackAvatar.util'
 interface AuthState {
   firstName: string | null
   lastName: string
+  fullName: string
   avatar: string
   role: ROLES | null
+  roleText: string
   userId: string
   isLogged: boolean
   fallBackAvatar: string
@@ -17,7 +19,9 @@ interface AuthState {
 const initialState: AuthState = {
   firstName: '',
   lastName: '',
+  fullName: '',
   role: null,
+  roleText: '',
   avatar: '',
   userId: '',
   isLogged: false,
@@ -32,14 +36,14 @@ const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
       (state, action) => {
-        state.firstName = action.payload.data.first_name
-        state.lastName = action.payload.data.last_name
-        state.role = action.payload.data.role
-        state.userId = action.payload.data.id
-        state.fallBackAvatar = getFallBackAvatar(
-          action.payload.data.first_name,
-          action.payload.data.last_name,
-        )
+        const { first_name, last_name, role, id } = action.payload.data
+        state.firstName = first_name
+        state.lastName = last_name
+        state.fullName = first_name ? `${first_name} ${last_name}` : last_name
+        state.role = role
+        state.roleText = Object.keys(ROLES)[Object.values(ROLES).indexOf(role)]
+        state.userId = id
+        state.fallBackAvatar = getFallBackAvatar(first_name, last_name)
         state.isLogged = true
       },
     )

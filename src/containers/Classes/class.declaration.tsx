@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 
-import Actions from './Actions'
+import Actions from '@/components/custom-ui/Actions'
+
 import { Class } from './class.type'
 
 export const columns: ColumnDef<Class>[] = [
@@ -17,7 +18,11 @@ export const columns: ColumnDef<Class>[] = [
   {
     accessorKey: 'capacity',
     header: 'Students',
-    cell: ({ row }) => <p>0/{row.getValue('capacity')}</p>,
+    cell: ({ row }) => (
+      <p>
+        {row.original.total_students}/{row.getValue('capacity')}
+      </p>
+    ),
   },
   {
     accessorKey: 'supervisor',
@@ -32,7 +37,16 @@ export const columns: ColumnDef<Class>[] = [
     header: () => <p>Actions</p>,
     cell: ({ row }) => {
       const item = row.original
-      return <Actions item={item} />
+      return (
+        <Actions
+          modalName="class"
+          itemEdit={item}
+          dataDelete={{
+            name: `${item.name}`,
+            id: item.id,
+          }}
+        />
+      )
     },
   },
 ]

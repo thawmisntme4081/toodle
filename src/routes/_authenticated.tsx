@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
-import WebLayout from '@/layouts/WebLayout'
+import AppLayout from '@/layouts/AppLayout'
 import { store } from '@/redux/store'
 
 export const Route = createFileRoute('/_authenticated')({
@@ -13,5 +13,5 @@ export const Route = createFileRoute('/_authenticated')({
       })
     }
   },
-  component: WebLayout,
+  component: AppLayout,
 })

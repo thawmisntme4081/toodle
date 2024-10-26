@@ -3,6 +3,7 @@ export type Class = {
   name: string
   capacity: number
   grade: number
+  total_students: number
   supervisor: Supervisor
 }
 

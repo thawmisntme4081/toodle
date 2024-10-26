@@ -1,8 +1,6 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { Toaster } from 'sonner'
 
-import ModalProvider from '@/containers/Modal/ModalProvider'
-
 import { routeTree } from './routeTree.gen'
 
 const router = createRouter({
@@ -20,7 +18,6 @@ const App = () => {
     <>
       <RouterProvider router={router} />
       <Toaster richColors closeButton position="top-right" />
-      <ModalProvider />
     </>
   )
 }

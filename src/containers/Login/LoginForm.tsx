@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from '@tanstack/react-router'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { useLoginMutation } from '@/api/_authApi'
@@ -34,8 +33,7 @@ const LoginForm = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    const response = await login(values).unwrap()
-    toast.success(response.message)
+    await login(values).unwrap()
     router.invalidate()
   }
 
