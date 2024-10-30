@@ -13,7 +13,10 @@ type Supervisor = {
   last_name: string
 }
 
-export type UpdateClassReq = Omit<Class, 'grade' | 'supervisor'>
+export type UpdateClassReq = Omit<
+  Class,
+  'grade' | 'supervisor' | 'total_students'
+>
 
 export type ClassReq = Pick<Class, 'name' | 'capacity'> & {
   grade_id: string

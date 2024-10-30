@@ -1,4 +1,8 @@
-import { fetchBaseQuery, FetchBaseQueryArgs } from '@reduxjs/toolkit/query'
+import {
+  fetchBaseQuery,
+  FetchBaseQueryArgs,
+  retry,
+} from '@reduxjs/toolkit/query'
 
 const API_BASE_URL = 'https://toodle-api.vercel.app/api/'
 export const defaultConfig = (
@@ -7,9 +11,11 @@ export const defaultConfig = (
 ) => {
   return {
     reducerPath: apiName,
-    baseQuery: fetchBaseQuery({
-      baseUrl: API_BASE_URL,
-      ...options,
-    }),
+    baseQuery: retry(
+      fetchBaseQuery({
+        baseUrl: API_BASE_URL,
+        ...options,
+      }),
+    ),
   }
 }
