@@ -1,3 +1,4 @@
+import { IconAlertTriangle } from './IconAlertTriangle'
 import { IconBell } from './IconBell'
 import { IconBookOpen } from './IconBookOpen'
 import { IconBriefcase } from './IconBriefCase'
@@ -27,6 +28,7 @@ import { IconMessage } from './IconMessage'
 import { IconMoon } from './IconMoon'
 import { IconMoreHorizontal } from './IconMoreHorizontal'
 import { IconMoreVertical } from './IconMoreVertical'
+import { IconPanelLeft } from './IconPanelLeft'
 import { IconPlus } from './IconPlus'
 import { IconScanFace } from './IconScanFace'
 import { IconSchool } from './IconSchool'
@@ -39,6 +41,7 @@ import { IconX } from './IconX'
 import { IconXCircle } from './IconXCircle'
 
 export {
+  IconAlertTriangle,
   IconBell,
   IconBookOpen,
   IconBriefcase,
@@ -68,6 +71,7 @@ export {
   IconMoon,
   IconMoreHorizontal,
   IconMoreVertical,
+  IconPanelLeft,
   IconPlus,
   IconScanFace,
   IconSchool,

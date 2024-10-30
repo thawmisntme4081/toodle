@@ -1,10 +1,15 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { Toaster } from 'sonner'
 
+import ErrorPage from '@/containers/ErrorPage'
+import NotFound from '@/containers/NotFound'
+
 import { routeTree } from './routeTree.gen'
 
 const router = createRouter({
   routeTree,
+  defaultNotFoundComponent: NotFound,
+  defaultErrorComponent: ({ error }) => <ErrorPage error={error} />,
 })
 
 declare module '@tanstack/react-router' {
