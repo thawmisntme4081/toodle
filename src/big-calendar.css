@@ -1,0 +1,14 @@
+.rbc-header {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 5px 0;
+}
+
+.rbc-event {
+  margin: 10px;
+  width: auto;
+}
+
+.rbc-day-bg .rbc-today {
+  background-color: hsl(var(--secondary));
+}
