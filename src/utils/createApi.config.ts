@@ -4,6 +4,7 @@ import {
   retry,
 } from '@reduxjs/toolkit/query'
 
+const MAX_RETRIES = 2
 const API_BASE_URL = 'https://toodle-api.vercel.app/api/'
 export const defaultConfig = (
   apiName: string,
@@ -16,6 +17,7 @@ export const defaultConfig = (
         baseUrl: API_BASE_URL,
         ...options,
       }),
+      { maxRetries: MAX_RETRIES },
     ),
   }
 }

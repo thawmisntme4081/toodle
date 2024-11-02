@@ -4,8 +4,8 @@ import _ from 'lodash'
 import { ModalName } from '@/types/modal.type'
 import { getDangerDescription } from '@/utils/getDangerDescription.util'
 
-export type TypeModal = 'add' | 'update' | 'delete'
-export type TypeModalForm = Omit<TypeModal, 'delete'>
+export type TypeModal = 'add' | 'update' | 'delete' | 'info'
+export type TypeModalForm = Omit<TypeModal, 'delete' | 'info'>
 
 type ModalState = {
   open: boolean
