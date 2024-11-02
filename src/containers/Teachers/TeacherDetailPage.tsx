@@ -3,7 +3,7 @@ import moment from 'moment'
 
 import { Route } from '@/routes/_authenticated/teachers/$teacherId.lazy'
 
-import '@/big-calendar.css'
+import '@/components/custom-ui/big-calendar.css'
 
 const events = [
   {

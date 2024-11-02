@@ -1,0 +1,39 @@
+.rbc-header {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 5px 0;
+  border: none !important;
+}
+
+.rbc-day-bg {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+}
+
+.rbc-event {
+  margin: 10px;
+  width: auto;
+}
+
+.rbc-today {
+  background-color: #f3f3f4 !important;
+}
+
+.rbc-btn-group button {
+  background-color: #dedbfb;
+  border-color: #7367f0 !important;
+  color: #7e72f1;
+}
+
+.rbc-btn-group button :hover & .rbc-btn-group button.rbc-active :hover {
+  color: #7367f0;
+  background-color: #dedbfb !important;
+  border-color: #7367f0 !important;
+}
+
+.rbc-btn-group button.rbc-active {
+  color: #7367f0;
+  background-color: #dedbfb;
+  border-color: #7367f0 !important;
+  font-weight: bold;
+}
