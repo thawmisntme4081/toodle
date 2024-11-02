@@ -18,6 +18,7 @@ type Props = {
   description: string
   children: ReactNode
   className?: string
+  onClose?: () => void
 }
 const ModalLayout = ({
   open,
@@ -25,6 +26,7 @@ const ModalLayout = ({
   description,
   children,
   className,
+  onClose,
 }: Props) => {
   const dispatch = useAppDispatch()
 
@@ -32,8 +34,13 @@ const ModalLayout = ({
     (state: RootState) => state.modal.defaultTitle,
   )
 
+  const handleClose = () => {
+    onClose?.()
+    dispatch(closeModal())
+  }
+
   return (
-    <Dialog open={open} onOpenChange={() => dispatch(closeModal())}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className={cn('sm:max-w-md', className)}>
         <DialogHeader>
           <DialogTitle>{title ?? defaultTitle}</DialogTitle>

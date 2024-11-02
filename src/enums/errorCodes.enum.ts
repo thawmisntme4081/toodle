@@ -1,4 +1,5 @@
 export enum ERROR_STATUS_CODE {
   BAD_REQUEST = 400,
+  UNAUTHORIZE = 401,
   CONFLICT = 409,
 }
