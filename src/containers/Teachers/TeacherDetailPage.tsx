@@ -1,9 +1,7 @@
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 
+import BigCalendar from '@/components/custom-ui/BigCalendar'
 import { Route } from '@/routes/_authenticated/teachers/$teacherId.lazy'
-
-import '@/components/custom-ui/big-calendar.css'
 
 const events = [
   {
@@ -14,8 +12,6 @@ const events = [
   },
 ]
 
-const localizer = momentLocalizer(moment)
-
 const TeacherDetailPage = () => {
   const { teacherId } = Route.useParams()
 
@@ -24,11 +20,9 @@ const TeacherDetailPage = () => {
       <div>{`TeacherDetailPage ${teacherId}`}</div>
       <div>
         <BigCalendar
-          localizer={localizer}
           startAccessor="start"
           endAccessor="end"
           events={events}
-          style={{ height: 500 }}
           eventPropGetter={(event) => ({
             style: {
               backgroundColor: event.color,
