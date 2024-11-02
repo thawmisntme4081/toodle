@@ -13,7 +13,9 @@ const INIT_COUNT = 5
 
 const LogoutModal = () => {
   const dispatch = useAppDispatch()
-  const { open, data, type } = useSelector((state: RootState) => state.modal)
+  const { open, data, type, name } = useSelector(
+    (state: RootState) => state.modal,
+  )
 
   const router = useRouter()
 
@@ -23,7 +25,7 @@ const LogoutModal = () => {
     dispatch(closeModal())
   }, [dispatch, router])
 
-  const count = useTimer(INIT_COUNT, handleLogout, !!type)
+  const count = useTimer(INIT_COUNT, handleLogout, name === 'force-logout')
 
   if (!type || type !== 'info') return null
 
