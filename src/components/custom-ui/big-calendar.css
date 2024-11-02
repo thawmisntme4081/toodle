@@ -25,7 +25,8 @@
   color: #7e72f1;
 }
 
-.rbc-btn-group button :hover & .rbc-btn-group button.rbc-active :hover {
+.rbc-btn-group button:hover,
+.rbc-btn-group button.rbc-active:hover {
   color: #7367f0;
   background-color: #dedbfb !important;
   border-color: #7367f0 !important;
