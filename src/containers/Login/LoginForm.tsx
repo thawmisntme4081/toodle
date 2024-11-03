@@ -34,8 +34,9 @@ const LoginForm = () => {
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     const response = await login(values).unwrap()
-    console.log(response)
-
+    if (response.data.is_active === false) {
+      router.navigate({ to: '/change-password' })
+    }
     router.invalidate()
   }
 

@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from '@tanstack/react-router'
 import { z } from 'zod'
 
-import { useLoginMutation } from '@/api/_authApi'
+import { useChangePasswordMutation } from '@/api/_authApi'
 import { PasswordInput } from '@/components/custom-ui/password-input'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -15,43 +16,47 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { IconSchool } from '@/icons'
+import { ROLES } from '@/enums/roles.enum'
+import { RootState } from '@/redux/store'
 
-import { loginSchema } from './login.validation'
+import { changePasswordSchema } from './login.validation'
 
-const LoginForm = () => {
+const ChangePasswordForm = () => {
   const router = useRouter()
-  const [login, { isLoading }] = useLoginMutation()
+  const [changePassword, { isLoading }] = useChangePasswordMutation()
+  const data = useSelector((state: RootState) => state.auth)
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof changePasswordSchema>>({
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      newPassword: '',
+      confirmPassword: '',
     },
   })
 
-  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    await login(values).unwrap()
+  const onSubmit = async (values: z.infer<typeof changePasswordSchema>) => {
+    await changePassword({
+      userId: data.userId,
+      role: data.role as ROLES,
+      newPassword: values.confirmPassword,
+    }).unwrap()
     router.invalidate()
   }
 
   return (
     <Card className="w-[500px]">
       <CardHeader className="flex-row gap-2 items-center">
-        <IconSchool width={24} height={24} />
-        <CardTitle>SchoolHub</CardTitle>
+        <CardTitle>Change Your Password</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="password"
+              name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>New Password</FormLabel>
                   <FormControl>
                     <PasswordInput
                       placeholder="********"
@@ -66,10 +71,10 @@ const LoginForm = () => {
             />
             <FormField
               control={form.control}
-              name="password"
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <PasswordInput
                       placeholder="********"
@@ -82,13 +87,8 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end">
-              <a href="" className="text-primary">
-                Forgot password?
-              </a>
-            </div>
             <Button type="submit" disabled={isLoading}>
-              Login
+              Confirm
             </Button>
           </form>
         </Form>
@@ -97,4 +97,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default ChangePasswordForm
