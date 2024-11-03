@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
+import moment from 'moment'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -36,7 +36,7 @@ export const useStudentForm = (type: TypeModalForm) => {
   })
 
   const onSubmit = async (data: z.infer<typeof studentSchema>) => {
-    const formattedDate = format(data.date_of_birth, 'yyyy-MM-dd')
+    const formattedDate = moment(data.date_of_birth).format('YYYY-MM-DD')
     const response =
       type === 'add'
         ? await addStudent({

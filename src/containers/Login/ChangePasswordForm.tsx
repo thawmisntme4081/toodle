@@ -33,9 +33,7 @@ const LoginForm = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    const response = await login(values).unwrap()
-    console.log(response)
-
+    await login(values).unwrap()
     router.invalidate()
   }
 
@@ -50,15 +48,16 @@ const LoginForm = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="a@gmail.com"
-                      {...field}
+                    <PasswordInput
+                      placeholder="********"
                       disabled={isLoading}
+                      hasSuffix
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
