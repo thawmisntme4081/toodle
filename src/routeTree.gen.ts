@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
+import { Route as ChangePasswordImport } from './routes/change-password'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 
@@ -45,6 +46,11 @@ const AuthenticatedTeachersTeacherIdLazyImport = createFileRoute(
 
 const LoginRoute = LoginImport.update({
   path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChangePasswordRoute = ChangePasswordImport.update({
+  path: '/change-password',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -129,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedImport
+      parentRoute: typeof rootRoute
+    }
+    '/change-password': {
+      id: '/change-password'
+      path: '/change-password'
+      fullPath: '/change-password'
+      preLoaderRoute: typeof ChangePasswordImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -220,6 +233,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
+  '/change-password': typeof ChangePasswordRoute
   '/login': typeof LoginRoute
   '/classes': typeof AuthenticatedClassesLazyRoute
   '/dashboard': typeof AuthenticatedDashboardLazyRoute
@@ -233,6 +247,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthenticatedRouteWithChildren
+  '/change-password': typeof ChangePasswordRoute
   '/login': typeof LoginRoute
   '/classes': typeof AuthenticatedClassesLazyRoute
   '/dashboard': typeof AuthenticatedDashboardLazyRoute
@@ -247,6 +262,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/change-password': typeof ChangePasswordRoute
   '/login': typeof LoginRoute
   '/_authenticated/classes': typeof AuthenticatedClassesLazyRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardLazyRoute
@@ -262,6 +278,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/change-password'
     | '/login'
     | '/classes'
     | '/dashboard'
@@ -274,6 +291,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
+    | '/change-password'
     | '/login'
     | '/classes'
     | '/dashboard'
@@ -286,6 +304,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/change-password'
     | '/login'
     | '/_authenticated/classes'
     | '/_authenticated/dashboard'
@@ -300,12 +319,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  ChangePasswordRoute: typeof ChangePasswordRoute
   LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  ChangePasswordRoute: ChangePasswordRoute,
   LoginRoute: LoginRoute,
 }
 
@@ -323,6 +344,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_authenticated",
+        "/change-password",
         "/login"
       ]
     },
@@ -340,6 +362,9 @@ export const routeTree = rootRoute
         "/_authenticated/teachers/$teacherId",
         "/_authenticated/teachers/"
       ]
+    },
+    "/change-password": {
+      "filePath": "change-password.tsx"
     },
     "/login": {
       "filePath": "login.tsx"

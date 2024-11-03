@@ -12,3 +12,9 @@ export type User = {
 
 export type LoginReq = Pick<User, 'email' | 'password'>
 export type LoginRes = Omit<User, 'email' | 'password'>
+
+export type changePasswordReq = {
+  userId: string
+  role: ROLES
+  newPassword: string
+}

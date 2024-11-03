@@ -40,15 +40,39 @@ const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
       (state, action) => {
-        const { first_name, last_name, role, id } = action.payload.data
-        state.firstName = first_name
-        state.lastName = last_name
-        state.fullName = first_name ? `${first_name} ${last_name}` : last_name
-        state.role = role
-        state.roleText = Object.keys(ROLES)[Object.values(ROLES).indexOf(role)]
-        state.userId = id
-        state.fallBackAvatar = getFallBackAvatar(first_name, last_name)
-        state.isLogged = true
+        if (action.payload.data.is_active) {
+          const { first_name, last_name, role, id } = action.payload.data
+          state.firstName = first_name
+          state.lastName = last_name
+          state.fullName = first_name ? `${first_name} ${last_name}` : last_name
+          state.role = role
+          state.roleText =
+            Object.keys(ROLES)[Object.values(ROLES).indexOf(role)]
+          state.userId = id
+          state.fallBackAvatar = getFallBackAvatar(first_name, last_name)
+          state.isLogged = true
+        }
+        if (action.payload.data.is_active === false) {
+          state.userId = action.payload.data.id
+          state.role = action.payload.data.role
+        }
+      },
+    )
+    builder.addMatcher(
+      authApi.endpoints.changePassword.matchFulfilled,
+      (state, action) => {
+        if (action.payload.data.is_active) {
+          const { first_name, last_name, role, id } = action.payload.data
+          state.firstName = first_name
+          state.lastName = last_name
+          state.fullName = first_name ? `${first_name} ${last_name}` : last_name
+          state.role = role
+          state.roleText =
+            Object.keys(ROLES)[Object.values(ROLES).indexOf(role)]
+          state.userId = id
+          state.fallBackAvatar = getFallBackAvatar(first_name, last_name)
+          state.isLogged = true
+        }
       },
     )
     builder.addMatcher(authApi.endpoints.logout.matchFulfilled, (state) => {
