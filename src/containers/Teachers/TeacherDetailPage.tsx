@@ -19,16 +19,7 @@ const TeacherDetailPage = () => {
     <>
       <div>{`TeacherDetailPage ${teacherId}`}</div>
       <div>
-        <BigCalendar
-          startAccessor="start"
-          endAccessor="end"
-          events={events}
-          eventPropGetter={(event) => ({
-            style: {
-              backgroundColor: event.color,
-            },
-          })}
-        />
+        <BigCalendar events={events} />
       </div>
     </>
   )
