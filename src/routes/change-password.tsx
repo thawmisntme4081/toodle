@@ -5,10 +5,11 @@ import { store } from '@/redux/store'
 
 export const Route = createFileRoute('/change-password')({
   beforeLoad: () => {
-    const isLogged = store.getState().auth.isLogged
-    if (isLogged) {
+    const isFirstAccess = store.getState().auth.userId
+
+    if (isFirstAccess === '') {
       throw redirect({
-        to: '/',
+        to: '/login',
       })
     }
   },
