@@ -31,3 +31,12 @@ export const rootReducer = combineReducers({
   [subjectApi.reducerPath]: subjectApi.reducer,
   [teacherApi.reducerPath]: teacherApi.reducer,
 })
+
+export const rtkMiddlewares = [
+  authApi.middleware,
+  classApi.middleware,
+  gradeApi.middleware,
+  studentApi.middleware,
+  subjectApi.middleware,
+  teacherApi.middleware,
+]

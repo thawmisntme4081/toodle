@@ -16,17 +16,9 @@ import {
   REHYDRATE,
 } from 'redux-persist'
 
-import {
-  authApi,
-  classApi,
-  gradeApi,
-  studentApi,
-  subjectApi,
-  teacherApi,
-} from '@/api'
 import { handleError } from '@/utils/handleError.util'
 
-import { rootReducer } from './rootReducer'
+import { rootReducer, rtkMiddlewares } from './rootReducer'
 
 const rtkQueryErrorLogger: Middleware =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -44,15 +36,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(
-      authApi.middleware,
-      classApi.middleware,
-      gradeApi.middleware,
-      studentApi.middleware,
-      subjectApi.middleware,
-      teacherApi.middleware,
-      rtkQueryErrorLogger,
-    ),
+    }).concat(...rtkMiddlewares, rtkQueryErrorLogger),
 })
 
 export const persistor = persistStore(store)
